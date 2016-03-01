@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="1410747949">
-    <data-source source="LOCAL" name="Sqlite (Xerial) - Grading.sqlite" uuid="920f6f8d-201d-48c1-800b-31ea86156393">
-      <driver-ref>sqlite.xerial</driver-ref>
+  <component name="DataSourceManagerImpl" format="xml" hash="3314959530">
+    <data-source source="LOCAL" name="Derby (Embedded) - private" uuid="391dad3f-b8b6-4db6-92ea-890203cd3058">
+      <driver-ref>derby.embedded</driver-ref>
       <synchronize>true</synchronize>
-      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/src/omscs/edtech/db\Grading.sqlite</jdbc-url>
+      <jdbc-driver>org.apache.derby.jdbc.EmbeddedDriver</jdbc-driver>
+      <jdbc-url>jdbc:derby:$PROJECT_DIR$/src/omscs/edtech/db\private;create=true</jdbc-url>
     </data-source>
   </component>
 </project>
