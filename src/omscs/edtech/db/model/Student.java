@@ -3,6 +3,7 @@ package omscs.edtech.db.model;
 import javax.persistence.*;
 import java.util.UUID;
 
+@Entity
 @Table(name = "Students")
 public class Student {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)

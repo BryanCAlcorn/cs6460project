@@ -1,0 +1,41 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+             version="2.0">
+    <persistence-unit name="omscs.edtech.db.CS6460Project">
+        <!--<class>omscs.edtech.db.model.Student</class>
+        <class>omscs.edtech.db.model.Rubric</class>
+        <class>omscs.edtech.db.model.Assignment</class>
+        <class>omscs.edtech.db.model.Class</class>
+        <class>omscs.edtech.db.model.Grade</class>
+        <class>omscs.edtech.db.model.GradeSet</class>-->
+        <properties>
+            <!-- Database connection settings -->
+            <property name="connection.driver_class" value="org.apache.derby.jdbc.EmbeddedDriver"></property>
+            <property name="connection.url" value="jdbc:derby:data;create=true"></property>
+            <property name="connection.username" value="application"></property>
+            <property name="connection.password" value="password"></property>
+
+            <property name="hibernate.default_schema" value="CS6460Project"></property>
+
+            <!-- JDBC connection pool (use the built-in) -->
+            <property name="connection.pool_size" value="1"></property>
+
+            <!-- SQL dialect -->
+            <!--<property name="dialect">org.hibernate.dialect.DerbyDialect</property>-->
+
+            <!-- Enable Hibernate's automatic session context management -->
+            <property name="current_session_context_class" value="thread"></property>
+
+            <!-- Disable the second-level cache -->
+            <!--<property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>-->
+
+            <!-- Echo all executed SQL to stdout -->
+            <property name="show_sql" value="true"></property>
+
+            <!-- Drop and re-create the database schema on startup -->
+            <property name="hbm2ddl.auto" value="update"></property>
+
+        </properties>
+    </persistence-unit>
+</persistence>
