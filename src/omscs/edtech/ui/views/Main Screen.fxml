@@ -13,6 +13,8 @@
             <Button fx:id="btnAddClasses" layoutX="16.0" layoutY="132.0" mnemonicParsing="false" onAction="#showAddClassesView" prefHeight="31.0" prefWidth="152.0" text="Add Classes" />
             <Button fx:id="btnSettings" layoutX="16.0" layoutY="194.0" mnemonicParsing="false" onAction="#showSettingsView" prefHeight="31.0" prefWidth="152.0" text="Settings" />
          </children></AnchorPane>
-    <AnchorPane fx:id="mainViewPane" minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="378.0" />
+    <AnchorPane fx:id="mainViewPane" minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="378.0">
+        
+    </AnchorPane>
   </items>
 </SplitPane>

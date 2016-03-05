@@ -8,9 +8,9 @@
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="607.0" prefWidth="459.0">
          <children>
-            <ComboBox fx:id="cmbClassListing" layoutX="23.0" layoutY="41.0" onAction="#classSelected" prefHeight="31.0" prefWidth="277.0" />
-            <DatePicker fx:id="dateStart" layoutX="128.0" layoutY="218.0" />
-            <DatePicker fx:id="dateEnd" layoutX="128.0" layoutY="267.0" />
+            <ComboBox fx:id="cmbClassListing" layoutX="23.0" layoutY="41.0" prefHeight="31.0" prefWidth="277.0" />
+            <!--<DatePicker fx:id="dateStart" layoutX="128.0" layoutY="218.0" />
+            <DatePicker fx:id="dateEnd" layoutX="128.0" layoutY="267.0" />-->
             <CheckBox fx:id="cbActive" layoutX="85.0" layoutY="327.0" mnemonicParsing="false" text="Active?" />
             <Label layoutX="52.0" layoutY="223.0" text="Start Date:" />
             <Label layoutX="52.0" layoutY="272.0" text="End Date:" />
