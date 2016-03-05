@@ -5,14 +5,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import omscs.edtech.ui.controllers.ControllerConstants;
 
 public class MainApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("ShellView.fxml"));
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        Parent root = FXMLLoader.load(getClass().getResource(ControllerConstants.VIEW_PATH + "Main Screen.fxml"));
+        primaryStage.setTitle(ControllerConstants.APP_TITLE);
+        primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
 
