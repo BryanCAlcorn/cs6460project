@@ -5,6 +5,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import org.apache.derby.iapi.services.classfile.CONSTANT_Index_info;
@@ -20,12 +22,24 @@ public class MainController {
 
     @FXML
     protected void initialize(){
-        loadView(ControllerConstants.GRADE_ASSIGNMENTS_VIEW);
+        showGradeAssignmentsView(null);
     }
 
     @FXML
     protected void showGradeAssignmentsView(ActionEvent event){
-        loadView(ControllerConstants.GRADE_ASSIGNMENTS_VIEW);
+        TabPane classesTab = new TabPane();
+        //Switch with a foreach loop to add each class:
+        Tab class1Tab = new Tab("Class 1");
+        class1Tab.setClosable(false);
+        classesTab.getTabs().add(class1Tab);
+
+        //Load the grade assignments view for first tab:
+        Parent workspace = getWorkspace(ControllerConstants.GRADE_ASSIGNMENTS_VIEW);
+        class1Tab.contentProperty().setValue(workspace);
+
+        //Add event hook for tab switching?
+
+        loadView(classesTab);
     }
 
     @FXML
@@ -43,18 +57,27 @@ public class MainController {
         loadView(ControllerConstants.SETTINGS_VIEW);
     }
 
-    private void loadView(String viewName){
+    private void loadView(String workspaceName){
+        loadView(getWorkspace(workspaceName));
+    }
 
+    private void loadView(Parent view){
         if(currentView != null) {
             mainViewPane.getChildren().remove(currentView);
         }
 
-        try {
-            currentView = FXMLLoader.load(getClass().getResource(ControllerConstants.VIEW_PATH + viewName));
-        }catch (IOException ex){
-            currentView = new Label("Error loading workspace: " + viewName + "\n" + ex.getMessage());
-        }
+        currentView = view;
 
         mainViewPane.getChildren().add(0, currentView);
+    }
+
+    private Parent getWorkspace(String workspaceName){
+        Parent workspace;
+        try {
+            workspace = FXMLLoader.load(getClass().getResource(ControllerConstants.VIEW_PATH + workspaceName));
+        }catch (IOException ex){
+            workspace = new Label("Error loading workspace: " + workspaceName + "\n" + ex.getMessage());
+        }
+        return workspace;
     }
 }
