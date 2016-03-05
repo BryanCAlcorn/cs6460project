@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import org.apache.derby.iapi.services.classfile.CONSTANT_Index_info;
@@ -15,7 +16,6 @@ public class MainController {
 
     @FXML
     private AnchorPane mainViewPane;
-
     private Parent currentView;
 
     @FXML
@@ -44,13 +44,17 @@ public class MainController {
     }
 
     private void loadView(String viewName){
-        try {
-            if(currentView != null) {
-                mainViewPane.getChildren().remove(currentView);
-            }
-            currentView = FXMLLoader.load(getClass().getResource(ControllerConstants.VIEW_PATH + viewName));
-            mainViewPane.getChildren().add(0, currentView);
-        }catch (IOException ex){
+
+        if(currentView != null) {
+            mainViewPane.getChildren().remove(currentView);
         }
+
+        try {
+            currentView = FXMLLoader.load(getClass().getResource(ControllerConstants.VIEW_PATH + viewName));
+        }catch (IOException ex){
+            currentView = new Label("Error loading workspace: " + viewName + "\n" + ex.getMessage());
+        }
+
+        mainViewPane.getChildren().add(0, currentView);
     }
 }
