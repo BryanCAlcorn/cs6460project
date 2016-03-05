@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<SplitPane dividerPositions="0.5061855670103093" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="664.0" prefWidth="972.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+  <items>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+         <children>
+            <ComboBox fx:id="cbAssignments" layoutX="20.0" layoutY="29.0" prefHeight="31.0" prefWidth="304.0" />
+            <Button layoutX="332.0" layoutY="29.0" mnemonicParsing="false" text="New Assignment" />
+            <Label layoutX="32.0" layoutY="97.0" text="Assignment Name:" />
+            <TextField fx:id="txtAssignmentName" layoutX="166.0" layoutY="92.0" />
+            <Label layoutX="32.0" layoutY="145.0" text="Classes doing the assignment:" />
+            <ListView fx:id="listClasses" layoutX="37.0" layoutY="174.0" prefHeight="200.0" prefWidth="434.0" />
+            <Label layoutX="32.0" layoutY="397.0" text="Max Points:" />
+            <TextField fx:id="txtPoints" layoutX="132.0" layoutY="392.0" />
+            <TextArea fx:id="txtDescription" layoutX="33.0" layoutY="482.0" prefHeight="127.0" prefWidth="434.0" />
+            <Button layoutX="14.0" layoutY="617.0" mnemonicParsing="false" text="Save" />
+            <Button layoutX="77.0" layoutY="617.0" mnemonicParsing="false" text="Clear" />
+            <Button layoutX="319.0" layoutY="617.0" mnemonicParsing="false" text="Delete Assignment" />
+            <Label layoutX="31.0" layoutY="454.0" text="Description:" />
+         </children></AnchorPane>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
+  </items>
+</SplitPane>

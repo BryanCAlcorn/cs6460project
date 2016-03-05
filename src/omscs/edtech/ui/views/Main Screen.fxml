@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<SplitPane dividerPositions="0.1605902777777778" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="861.0" prefWidth="1154.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+  <items>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="548.0" prefWidth="257.0">
+         <children>
+            <Button fx:id="btnGradeAssignments" layoutX="18.0" layoutY="14.0" mnemonicParsing="false" onAction="#showGradeAssignmentsView" text="Grade Assignments" />
+            <Button fx:id="btnCreateAssignments" layoutX="16.0" layoutY="70.0" mnemonicParsing="false" onAction="#showCreateAssignmentsView" text="Create Assignments" />
+            <Button fx:id="btnAddClasses" layoutX="16.0" layoutY="132.0" mnemonicParsing="false" onAction="#showAddClassesView" prefHeight="31.0" prefWidth="152.0" text="Add Classes" />
+            <Button fx:id="btnSettings" layoutX="16.0" layoutY="194.0" mnemonicParsing="false" onAction="#showSettingsView" prefHeight="31.0" prefWidth="152.0" text="Settings" />
+         </children></AnchorPane>
+    <AnchorPane fx:id="mainViewPane" minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="378.0" />
+  </items>
+</SplitPane>

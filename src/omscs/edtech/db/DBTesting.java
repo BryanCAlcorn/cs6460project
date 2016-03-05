@@ -11,7 +11,7 @@ import org.hibernate.service.ServiceRegistryBuilder;
 
 import java.util.Map;
 
-public class Main {
+public class DBTesting {
     private static final SessionFactory ourSessionFactory;
     private static final ServiceRegistry serviceRegistry;
 
