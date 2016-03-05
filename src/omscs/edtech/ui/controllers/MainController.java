@@ -19,6 +19,11 @@ public class MainController {
     private Parent currentView;
 
     @FXML
+    protected void initialize(){
+        loadView(ControllerConstants.GRADE_ASSIGNMENTS_VIEW);
+    }
+
+    @FXML
     protected void showGradeAssignmentsView(ActionEvent event){
         loadView(ControllerConstants.GRADE_ASSIGNMENTS_VIEW);
     }
