@@ -38,8 +38,6 @@ public class MainController {
         //Load the grade assignments view for first tab:
         final Pane workspace = getWorkspace(ControllerConstants.GRADE_ASSIGNMENTS_VIEW);
         class1Tab.contentProperty().setValue(workspace);
-        workspace.setPrefWidth(pane.getPrefWidth());
-        workspace.setPrefHeight(pane.getPrefHeight());
 
         //Set width and height properties:
         pane.widthProperty().addListener(
@@ -63,7 +61,6 @@ public class MainController {
         );
 
         //Add event hook for tab switching?
-
         pane.getChildren().add(classesTab);
         loadView(pane);
     }
@@ -93,8 +90,6 @@ public class MainController {
         }
 
         currentView = view;
-        currentView.setPrefWidth(mainViewPane.getPrefWidth());
-        currentView.setPrefHeight(mainViewPane.getPrefHeight());
 
         //Set width and height properties:
         mainViewPane.widthProperty().addListener(

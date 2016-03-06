@@ -20,13 +20,6 @@ public class GradeAssignmentsController {
 
     @FXML
     protected void initialize(){
-
-        double halfWidth = parentBox.getPrefWidth() / 2;
-        leftBox.setPrefWidth(halfWidth);
-        leftBox.setPrefHeight(parentBox.getPrefHeight());
-        rightBox.setPrefWidth(halfWidth);
-        rightBox.setPrefHeight(parentBox.getPrefHeight());
-
         //Set width and height properties:
         parentBox.widthProperty().addListener(
                 new ChangeListener<Number>() {
