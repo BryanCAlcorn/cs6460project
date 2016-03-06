@@ -7,9 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Text;
-import org.apache.derby.iapi.services.classfile.CONSTANT_Index_info;
+import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 
@@ -17,7 +15,7 @@ import java.io.IOException;
 public class MainController {
 
     @FXML
-    private AnchorPane mainViewPane;
+    private Pane mainViewPane;
     private Parent currentView;
 
     @FXML

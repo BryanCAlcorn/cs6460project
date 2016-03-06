@@ -1,45 +1,105 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<SplitPane fx:id="paneAddClasses" dividerPositions="0.41253507951356405" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
-  <items>
-    <AnchorPane>
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox prefHeight="711.0" prefWidth="429.0">
          <children>
-            <ComboBox fx:id="cmbClassListing" layoutX="23.0" layoutY="41.0" prefHeight="31.0" prefWidth="277.0" />
-            <!--<DatePicker fx:id="dateStart" layoutX="128.0" layoutY="218.0" />
-            <DatePicker fx:id="dateEnd" layoutX="128.0" layoutY="267.0" />-->
-            <CheckBox fx:id="cbActive" layoutX="85.0" layoutY="327.0" mnemonicParsing="false" text="Active?" />
-            <Label layoutX="52.0" layoutY="223.0" text="Start Date:" />
-            <Label layoutX="52.0" layoutY="272.0" text="End Date:" />
-            <TextField layoutX="128.0" layoutY="178.0" />
-            <TextField layoutX="128.0" layoutY="134.0" />
-            <Label layoutX="49.0" layoutY="183.0" text="Year:" />
-            <Label layoutX="49.0" layoutY="139.0" text="Period:" />
-            <Label layoutX="51.0" layoutY="100.0" text="Name:" />
-            <TextField layoutX="128.0" layoutY="95.0" />
-            <Button layoutX="307.0" layoutY="41.0" mnemonicParsing="false" text="Add New Class" />
-            <Button layoutX="20.0" layoutY="685.0" mnemonicParsing="false" text="Save" />
-            <Button layoutX="90.0" layoutY="685.0" mnemonicParsing="false" text="Cancel" />
-            <Button layoutX="325.0" layoutY="685.0" mnemonicParsing="false" text="Delete Class" />
-         </children></AnchorPane>
-    <AnchorPane>
+            <ToolBar prefHeight="40.0" prefWidth="200.0">
+              <items>
+                  <ComboBox prefHeight="31.0" prefWidth="273.0" />
+                <Button mnemonicParsing="false" text="Add New Class" />
+              </items>
+            </ToolBar>
+            <GridPane prefHeight="327.0" prefWidth="413.0">
+              <columnConstraints>
+                <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="163.0" minWidth="10.0" prefWidth="86.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="320.0" minWidth="10.0" prefWidth="319.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="Name:">
+                  </Label>
+                  <Label text="Period:" GridPane.rowIndex="1">
+                  </Label>
+                  <Label text="Year:" GridPane.rowIndex="2">
+                  </Label>
+                  <Label text="Start Date:" GridPane.rowIndex="3">
+                  </Label>
+                  <Label text="End Date:" GridPane.rowIndex="4">
+                  </Label>
+                  <CheckBox mnemonicParsing="false" text="Active?" GridPane.rowIndex="5">
+                  </CheckBox>
+                  <TextField GridPane.columnIndex="1" />
+                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <!--<DatePicker GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <DatePicker GridPane.columnIndex="1" GridPane.rowIndex="4" />-->
+               </children>
+               <padding>
+                  <Insets bottom="5.0" right="5.0" top="5.0" />
+               </padding>
+            </GridPane>
+            <ToolBar prefHeight="40.0" prefWidth="200.0">
+              <items>
+                <Button mnemonicParsing="false" text="Save Class" />
+                  <Button mnemonicParsing="false" text="Cancel" />
+                  <Button mnemonicParsing="false" text="Delete Class" />
+              </items>
+            </ToolBar>
+         </children>
+      </VBox>
+      <VBox prefHeight="711.0" prefWidth="519.0">
          <children>
-            <Label layoutX="24.0" layoutY="47.0" text="Class Roster:" />
-            <Button layoutX="453.0" layoutY="42.0" mnemonicParsing="false" text="Import New Roster" />
-            <TableView layoutX="24.0" layoutY="102.0" prefHeight="522.0" prefWidth="572.0">
+            <ToolBar prefHeight="40.0" prefWidth="200.0">
+              <items>
+                  <Label text="Class Roster: " />
+                <Button mnemonicParsing="false" text="Import Class Roster" />
+              </items>
+            </ToolBar>
+            <TableView prefHeight="280.0" prefWidth="503.0">
               <columns>
-                <TableColumn prefWidth="124.0" text="Action" />
-                <TableColumn prefWidth="214.0" text="Student Name" />
-                  <TableColumn prefWidth="233.0" text="E-Mail Address" />
+                <TableColumn prefWidth="107.0" text="Action" />
+                <TableColumn prefWidth="160.0" text="Student Name" />
+                  <TableColumn minWidth="0.0" prefWidth="235.0" text="E-Mail Address" />
               </columns>
             </TableView>
-            <TextField fx:id="txtName" layoutX="25.0" layoutY="635.0" prefHeight="31.0" prefWidth="343.0" />
-            <TextField fx:id="txtEmail" layoutX="382.0" layoutY="635.0" prefHeight="31.0" prefWidth="212.0" />
-            <Button layoutX="25.0" layoutY="676.0" mnemonicParsing="false" text="Add Student" />
-            <Button layoutX="540.0" layoutY="676.0" mnemonicParsing="false" text="Clear" />
-         </children></AnchorPane>
-  </items>
-</SplitPane>
+            <HBox prefHeight="47.0" prefWidth="503.0">
+               <children>
+                  <TextField prefHeight="31.0" prefWidth="235.0">
+                     <HBox.margin>
+                        <Insets left="5.0" right="5.0" />
+                     </HBox.margin>
+                  </TextField>
+                  <TextField prefHeight="31.0" prefWidth="237.0">
+                     <HBox.margin>
+                        <Insets left="5.0" right="5.0" />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+               <padding>
+                  <Insets bottom="5.0" top="5.0" />
+               </padding>
+            </HBox>
+            <ToolBar prefHeight="40.0" prefWidth="200.0">
+              <items>
+                <Button mnemonicParsing="false" text="Add Student" />
+                  <Button mnemonicParsing="false" text="Clear" />
+              </items>
+            </ToolBar>
+         </children>
+      </VBox>
+   </children>
+</HBox>

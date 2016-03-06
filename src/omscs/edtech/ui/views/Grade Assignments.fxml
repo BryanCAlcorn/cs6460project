@@ -1,46 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.image.*?>
-<?import java.lang.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<SplitPane dividerPositions="0.46176470588235297" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
-  <items>
-    <AnchorPane minHeight="0.0" minWidth="0.0">
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox prefHeight="400.0" prefWidth="305.0">
          <children>
-            <ComboBox fx:id="cbAssignments" layoutX="25.0" layoutY="21.0" prefHeight="31.0" prefWidth="435.0" />
-            <Button layoutX="25.0" layoutY="59.0" mnemonicParsing="false" text="Import Assignment File(s)" />
-            <TableView layoutX="25.0" layoutY="97.0" prefHeight="611.0" prefWidth="435.0">
+            <ToolBar prefHeight="40.0" prefWidth="200.0">
+              <items>
+                  <ComboBox prefHeight="31.0" prefWidth="205.0" />
+                <Button mnemonicParsing="false" text="Button" />
+              </items>
+            </ToolBar>
+            <TableView prefHeight="397.0" prefWidth="296.0">
               <columns>
-                <TableColumn prefWidth="213.0" text="Student Name" />
-                <TableColumn prefWidth="118.0" text="Grade" />
-                  <TableColumn prefWidth="104.0" text="View" />
+                <TableColumn prefWidth="136.0" text="Student Name" />
+                <TableColumn prefWidth="75.0" text="Grade" />
+                  <TableColumn text="View" />
               </columns>
             </TableView>
-            <Button fx:id="btnSaveGrades" layoutX="25.0" layoutY="715.0" mnemonicParsing="false" text="Save Grades" />
-            <Button fx:id="btnSendAllFeedback" layoutX="136.0" layoutY="715.0" mnemonicParsing="false" text="Send All Feedback" />
-         </children></AnchorPane>
-    <AnchorPane minHeight="0.0" minWidth="0.0">
+            <ToolBar prefHeight="40.0" prefWidth="200.0">
+              <items>
+                <Button mnemonicParsing="false" text="Save Grades" />
+                  <Button mnemonicParsing="false" text="Send all Feedback" />
+              </items>
+            </ToolBar>
+         </children>
+      </VBox>
+      <VBox prefHeight="400.0" prefWidth="314.0">
          <children>
-            <Label layoutX="14.0" layoutY="14.0" text="Assignment Description:" />
-            <Label fx:id="lblDescription" layoutX="14.0" layoutY="42.0" text="----" />
-            <TextArea fx:id="txtFeedback" layoutX="9.0" layoutY="561.0" prefHeight="148.0" prefWidth="528.0" />
-            <Button layoutX="14.0" layoutY="715.0" mnemonicParsing="false" text="Send Feedback" />
-            <TabPane layoutX="9.0" layoutY="99.0" prefHeight="455.0" prefWidth="528.0" tabClosingPolicy="UNAVAILABLE">
+            <Label text="Assignment Description:">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </Label>
+            <Label text="-----">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </Label>
+            <TabPane prefHeight="235.0" prefWidth="305.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
                 <Tab text="Assignment Text">
                      <content>
-                        <Label fx:id="lblAssignmentText" text="----" />
+                        <Label text="-----">
+                        </Label>
                      </content>
                   </Tab>
                 <Tab text="Assignment Image">
                      <content>
-                        <ImageView fx:id="imgAssignmentImage" fitHeight="416.0" fitWidth="526.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="196.0" fitWidth="305.0" pickOnBounds="true" preserveRatio="true" />
                      </content>
                   </Tab>
               </tabs>
             </TabPane>
-         </children></AnchorPane>
-  </items>
-</SplitPane>
+            <TextArea prefHeight="145.0" prefWidth="305.0" />
+            <ToolBar prefHeight="40.0" prefWidth="200.0">
+              <items>
+                <Button mnemonicParsing="false" text="Send Feedback" />
+              </items>
+            </ToolBar>
+         </children>
+      </VBox>
+   </children>
+</HBox>

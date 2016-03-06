@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
+<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<SplitPane fx:controller="omscs.edtech.ui.controllers.MainController"
-           dividerPositions="0.1605902777777778" maxHeight="-Infinity" maxWidth="-Infinity"
-           minHeight="-Infinity" minWidth="-Infinity" prefHeight="861.0"
-           prefWidth="1154.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
-  <items>
-    <AnchorPane minHeight="0.0" minWidth="0.0">
-         <children>
-            <Button fx:id="btnGradeAssignments" layoutX="18.0" layoutY="14.0" mnemonicParsing="false" onAction="#showGradeAssignmentsView" text="Grade Assignments" />
-            <Button fx:id="btnCreateAssignments" layoutX="16.0" layoutY="70.0" mnemonicParsing="false" onAction="#showCreateAssignmentsView" text="Create Assignments" />
-            <Button fx:id="btnAddClasses" layoutX="16.0" layoutY="132.0" mnemonicParsing="false" onAction="#showAddClassesView" prefHeight="31.0" prefWidth="152.0" text="Add Classes" />
-            <Button fx:id="btnSettings" layoutX="16.0" layoutY="194.0" mnemonicParsing="false" onAction="#showSettingsView" prefHeight="31.0" prefWidth="152.0" text="Settings" />
-         </children></AnchorPane>
-    <AnchorPane fx:id="mainViewPane" minHeight="0.0" minWidth="0.0">
 
-    </AnchorPane>
-  </items>
-</SplitPane>
+<BorderPane fx:controller="omscs.edtech.ui.controllers.MainController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <left>
+      <Pane BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="btnSettings" layoutX="24.0" layoutY="158.0" mnemonicParsing="false" onAction="#showSettingsView" prefHeight="31.0" prefWidth="152.0" text="Settings" />
+            <Button fx:id="btnAddClasses" layoutX="24.0" layoutY="114.0" mnemonicParsing="false" onAction="#showAddClassesView" prefHeight="31.0" prefWidth="152.0" text="Add Classes" />
+            <Button fx:id="btnCreateAssignments" layoutX="24.0" layoutY="70.0" mnemonicParsing="false" onAction="#showCreateAssignmentsView" text="Create Assignments" />
+            <Button fx:id="btnGradeAssignments" layoutX="26.0" layoutY="21.0" mnemonicParsing="false" onAction="#showGradeAssignmentsView" text="Grade Assignments" />
+         </children>
+      </Pane>
+   </left>
+   <center>
+      <Pane fx:id="mainViewPane" BorderPane.alignment="CENTER" />
+   </center>
+</BorderPane>
