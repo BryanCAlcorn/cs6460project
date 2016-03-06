@@ -6,12 +6,12 @@
 
 <BorderPane fx:id="appContainer" fx:controller="omscs.edtech.ui.controllers.MainController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <left>
-      <Pane BorderPane.alignment="CENTER">
+      <Pane BorderPane.alignment="CENTER" prefWidth="210">
          <children>
-            <Button fx:id="btnSettings" layoutX="24.0" layoutY="158.0" mnemonicParsing="false" onAction="#showSettingsView" prefHeight="31.0" prefWidth="152.0" text="Settings" />
-            <Button fx:id="btnAddClasses" layoutX="24.0" layoutY="114.0" mnemonicParsing="false" onAction="#showAddClassesView" prefHeight="31.0" prefWidth="152.0" text="Add Classes" />
-            <Button fx:id="btnCreateAssignments" layoutX="24.0" layoutY="70.0" mnemonicParsing="false" onAction="#showCreateAssignmentsView" text="Create Assignments" />
-            <Button fx:id="btnGradeAssignments" layoutX="26.0" layoutY="21.0" mnemonicParsing="false" onAction="#showGradeAssignmentsView" text="Grade Assignments" />
+            <Button fx:id="btnSettings" layoutX="24.0" layoutY="170.0" mnemonicParsing="false" onAction="#showSettingsView" prefHeight="31.0" prefWidth="160.0" text="Settings" />
+            <Button fx:id="btnAddClasses" layoutX="24.0" layoutY="120.0" mnemonicParsing="false" onAction="#showAddClassesView" prefHeight="31.0" prefWidth="160.0" text="Add Classes" />
+            <Button fx:id="btnCreateAssignments" layoutX="24.0" layoutY="70.0" mnemonicParsing="false" onAction="#showCreateAssignmentsView" prefHeight="31.0" prefWidth="160.0"  text="Create Assignments" />
+            <Button fx:id="btnGradeAssignments" layoutX="24.0" layoutY="20.0" mnemonicParsing="false" onAction="#showGradeAssignmentsView" prefHeight="31.0" prefWidth="160.0"  text="Grade Assignments" />
          </children>
       </Pane>
    </left>

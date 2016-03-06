@@ -8,9 +8,9 @@
 
 <HBox fx:controller="omscs.edtech.ui.controllers.AddClassesController" fx:id="parentBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox fx:id="leftBox" prefHeight="711.0" prefWidth="429.0">
+      <VBox fx:id="leftBox" prefHeight="711.0" prefWidth="450.0">
          <children>
-            <ToolBar prefHeight="40.0" prefWidth="200.0">
+            <ToolBar prefHeight="45.0" prefWidth="200.0">
               <items>
                   <ComboBox prefHeight="31.0" prefWidth="273.0" />
                 <Button mnemonicParsing="false" text="Add New Class" />
@@ -63,7 +63,7 @@
       </VBox>
       <VBox fx:id="rightBox" prefHeight="711.0" prefWidth="519.0">
          <children>
-            <ToolBar prefHeight="40.0" prefWidth="200.0">
+            <ToolBar prefHeight="45.0" prefWidth="200.0">
               <items>
                   <Label text="Class Roster: " />
                 <Button mnemonicParsing="false" text="Import Class Roster" />

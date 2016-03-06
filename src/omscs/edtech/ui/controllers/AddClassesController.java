@@ -18,21 +18,15 @@ public class AddClassesController {
     @FXML
     protected void initialize(){
 
-        double halfWidth = parentBox.getWidth() / 2.0;
-        leftBox.setPrefWidth(halfWidth);
-        rightBox.setPrefWidth(halfWidth);
-        double height = parentBox.getHeight();
-        leftBox.setPrefHeight(height);
-        rightBox.setPrefHeight(height);
+        setPanelWidth(parentBox.getWidth());
+        setPanelHeight(parentBox.getHeight());
 
         //Set width and height properties:
         parentBox.widthProperty().addListener(
                 new ChangeListener<Number>() {
                     @Override
                     public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
-                        Double halfWidth = newValue.doubleValue() / 2.0;
-                        leftBox.setPrefWidth(halfWidth);
-                        rightBox.setPrefWidth(halfWidth);
+                        setPanelWidth(newValue.doubleValue());
                     }
                 }
         );
@@ -41,11 +35,27 @@ public class AddClassesController {
                 new ChangeListener<Number>() {
                     @Override
                     public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
-                        Double height = newValue.doubleValue();
-                        leftBox.setPrefHeight(height);
-                        rightBox.setPrefHeight(height);
+                        setPanelHeight(newValue.doubleValue());
                     }
                 }
         );
+    }
+
+    void setPanelWidth(double totalWidth){
+        double halfWidth = totalWidth / 2.0;
+        double leftWidth = halfWidth;
+        double rightWidth = halfWidth;
+        if(halfWidth > 450){
+            double difference = halfWidth - 450;
+            leftWidth = 450;
+            rightWidth += difference;
+        }
+        leftBox.setPrefWidth(leftWidth);
+        rightBox.setPrefWidth(rightWidth);
+    }
+
+    void setPanelHeight(double totalHeight){
+        leftBox.setPrefHeight(totalHeight);
+        rightBox.setPrefHeight(totalHeight);
     }
 }
