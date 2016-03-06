@@ -1,5 +1,8 @@
 package omscs.edtech.ui.controllers;
 
+import javafx.beans.binding.DoubleBinding;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,7 +19,7 @@ public class MainController {
 
     @FXML
     private Pane mainViewPane;
-    private Parent currentView;
+    private Pane currentView;
 
     @FXML
     protected void initialize(){
@@ -25,6 +28,7 @@ public class MainController {
 
     @FXML
     protected void showGradeAssignmentsView(ActionEvent event){
+        Pane pane = new Pane();
         TabPane classesTab = new TabPane();
         //Switch with a foreach loop to add each class:
         Tab class1Tab = new Tab("Class 1");
@@ -32,12 +36,36 @@ public class MainController {
         classesTab.getTabs().add(class1Tab);
 
         //Load the grade assignments view for first tab:
-        Parent workspace = getWorkspace(ControllerConstants.GRADE_ASSIGNMENTS_VIEW);
+        final Pane workspace = getWorkspace(ControllerConstants.GRADE_ASSIGNMENTS_VIEW);
         class1Tab.contentProperty().setValue(workspace);
+        workspace.setPrefWidth(pane.getPrefWidth());
+        workspace.setPrefHeight(pane.getPrefHeight());
+
+        //Set width and height properties:
+        pane.widthProperty().addListener(
+                new ChangeListener<Number>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
+                        Double width = newValue.doubleValue();
+                        workspace.setPrefWidth(width);
+                    }
+                }
+        );
+
+        pane.heightProperty().addListener(
+                new ChangeListener<Number>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
+                        Double height = newValue.doubleValue();
+                        workspace.setPrefHeight(height);
+                    }
+                }
+        );
 
         //Add event hook for tab switching?
 
-        loadView(classesTab);
+        pane.getChildren().add(classesTab);
+        loadView(pane);
     }
 
     @FXML
@@ -59,22 +87,46 @@ public class MainController {
         loadView(getWorkspace(workspaceName));
     }
 
-    private void loadView(Parent view){
+    private void loadView(Pane view){
         if(currentView != null) {
             mainViewPane.getChildren().remove(currentView);
         }
 
         currentView = view;
+        currentView.setPrefWidth(mainViewPane.getPrefWidth());
+        currentView.setPrefHeight(mainViewPane.getPrefHeight());
+
+        //Set width and height properties:
+        mainViewPane.widthProperty().addListener(
+                new ChangeListener<Number>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
+                        Double width = newValue.doubleValue();
+                        currentView.setPrefWidth(width);
+                    }
+                }
+        );
+
+        mainViewPane.heightProperty().addListener(
+                new ChangeListener<Number>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
+                        Double height = newValue.doubleValue();
+                        currentView.setPrefHeight(height);
+                    }
+                }
+        );
 
         mainViewPane.getChildren().add(0, currentView);
     }
 
-    private Parent getWorkspace(String workspaceName){
-        Parent workspace;
+    private Pane getWorkspace(String workspaceName){
+        Pane workspace;
         try {
             workspace = FXMLLoader.load(getClass().getResource(ControllerConstants.VIEW_PATH + workspaceName));
         }catch (IOException ex){
-            workspace = new Label("Error loading workspace: " + workspaceName + "\n" + ex.getMessage());
+            workspace = new Pane();
+            workspace.getChildren().add(new Label("Error loading workspace: " + workspaceName + "\n" + ex.getMessage()));
         }
         return workspace;
     }

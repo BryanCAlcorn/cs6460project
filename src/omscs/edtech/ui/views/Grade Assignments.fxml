@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.*?>
 
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<HBox fx:id="parentBox" fx:controller="omscs.edtech.ui.controllers.GradeAssignmentsController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox prefHeight="400.0" prefWidth="305.0">
+      <VBox fx:id="leftBox" prefHeight="400.0" prefWidth="305.0">
          <children>
             <ToolBar prefHeight="40.0" prefWidth="200.0">
               <items>
@@ -32,7 +32,7 @@
             </ToolBar>
          </children>
       </VBox>
-      <VBox prefHeight="400.0" prefWidth="314.0">
+      <VBox fx:id="rightBox" prefHeight="400.0" prefWidth="314.0">
          <children>
             <Label text="Assignment Description:">
                <VBox.margin>

@@ -5,9 +5,11 @@
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 
-<TabPane fx:controller="omscs.edtech.ui.controllers.SettingsController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
-  <tabs>
-    <Tab fx:id="tabMissingAssignments" text="Missing Assignments" />
-    <Tab fx:id="tabFeedback" text="Feedback" />
-  </tabs>
-</TabPane>
+<VBox fx:controller="omscs.edtech.ui.controllers.SettingsController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"  xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+  <TabPane tabClosingPolicy="UNAVAILABLE">
+    <tabs>
+      <Tab fx:id="tabMissingAssignments" text="Missing Assignments" />
+      <Tab fx:id="tabFeedback" text="Feedback" />
+    </tabs>
+  </TabPane>
+</VBox>
