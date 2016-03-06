@@ -39,6 +39,9 @@ public class MainController {
         final Pane workspace = getWorkspace(ControllerConstants.GRADE_ASSIGNMENTS_VIEW);
         class1Tab.contentProperty().setValue(workspace);
 
+        workspace.setPrefWidth(mainViewPane.getPrefWidth());
+        workspace.setPrefHeight(mainViewPane.getPrefHeight());
+
         //Set width and height properties:
         pane.widthProperty().addListener(
                 new ChangeListener<Number>() {
@@ -87,9 +90,12 @@ public class MainController {
     private void loadView(Pane view){
         if(currentView != null) {
             mainViewPane.getChildren().remove(currentView);
+            currentView = null;
         }
 
         currentView = view;
+        currentView.setPrefWidth(mainViewPane.getWidth());
+        currentView.setPrefHeight(mainViewPane.getHeight());
 
         //Set width and height properties:
         mainViewPane.widthProperty().addListener(

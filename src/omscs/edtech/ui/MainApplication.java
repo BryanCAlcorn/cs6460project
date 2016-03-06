@@ -18,8 +18,8 @@ public class MainApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource(ControllerConstants.VIEW_PATH + ControllerConstants.MAIN_SCREEN_VIEW));
-        appContainer = (Pane)root.lookup("#appContainer");
 
+        appContainer = (Pane) root.lookup("#appContainer");
         primaryStage.setTitle(ControllerConstants.APP_TITLE);
         primaryStage.setScene(new Scene(root));
 
