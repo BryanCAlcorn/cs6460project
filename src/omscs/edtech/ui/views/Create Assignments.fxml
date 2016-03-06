@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:controller="omscs.edtech.ui.controllers.CreateAssignmentsController" fx:id="parentBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ToolBar prefHeight="40.0" prefWidth="200.0">
         <items>
