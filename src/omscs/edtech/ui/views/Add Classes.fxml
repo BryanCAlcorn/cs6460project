@@ -6,6 +6,7 @@
 <?import javafx.scene.layout.*?>
 
 
+<?import omscs.edtech.ui.controls.IntegerField?>
 <HBox fx:controller="omscs.edtech.ui.controllers.AddClassesController" fx:id="parentBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox fx:id="leftBox" prefHeight="711.0" prefWidth="450.0">
@@ -13,7 +14,7 @@
             <ToolBar prefHeight="45.0" prefWidth="200.0">
               <items>
                   <ComboBox prefHeight="31.0" prefWidth="273.0" />
-                <Button mnemonicParsing="false" text="Add New Class" />
+                <Button mnemonicParsing="false" text="Add New Class" onAction="#addNewClass_Click" />
               </items>
             </ToolBar>
             <GridPane prefHeight="327.0" prefWidth="413.0">
@@ -40,11 +41,11 @@
                   </Label>
                   <Label text="End Date:" GridPane.rowIndex="4">
                   </Label>
-                  <CheckBox mnemonicParsing="false" text="Active?" GridPane.rowIndex="5">
+                  <CheckBox mnemonicParsing="false" text="Active?" GridPane.rowIndex="5" fx:id="cbClassActive">
                   </CheckBox>
-                  <TextField GridPane.columnIndex="1" />
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField GridPane.columnIndex="1" fx:id="txtClassName" />
+                  <IntegerField GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="txtClassPeriod" />
+                  <IntegerField GridPane.columnIndex="1" GridPane.rowIndex="2" fx:id="txtClassYear" />
                   <!--<DatePicker GridPane.columnIndex="1" GridPane.rowIndex="3" />
                   <DatePicker GridPane.columnIndex="1" GridPane.rowIndex="4" />-->
                </children>
@@ -54,7 +55,7 @@
             </GridPane>
             <ToolBar prefHeight="40.0" prefWidth="200.0">
               <items>
-                <Button mnemonicParsing="false" text="Save Class" />
+                <Button mnemonicParsing="false" text="Save Class" onAction="#saveClass_Click" />
                   <Button mnemonicParsing="false" text="Cancel" />
                   <Button mnemonicParsing="false" text="Delete Class" />
               </items>

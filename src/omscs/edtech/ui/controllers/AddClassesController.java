@@ -3,9 +3,16 @@ package omscs.edtech.ui.controllers;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import omscs.edtech.ui.controls.IntegerField;
+import omscs.edtech.ui.models.ClassModel;
+
+import javax.swing.*;
 
 public class AddClassesController {
     @FXML
@@ -14,6 +21,17 @@ public class AddClassesController {
     private VBox leftBox;
     @FXML
     private VBox rightBox;
+
+    @FXML
+    private TextField txtClassName;
+    @FXML
+    private IntegerField txtClassPeriod;
+    @FXML
+    private IntegerField txtClassYear;
+    @FXML
+    private CheckBox cbClassActive;
+
+    private ClassModel currentClass;
 
     @FXML
     protected void initialize(){
@@ -39,6 +57,25 @@ public class AddClassesController {
                     }
                 }
         );
+    }
+
+    @FXML
+    protected void addNewClass_Click(ActionEvent event){
+        currentClass = new ClassModel();
+        currentClass.setClassName("Class 1");
+        currentClass.setClassPeriod(6);
+        currentClass.setClassYear(2016);
+
+        txtClassName.textProperty().bindBidirectional(currentClass.classNameProperty());
+        txtClassPeriod.integerProperty().bindBidirectional(currentClass.classPeriodProperty());
+        txtClassYear.integerProperty().bindBidirectional(currentClass.classYearProperty());
+        cbClassActive.selectedProperty().bindBidirectional(currentClass.activeProperty());
+    }
+
+    @FXML
+    protected void saveClass_Click(ActionEvent event){
+        //Temp for testing
+        currentClass.setActive(true);
     }
 
     void setPanelWidth(double totalWidth){
