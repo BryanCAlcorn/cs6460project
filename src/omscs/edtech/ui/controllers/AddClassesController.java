@@ -6,11 +6,15 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.util.Callback;
 import omscs.edtech.ui.controls.IntegerField;
 import omscs.edtech.ui.models.ClassModel;
+import omscs.edtech.ui.models.StudentModel;
 
 import javax.swing.*;
 
@@ -23,6 +27,10 @@ public class AddClassesController {
     private VBox rightBox;
 
     @FXML
+    private TextField txtStudentName;
+    @FXML
+    private TextField txtStudentEmail;
+    @FXML
     private TextField txtClassName;
     @FXML
     private IntegerField txtClassPeriod;
@@ -30,6 +38,12 @@ public class AddClassesController {
     private IntegerField txtClassYear;
     @FXML
     private CheckBox cbClassActive;
+    @FXML
+    private TableView<StudentModel> tblStudents;
+    @FXML
+    private TableColumn<StudentModel, String> colStudentName;
+    @FXML
+    private TableColumn<StudentModel, String> colEmail;
 
     private ClassModel currentClass;
 
@@ -38,6 +52,21 @@ public class AddClassesController {
 
         setPanelWidth(parentBox.getWidth());
         setPanelHeight(parentBox.getHeight());
+
+        //Bind table columns to StudentModel properties
+        colStudentName.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<StudentModel, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<StudentModel, String> studentModel) {
+                return studentModel.getValue().getStudentNameProperty();
+            }
+        });
+
+        colEmail.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<StudentModel, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<StudentModel, String> studentModel) {
+                return studentModel.getValue().studentEmailProperty();
+            }
+        });
 
         //Set width and height properties:
         parentBox.widthProperty().addListener(
@@ -62,20 +91,43 @@ public class AddClassesController {
     @FXML
     protected void addNewClass_Click(ActionEvent event){
         currentClass = new ClassModel();
+        //Temp for testing:
         currentClass.setClassName("Class 1");
         currentClass.setClassPeriod(6);
         currentClass.setClassYear(2016);
+
+        StudentModel stu1 = new StudentModel("Joe","Joe@gmail.com");
+        StudentModel stu2 = new StudentModel("Jill", "Jill.Doe@school.edu");
+
+        currentClass.studentsProperty().add(stu1);
+        currentClass.studentsProperty().add(stu2);
 
         txtClassName.textProperty().bindBidirectional(currentClass.classNameProperty());
         txtClassPeriod.integerProperty().bindBidirectional(currentClass.classPeriodProperty());
         txtClassYear.integerProperty().bindBidirectional(currentClass.classYearProperty());
         cbClassActive.selectedProperty().bindBidirectional(currentClass.activeProperty());
+        tblStudents.setItems(currentClass.studentsProperty());
     }
 
     @FXML
     protected void saveClass_Click(ActionEvent event){
         //Temp for testing
         currentClass.setActive(true);
+    }
+
+    @FXML
+    protected void addStudent_Click(ActionEvent event){
+        if(currentClass != null){
+            StudentModel newStudent = new StudentModel(txtStudentName.getText(), txtStudentEmail.getText());
+            currentClass.studentsProperty().add(newStudent);
+            clear_Click(event);
+        }
+    }
+
+    @FXML
+    protected void clear_Click(ActionEvent event){
+        txtStudentName.clear();
+        txtStudentEmail.clear();
     }
 
     void setPanelWidth(double totalWidth){

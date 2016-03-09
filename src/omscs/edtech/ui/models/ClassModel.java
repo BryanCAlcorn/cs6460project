@@ -1,6 +1,8 @@
 package omscs.edtech.ui.models;
 
 import javafx.beans.property.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class ClassModel {
 
@@ -8,12 +10,18 @@ public class ClassModel {
     private IntegerProperty classPeriod;
     private IntegerProperty classYear;
     private BooleanProperty active;
+    private ObservableList<StudentModel> students;
 
     public ClassModel(){
         className = new SimpleStringProperty();
         classPeriod = new SimpleIntegerProperty();
         classYear = new SimpleIntegerProperty();
         active = new SimpleBooleanProperty();
+        students = FXCollections.observableArrayList();
+    }
+
+    public ObservableList<StudentModel> studentsProperty(){
+        return students;
     }
 
     public String getClassName() {

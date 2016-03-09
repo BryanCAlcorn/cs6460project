@@ -7,9 +7,9 @@ public class StudentModel {
     private StringProperty studentName;
     private StringProperty studentEmail;
 
-    public StudentModel(){
-        studentName = new SimpleStringProperty();
-        studentEmail = new SimpleStringProperty();
+    public StudentModel(String name, String eMail){
+        studentName = new SimpleStringProperty(name);
+        studentEmail = new SimpleStringProperty(eMail);
     }
 
     public final String getStudentName(){

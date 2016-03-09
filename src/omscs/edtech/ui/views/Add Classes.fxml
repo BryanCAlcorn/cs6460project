@@ -70,21 +70,21 @@
                 <Button mnemonicParsing="false" text="Import Class Roster" />
               </items>
             </ToolBar>
-            <TableView prefHeight="280.0" prefWidth="503.0">
+            <TableView prefHeight="280.0" prefWidth="503.0" fx:id="tblStudents">
               <columns>
-                <TableColumn prefWidth="107.0" text="Action" />
-                <TableColumn prefWidth="160.0" text="Student Name" />
-                  <TableColumn minWidth="0.0" prefWidth="235.0" text="E-Mail Address" />
+                <TableColumn prefWidth="107.0" text="Action" fx:id="colAction" />
+                <TableColumn prefWidth="160.0" text="Student Name" fx:id="colStudentName" />
+                  <TableColumn minWidth="0.0" prefWidth="235.0" text="E-Mail Address" fx:id="colEmail" />
               </columns>
             </TableView>
             <HBox prefHeight="47.0" prefWidth="503.0">
                <children>
-                  <TextField prefHeight="31.0" prefWidth="235.0">
+                  <TextField prefHeight="31.0" prefWidth="235.0" fx:id="txtStudentName">
                      <HBox.margin>
                         <Insets left="5.0" right="5.0" />
                      </HBox.margin>
                   </TextField>
-                  <TextField prefHeight="31.0" prefWidth="237.0">
+                  <TextField prefHeight="31.0" prefWidth="237.0" fx:id="txtStudentEmail">
                      <HBox.margin>
                         <Insets left="5.0" right="5.0" />
                      </HBox.margin>
@@ -96,8 +96,8 @@
             </HBox>
             <ToolBar prefHeight="40.0" prefWidth="200.0">
               <items>
-                <Button mnemonicParsing="false" text="Add Student" />
-                  <Button mnemonicParsing="false" text="Clear" />
+                <Button mnemonicParsing="false" text="Add Student" onAction="#addStudent_Click" />
+                  <Button mnemonicParsing="false" text="Clear" onAction="#clear_Click" />
               </items>
             </ToolBar>
          </children>
