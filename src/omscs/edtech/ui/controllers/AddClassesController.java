@@ -1,17 +1,18 @@
 package omscs.edtech.ui.controllers;
 
 
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
+import javafx.util.StringConverter;
 import omscs.edtech.ui.controls.IntegerField;
 import omscs.edtech.ui.models.ClassModel;
 import omscs.edtech.ui.models.StudentModel;
@@ -19,6 +20,7 @@ import omscs.edtech.ui.models.StudentModel;
 import javax.swing.*;
 
 public class AddClassesController {
+    //Top Level Elements:
     @FXML
     private HBox parentBox;
     @FXML
@@ -26,6 +28,7 @@ public class AddClassesController {
     @FXML
     private VBox rightBox;
 
+    //Input fields
     @FXML
     private TextField txtStudentName;
     @FXML
@@ -38,6 +41,8 @@ public class AddClassesController {
     private IntegerField txtClassYear;
     @FXML
     private CheckBox cbClassActive;
+
+    //Grid fields
     @FXML
     private TableView<StudentModel> tblStudents;
     @FXML
@@ -53,18 +58,68 @@ public class AddClassesController {
         setPanelWidth(parentBox.getWidth());
         setPanelHeight(parentBox.getHeight());
 
+        tblStudents.setEditable(true);
+
         //Bind table columns to StudentModel properties
+        colStudentName.setCellFactory(new Callback<TableColumn<StudentModel, String>, TableCell<StudentModel, String>>() {
+            @Override
+            public TableCell<StudentModel, String> call(TableColumn<StudentModel, String> studentModelStringTableColumn) {
+                return new TextFieldTableCell<StudentModel, String>(new StringConverter<String>() {
+                    @Override
+                    public String toString(String s) {
+                        return s;
+                    }
+
+                    @Override
+                    public String fromString(String s) {
+                        return s;
+                    }
+                });
+            }
+        });
         colStudentName.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<StudentModel, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<StudentModel, String> studentModel) {
                 return studentModel.getValue().getStudentNameProperty();
             }
         });
+        colStudentName.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<StudentModel, String>>() {
+            @Override
+            public void handle(TableColumn.CellEditEvent<StudentModel, String> studentModelStringCellEditEvent) {
+                studentModelStringCellEditEvent.getTableView().getItems().get(
+                        studentModelStringCellEditEvent.getTablePosition().getRow())
+                        .setStudentName(studentModelStringCellEditEvent.getNewValue());
+            }
+        });
 
+        colEmail.setCellFactory(new Callback<TableColumn<StudentModel, String>, TableCell<StudentModel, String>>() {
+            @Override
+            public TableCell<StudentModel, String> call(TableColumn<StudentModel, String> studentModelStringTableColumn) {
+                return new TextFieldTableCell<StudentModel, String>(new StringConverter<String>() {
+                    @Override
+                    public String toString(String s) {
+                        return s;
+                    }
+
+                    @Override
+                    public String fromString(String s) {
+                        return s;
+                    }
+                });
+            }
+        });
         colEmail.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<StudentModel, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<StudentModel, String> studentModel) {
                 return studentModel.getValue().studentEmailProperty();
+            }
+        });
+        colEmail.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<StudentModel, String>>() {
+            @Override
+            public void handle(TableColumn.CellEditEvent<StudentModel, String> studentModelStringCellEditEvent) {
+                studentModelStringCellEditEvent.getTableView().getItems().get(
+                        studentModelStringCellEditEvent.getTablePosition().getRow())
+                        .setStudentEmail(studentModelStringCellEditEvent.getNewValue());
             }
         });
 
@@ -118,8 +173,10 @@ public class AddClassesController {
     @FXML
     protected void addStudent_Click(ActionEvent event){
         if(currentClass != null){
-            StudentModel newStudent = new StudentModel(txtStudentName.getText(), txtStudentEmail.getText());
-            currentClass.studentsProperty().add(newStudent);
+            if(txtStudentName.getText().length() > 0){
+                StudentModel student = new StudentModel(txtStudentName.getText(), txtStudentEmail.getText());
+                currentClass.studentsProperty().add(student);
+            }
             clear_Click(event);
         }
     }
@@ -130,7 +187,7 @@ public class AddClassesController {
         txtStudentEmail.clear();
     }
 
-    void setPanelWidth(double totalWidth){
+    private void setPanelWidth(double totalWidth){
         double halfWidth = totalWidth / 2.0;
         double leftWidth = halfWidth;
         double rightWidth = halfWidth;
@@ -143,7 +200,7 @@ public class AddClassesController {
         rightBox.setPrefWidth(rightWidth);
     }
 
-    void setPanelHeight(double totalHeight){
+    private void setPanelHeight(double totalHeight){
         leftBox.setPrefHeight(totalHeight);
         rightBox.setPrefHeight(totalHeight);
     }

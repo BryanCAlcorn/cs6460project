@@ -72,19 +72,18 @@
             </ToolBar>
             <TableView prefHeight="280.0" prefWidth="503.0" fx:id="tblStudents">
               <columns>
-                <TableColumn prefWidth="107.0" text="Action" fx:id="colAction" />
                 <TableColumn prefWidth="160.0" text="Student Name" fx:id="colStudentName" />
                   <TableColumn minWidth="0.0" prefWidth="235.0" text="E-Mail Address" fx:id="colEmail" />
               </columns>
             </TableView>
             <HBox prefHeight="47.0" prefWidth="503.0">
                <children>
-                  <TextField prefHeight="31.0" prefWidth="235.0" fx:id="txtStudentName">
+                  <TextField prefHeight="31.0" prefWidth="235.0" fx:id="txtStudentName" promptText="Student Name">
                      <HBox.margin>
                         <Insets left="5.0" right="5.0" />
                      </HBox.margin>
                   </TextField>
-                  <TextField prefHeight="31.0" prefWidth="237.0" fx:id="txtStudentEmail">
+                  <TextField prefHeight="31.0" prefWidth="237.0" fx:id="txtStudentEmail" promptText="Student E-Mail">
                      <HBox.margin>
                         <Insets left="5.0" right="5.0" />
                      </HBox.margin>
