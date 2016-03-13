@@ -44,4 +44,8 @@ public class ClassDataAdapter {
     public void addClass(ClassModel classModel){
         allClasses.add(classModel);
     }
+
+    public boolean containsClass(ClassModel classModel){
+        return allClasses.contains(classModel);
+    }
 }

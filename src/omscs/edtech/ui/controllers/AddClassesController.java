@@ -168,12 +168,12 @@ public class AddClassesController {
 
         newClass.studentsProperty().add(stu1);
         newClass.studentsProperty().add(stu2);
+        newClass.setActive(true);
 
         setCurrentClass(newClass);
     }
 
     private void setCurrentClass(ClassModel classModel){
-
         if(currentClass != null){
             txtClassName.textProperty().unbindBidirectional(currentClass.classNameProperty());
             txtClassPeriod.integerProperty().unbindBidirectional(currentClass.classPeriodProperty());
@@ -192,8 +192,10 @@ public class AddClassesController {
 
     @FXML
     protected void saveClass_Click(ActionEvent event){
-        //Temp for testing
-        currentClass.setActive(true);
+        if(!classDataAdapter.containsClass(currentClass)) {
+            classDataAdapter.addClass(currentClass);
+        }
+        //Save classes
     }
 
     @FXML
