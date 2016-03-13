@@ -24,6 +24,10 @@ public class ClassModel {
         return students;
     }
 
+    public void addStudent(StudentModel student){
+        students.add(student);
+    }
+
     public String getClassName() {
         return className.getValue();
     }
@@ -70,5 +74,10 @@ public class ClassModel {
 
     public void setActive(boolean active) {
         this.active.setValue(active);
+    }
+
+    @Override
+    public String toString(){
+        return getClassName();
     }
 }

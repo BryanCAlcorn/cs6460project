@@ -13,7 +13,7 @@
          <children>
             <ToolBar prefHeight="45.0" prefWidth="200.0">
               <items>
-                  <ComboBox prefHeight="31.0" prefWidth="273.0" />
+                  <ComboBox prefHeight="31.0" prefWidth="273.0" fx:id="comboClassesList" />
                 <Button mnemonicParsing="false" text="Add New Class" onAction="#addNewClass_Click" />
               </items>
             </ToolBar>

@@ -1,7 +1,5 @@
 package omscs.edtech.ui.controllers;
 
-
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -14,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 import omscs.edtech.ui.controls.IntegerField;
+import omscs.edtech.ui.interfaces.ClassDataAdapter;
 import omscs.edtech.ui.models.ClassModel;
 import omscs.edtech.ui.models.StudentModel;
 
@@ -27,6 +26,9 @@ public class AddClassesController {
     private VBox leftBox;
     @FXML
     private VBox rightBox;
+
+    @FXML
+    private ComboBox<ClassModel> comboClassesList;
 
     //Input fields
     @FXML
@@ -50,13 +52,23 @@ public class AddClassesController {
     @FXML
     private TableColumn<StudentModel, String> colEmail;
 
+    private ClassDataAdapter classDataAdapter;
     private ClassModel currentClass;
 
     @FXML
     protected void initialize(){
 
+        classDataAdapter = new ClassDataAdapter();
         setPanelWidth(parentBox.getWidth());
         setPanelHeight(parentBox.getHeight());
+
+        comboClassesList.itemsProperty().bindBidirectional(classDataAdapter.getItemObjects());
+        comboClassesList.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                setCurrentClass(comboClassesList.getSelectionModel().getSelectedItem());
+            }
+        });
 
         tblStudents.setEditable(true);
 
@@ -145,17 +157,31 @@ public class AddClassesController {
 
     @FXML
     protected void addNewClass_Click(ActionEvent event){
-        currentClass = new ClassModel();
+        ClassModel newClass = new ClassModel();
         //Temp for testing:
-        currentClass.setClassName("Class 1");
-        currentClass.setClassPeriod(6);
-        currentClass.setClassYear(2016);
+        newClass.setClassName("Class 1");
+        newClass.setClassPeriod(6);
+        newClass.setClassYear(2016);
 
         StudentModel stu1 = new StudentModel("Joe","Joe@gmail.com");
         StudentModel stu2 = new StudentModel("Jill", "Jill.Doe@school.edu");
 
-        currentClass.studentsProperty().add(stu1);
-        currentClass.studentsProperty().add(stu2);
+        newClass.studentsProperty().add(stu1);
+        newClass.studentsProperty().add(stu2);
+
+        setCurrentClass(newClass);
+    }
+
+    private void setCurrentClass(ClassModel classModel){
+
+        if(currentClass != null){
+            txtClassName.textProperty().unbindBidirectional(currentClass.classNameProperty());
+            txtClassPeriod.integerProperty().unbindBidirectional(currentClass.classPeriodProperty());
+            txtClassYear.integerProperty().unbindBidirectional(currentClass.classYearProperty());
+            cbClassActive.selectedProperty().unbindBidirectional(currentClass.activeProperty());
+        }
+
+        currentClass = classModel;
 
         txtClassName.textProperty().bindBidirectional(currentClass.classNameProperty());
         txtClassPeriod.integerProperty().bindBidirectional(currentClass.classPeriodProperty());
