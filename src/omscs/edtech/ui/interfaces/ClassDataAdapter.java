@@ -7,6 +7,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import omscs.edtech.ui.models.ClassAssignmentModel;
 import omscs.edtech.ui.models.ClassModel;
 import omscs.edtech.ui.models.StudentModel;
 
