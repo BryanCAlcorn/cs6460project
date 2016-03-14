@@ -18,6 +18,7 @@ public class ClassDataAdapter {
     public ClassDataAdapter(){
         allClasses = FXCollections.observableArrayList();
 
+        //Temp data, should be obtained from DB:
         ClassModel c1 = new ClassModel();
         c1.addStudent(new StudentModel("C1 Jim", "C11@yahoo.com"));
         c1.addStudent(new StudentModel("C1 Jon", "C12@yahoo.com"));

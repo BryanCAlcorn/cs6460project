@@ -5,13 +5,13 @@
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
-
+<?import omscs.edtech.ui.controls.IntegerField?>
 
 <VBox fx:controller="omscs.edtech.ui.controllers.CreateAssignmentsController" fx:id="parentBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ToolBar prefHeight="40.0" prefWidth="200.0">
         <items>
-            <ComboBox prefHeight="31.0" prefWidth="444.0" />
+            <ComboBox prefHeight="31.0" prefWidth="444.0" fx:id="cbAssignments" />
           <Button mnemonicParsing="false" text="New Assignment" />
         </items>
       </ToolBar>
@@ -19,7 +19,7 @@
          <children>
             <Label text="Assignment Name:">
             </Label>
-            <TextField />
+            <TextField fx:id="txtAssignmentName" />
          </children>
          <padding>
             <Insets bottom="5.0" top="5.0" />
@@ -40,7 +40,7 @@
          <children>
             <Label text="Max Points:">
             </Label>
-            <TextField />
+            <IntegerField fx:id="txtMaxPoints" />
          </children>
          <padding>
             <Insets bottom="5.0" top="5.0" />
@@ -50,7 +50,7 @@
          <children>
             <Label text="Description:">
             </Label>
-            <TextArea prefHeight="200.0" prefWidth="200.0">
+            <TextArea prefHeight="200.0" prefWidth="200.0" fx:id="txtDescription">
             </TextArea>
          </children>
          <padding>
