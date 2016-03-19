@@ -14,7 +14,7 @@
             <ToolBar prefHeight="40.0" prefWidth="200.0">
               <items>
                   <ComboBox prefHeight="31.0" prefWidth="205.0" />
-                <Button mnemonicParsing="false" text="Import Assignment File(s)" />
+                <Button mnemonicParsing="false" text="Import Assignment File(s)" onAction="#importAssignments_Click" />
               </items>
             </ToolBar>
             <TableView prefHeight="397.0" prefWidth="296.0">
