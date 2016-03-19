@@ -1,19 +1,15 @@
 package omscs.edtech.ui.interfaces;
 
-import javafx.beans.InvalidationListener;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import omscs.edtech.ui.models.ClassAssignmentModel;
 import omscs.edtech.ui.models.ClassModel;
 import omscs.edtech.ui.models.StudentModel;
 
 public class ClassDataAdapter {
 
-    private ObjectProperty<ObservableList<ClassModel>> itemObjects;
+    private ObjectProperty<ObservableList<ClassModel>> classesProperty;
     private ObservableList<ClassModel> allClasses;
 
     public ClassDataAdapter(){
@@ -32,14 +28,14 @@ public class ClassDataAdapter {
         allClasses.add(c1);
         allClasses.add(c2);
 
-        itemObjects = new SimpleObjectProperty<>(allClasses);
+        classesProperty = new SimpleObjectProperty<>(allClasses);
     }
 
-    public ObjectProperty<ObservableList<ClassModel>> getItemObjects(){
-        return itemObjects;
+    public ObjectProperty<ObservableList<ClassModel>> getClassesProperty(){
+        return classesProperty;
     }
 
-    public ObservableList<ClassModel> classesProperty(){
+    public ObservableList<ClassModel> getAllClasses(){
         return allClasses;
     }
 

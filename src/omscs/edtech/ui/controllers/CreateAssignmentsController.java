@@ -1,8 +1,8 @@
 package omscs.edtech.ui.controllers;
 
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.SimpleListProperty;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxListCell;
@@ -11,7 +11,6 @@ import omscs.edtech.ui.controls.IntegerField;
 import omscs.edtech.ui.interfaces.AssignmentDataAdapter;
 import omscs.edtech.ui.models.AssignmentModel;
 import omscs.edtech.ui.models.ClassAssignmentModel;
-import omscs.edtech.ui.models.ClassModel;
 
 public class CreateAssignmentsController {
 
@@ -24,8 +23,9 @@ public class CreateAssignmentsController {
     @FXML
     private ListView<ClassAssignmentModel> listClasses;
     @FXML
-    private ComboBox<AssignmentModel> cbAssignments;
+    private ComboBox<AssignmentModel> comboAssignments;
 
+    AssignmentDataAdapter assignmentDataAdapter;
     AssignmentModel currentAssignment;
 
     @FXML
@@ -38,18 +38,44 @@ public class CreateAssignmentsController {
             }
         }));
 
-        AssignmentDataAdapter assignmentData = new AssignmentDataAdapter();
-        for(ClassAssignmentModel classAssignmentModel : assignmentData.getClassAssignmentModels()){
+        assignmentDataAdapter = new AssignmentDataAdapter();
+        for(ClassAssignmentModel classAssignmentModel : assignmentDataAdapter.getClassAssignmentModels()){
             listClasses.getItems().add(classAssignmentModel);
         }
 
-        AssignmentModel assignmentModel = new AssignmentModel();
-        assignmentModel.setName("Assignment 1");
-        assignmentModel.setDescription("Description!!");
-        assignmentModel.setMaxPoints(20);
-        assignmentModel.getAssignedClasses().add(new ClassAssignmentModel("C2", true));
+        comboAssignments.itemsProperty().bindBidirectional(assignmentDataAdapter.getAssignmentsProperty());
+        comboAssignments.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                setCurrentAssignment(comboAssignments.getSelectionModel().getSelectedItem());
+            }
+        });
 
+        //Have a currentAssignment set from the beginning.
+        newAssignment_Click(null);
+    }
+
+    @FXML
+    protected void newAssignment_Click(ActionEvent event) {
+        AssignmentModel assignmentModel = new AssignmentModel();
         setCurrentAssignment(assignmentModel);
+    }
+
+    @FXML
+    protected void saveAssignment_Click(ActionEvent event) {
+
+        if(currentAssignment != null) {
+            for (ClassAssignmentModel listClass : listClasses.getItems()) {
+                if (listClass.getIsAssigned() && !currentAssignment.hasAssignedClass(listClass)) {
+                    currentAssignment.assignToClass(listClass);
+                }
+            }
+
+            if(!assignmentDataAdapter.containsAssignment(currentAssignment)){
+                assignmentDataAdapter.addAssignment(currentAssignment);
+            }
+        }
+
     }
 
     private void setCurrentAssignment(AssignmentModel assignment){
@@ -66,11 +92,11 @@ public class CreateAssignmentsController {
         txtDescription.textProperty().bindBidirectional(currentAssignment.descriptionProperty());
 
         for(ClassAssignmentModel listClass : listClasses.getItems()){
-            for(ClassAssignmentModel assignedClass : currentAssignment.getAssignedClasses()){
-                if(listClass.getClassName().equals(assignedClass.getClassName())){
+            listClass.setIsAssigned(false);
+            for (ClassAssignmentModel assignedClass : currentAssignment.getAssignedClasses()) {
+                if (listClass.getClassName().equals(assignedClass.getClassName())) {
                     listClass.setIsAssigned(true);
-                }else{
-                    listClass.setIsAssigned(false);
+                    break;
                 }
             }
         }

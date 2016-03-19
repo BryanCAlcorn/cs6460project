@@ -16,8 +16,6 @@ import omscs.edtech.ui.interfaces.ClassDataAdapter;
 import omscs.edtech.ui.models.ClassModel;
 import omscs.edtech.ui.models.StudentModel;
 
-import javax.swing.*;
-
 public class AddClassesController {
     //Top Level Elements:
     @FXML
@@ -62,7 +60,7 @@ public class AddClassesController {
         setPanelWidth(parentBox.getWidth());
         setPanelHeight(parentBox.getHeight());
 
-        comboClassesList.itemsProperty().bindBidirectional(classDataAdapter.getItemObjects());
+        comboClassesList.itemsProperty().bindBidirectional(classDataAdapter.getClassesProperty());
         comboClassesList.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {

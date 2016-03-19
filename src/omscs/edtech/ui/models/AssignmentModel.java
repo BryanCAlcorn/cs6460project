@@ -25,6 +25,14 @@ public class AssignmentModel {
         return assignedClasses;
     }
 
+    public boolean hasAssignedClass(ClassAssignmentModel classAssignmentModel){
+        return assignedClasses.contains(classAssignmentModel);
+    }
+
+    public void assignToClass(ClassAssignmentModel classAssignmentModel){
+        assignedClasses.add(classAssignmentModel);
+    }
+
     public String getName() {
         return name.getValue();
     }

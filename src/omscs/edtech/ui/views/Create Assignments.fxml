@@ -11,15 +11,15 @@
    <children>
       <ToolBar prefHeight="40.0" prefWidth="200.0">
         <items>
-            <ComboBox prefHeight="31.0" prefWidth="444.0" fx:id="cbAssignments" />
-          <Button mnemonicParsing="false" text="New Assignment" />
+            <ComboBox prefHeight="31.0" prefWidth="444.0" fx:id="comboAssignments" />
+          <Button mnemonicParsing="false" text="New Assignment" onAction="#newAssignment_Click" />
         </items>
       </ToolBar>
       <HBox prefHeight="39.0" prefWidth="600.0">
          <children>
             <Label text="Assignment Name:">
             </Label>
-            <TextField fx:id="txtAssignmentName" />
+            <TextField fx:id="txtAssignmentName" promptText="Assignment Name" />
          </children>
          <padding>
             <Insets bottom="5.0" top="5.0" />
@@ -50,7 +50,7 @@
          <children>
             <Label text="Description:">
             </Label>
-            <TextArea prefHeight="200.0" prefWidth="200.0" fx:id="txtDescription">
+            <TextArea prefHeight="200.0" prefWidth="200.0" fx:id="txtDescription" promptText="Optional Description of the Assignment...">
             </TextArea>
          </children>
          <padding>
@@ -59,7 +59,7 @@
       </VBox>
       <ToolBar prefHeight="40.0" prefWidth="200.0">
         <items>
-          <Button mnemonicParsing="false" text="Save Assignment" />
+          <Button mnemonicParsing="false" text="Save Assignment" onAction="#saveAssignment_Click" />
             <Button mnemonicParsing="false" text="Clear" />
             <Button mnemonicParsing="false" text="Delete Assignment" />
         </items>
