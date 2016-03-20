@@ -13,21 +13,21 @@
          <children>
             <ToolBar prefHeight="40.0" prefWidth="200.0">
               <items>
-                  <ComboBox prefHeight="31.0" prefWidth="205.0" />
+                  <ComboBox prefHeight="31.0" prefWidth="205.0" fx:id="comboAssignments" />
                 <Button mnemonicParsing="false" text="Import Assignment File(s)" onAction="#importAssignments_Click" />
               </items>
             </ToolBar>
-            <TableView prefHeight="397.0" prefWidth="296.0">
+            <TableView prefHeight="397.0" prefWidth="296.0" fx:id="tblStudentGrades">
               <columns>
-                <TableColumn prefWidth="136.0" text="Student Name" />
-                <TableColumn prefWidth="75.0" text="Grade" />
+                <TableColumn prefWidth="136.0" text="Student Name" fx:id="colStudentName" />
+                <TableColumn prefWidth="75.0" text="Grade" fx:id="colAssignmentGrade" />
                   <TableColumn text="View" />
               </columns>
             </TableView>
             <ToolBar prefHeight="40.0" prefWidth="200.0">
               <items>
-                <Button mnemonicParsing="false" text="Save Grades" />
-                  <Button mnemonicParsing="false" text="Send all Feedback" />
+                <Button mnemonicParsing="false" text="Save Grades" onAction="#btnSaveGrades_Click" />
+                  <Button mnemonicParsing="false" text="Send all Feedback" onAction="#btnSendAllFeedback_Click" />
               </items>
             </ToolBar>
          </children>
@@ -39,7 +39,7 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
             </Label>
-            <Label text="-----">
+            <Label text="-----" fx:id="lblAssignmentDescription">
                <VBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
@@ -48,21 +48,21 @@
               <tabs>
                 <Tab text="Assignment Text">
                      <content>
-                        <Label text="-----">
+                        <Label text="-----" fx:id="lblAssignmentText">
                         </Label>
                      </content>
                   </Tab>
                 <Tab text="Assignment Image">
                      <content>
-                        <ImageView fitHeight="196.0" fitWidth="305.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="196.0" fitWidth="305.0" pickOnBounds="true" preserveRatio="true" fx:id="imgAssignmentImage" />
                      </content>
                   </Tab>
               </tabs>
             </TabPane>
-            <TextArea prefHeight="145.0" prefWidth="305.0" />
+            <TextArea prefHeight="145.0" prefWidth="305.0" fx:id="txtFeedback" />
             <ToolBar prefHeight="40.0" prefWidth="200.0">
               <items>
-                <Button mnemonicParsing="false" text="Send Feedback" />
+                <Button mnemonicParsing="false" text="Send Feedback" onAction="#sendFeedback_Click" />
               </items>
             </ToolBar>
          </children>

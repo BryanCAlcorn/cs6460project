@@ -78,6 +78,6 @@ public class ClassModel {
 
     @Override
     public String toString(){
-        return getClassName();
+        return  String.format("%s %d - %d", getClassName(), getClassPeriod(), getClassYear());
     }
 }

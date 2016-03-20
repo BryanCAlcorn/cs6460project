@@ -1,21 +1,18 @@
 package omscs.edtech.ui.controllers;
 
-import javafx.beans.binding.DoubleBinding;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.Pane;
-import javafx.util.Callback;
-import omscs.edtech.ui.events.InjectClassModelEvent;
-import omscs.edtech.ui.interfaces.ClassDataAdapter;
-import omscs.edtech.ui.models.ClassModel;
+import omscs.edtech.ui.events.InjectModelEvent;
+import omscs.edtech.ui.interfaces.GradeAssignmentsDataAdapter;
+import omscs.edtech.ui.models.GradeAssignmentsModel;
 
 import java.io.IOException;
 
@@ -33,17 +30,17 @@ public class MainController {
 
     @FXML
     protected void showGradeAssignmentsView(ActionEvent event){
-        ClassDataAdapter classDataAdapter = new ClassDataAdapter();
+        GradeAssignmentsDataAdapter gradeAssignmentsDataAdapter = new GradeAssignmentsDataAdapter();
         Pane pane = new Pane();
         TabPane classesTab = new TabPane();
         //Switch with a foreach loop to add each class:
-        for (ClassModel classModel : classDataAdapter.getAllClasses()) {
-            Tab classTab = new Tab(classModel.toString());
+        for (GradeAssignmentsModel gradeAssignmentsModel : gradeAssignmentsDataAdapter.getGradeAssignmentsModels()) {
+            Tab classTab = new Tab(gradeAssignmentsModel.toString());
             classTab.setClosable(false);
 
             //Load the grade assignments view for first tab:
             final Pane workspace = getWorkspace(ControllerConstants.GRADE_ASSIGNMENTS_VIEW);
-            Event.fireEvent(workspace, new InjectClassModelEvent(classModel, workspace));
+            Event.fireEvent(workspace, new InjectModelEvent<>(gradeAssignmentsModel, workspace));
 
             workspace.setPrefWidth(mainViewPane.getPrefWidth());
             workspace.setPrefHeight(mainViewPane.getPrefHeight());
