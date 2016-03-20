@@ -2,6 +2,7 @@ package omscs.edtech.ui.models;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.StringProperty;
 
 public class StudentAssignmentModel {
 
@@ -13,7 +14,7 @@ public class StudentAssignmentModel {
         this.studentModel = studentModel;
     }
 
-    public double getStudentGrade() {
+    public Number getStudentGrade() {
         return studentGrade.getValue();
     }
 
@@ -21,7 +22,11 @@ public class StudentAssignmentModel {
         return studentGrade;
     }
 
-    public void setStudentGrade(double studentGrade) {
+    public void setStudentGrade(Number studentGrade) {
         this.studentGrade.setValue(studentGrade);
+    }
+
+    public StringProperty getStudentNameProperty(){
+        return studentModel.getStudentNameProperty();
     }
 }

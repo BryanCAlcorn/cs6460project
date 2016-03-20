@@ -73,4 +73,25 @@ public class AssignmentModel {
     public String toString() {
         return getName();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AssignmentModel that = (AssignmentModel) o;
+
+        if (!name.equals(that.name)) return false;
+        if (!maxPoints.equals(that.maxPoints)) return false;
+        return description != null ? description.equals(that.description) : that.description == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + maxPoints.hashCode();
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        return result;
+    }
 }

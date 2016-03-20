@@ -43,4 +43,8 @@ public class GradeAssignmentsModel {
         return assignmentStudentMap.get(assignment);
     }
 
+    @Override
+    public String toString() {
+        return classModel.toString();
+    }
 }

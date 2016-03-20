@@ -4,13 +4,17 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.util.Callback;
+import javafx.util.StringConverter;
 import omscs.edtech.db.model.Assignment;
 import omscs.edtech.ui.events.InjectModelEvent;
 import omscs.edtech.ui.models.*;
@@ -29,9 +33,9 @@ public class GradeAssignmentsController {
     @FXML
     private TableView<StudentAssignmentModel> tblStudentGrades;
     @FXML
-    private TableColumn<StudentAssignmentModel, StringProperty> colStudentName;
+    private TableColumn<StudentAssignmentModel, String> colStudentName;
     @FXML
-    private TableColumn<StudentAssignmentModel, DoubleProperty> colAssignmentGrade;
+    private TableColumn<StudentAssignmentModel, Number> colAssignmentGrade;
 
     @FXML
     private Label lblAssignmentDescription;
@@ -71,6 +75,37 @@ public class GradeAssignmentsController {
                 }
         );
 
+        colStudentName.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<StudentAssignmentModel, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<StudentAssignmentModel, String> studentModel) {
+                return studentModel.getValue().getStudentNameProperty();
+            }
+        });
+
+        colAssignmentGrade.setEditable(true);
+        colAssignmentGrade.setCellFactory(new Callback<TableColumn<StudentAssignmentModel, Number>, TableCell<StudentAssignmentModel, Number>>() {
+            @Override
+            public TableCell<StudentAssignmentModel, Number> call(TableColumn<StudentAssignmentModel, Number> studentAssignmentModelDoubleTableColumn) {
+                return new TextFieldTableCell<StudentAssignmentModel, Number>();
+            }
+        });
+
+        colAssignmentGrade.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<StudentAssignmentModel, Number>, ObservableValue<Number>>() {
+            @Override
+            public ObservableValue<Number> call(TableColumn.CellDataFeatures<StudentAssignmentModel, Number> studentAssignmentModel) {
+                return studentAssignmentModel.getValue().studentGradeProperty();
+            }
+        });
+
+        colAssignmentGrade.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<StudentAssignmentModel, Number>>() {
+            @Override
+            public void handle(TableColumn.CellEditEvent<StudentAssignmentModel, Number> studentAssignmentModel) {
+                studentAssignmentModel.getTableView().getItems().get(
+                        studentAssignmentModel.getTablePosition().getRow())
+                        .setStudentGrade(studentAssignmentModel.getNewValue());
+            }
+        });
+
         parentBox.addEventFilter(InjectModelEvent.INJECT_MODEL,
                 new EventHandler<InjectModelEvent>() {
                     @Override
@@ -99,7 +134,8 @@ public class GradeAssignmentsController {
         currentAssignment = assignment;
 
         lblAssignmentDescription.textProperty().bind(currentAssignment.descriptionProperty());
-        tblStudentGrades.setItems(gradeAssignmentsModel.getStudentAssignmentList(currentAssignment));
+        ObservableList<StudentAssignmentModel> studentAssignmentModels = gradeAssignmentsModel.getStudentAssignmentList(currentAssignment);
+        tblStudentGrades.setItems(studentAssignmentModels);
     }
 
     @FXML
