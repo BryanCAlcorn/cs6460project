@@ -3,6 +3,7 @@ package omscs.edtech.ui.interfaces;
 import omscs.edtech.ui.models.AssignmentModel;
 import omscs.edtech.ui.models.ClassModel;
 import omscs.edtech.ui.models.GradeAssignmentsModel;
+import omscs.edtech.ui.models.StudentModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +20,18 @@ public class GradeAssignmentsDataAdapter {
         c1.setClassPeriod(1);
         c1.setClassYear(2016);
         c1.setActive(true);
+        c1.addStudent(new StudentModel("Jim Jones", "Jim@gmail.com"));
+        c1.addStudent(new StudentModel("James Jones", "James@gmail.com"));
 
         ClassModel c2 = new ClassModel();
         c2.setClassName("English");
         c2.setClassPeriod(2);
         c2.setClassYear(2016);
         c2.setActive(true);
+        c2.addStudent(new StudentModel("Jim Bob", "Jimbo@gmail.com"));
+        c2.addStudent(new StudentModel("James Bob", "Jamesbo@gmail.com"));
+        c2.addStudent(new StudentModel("Jimmy Bob", "Jimmybo@gmail.com"));
+        c2.addStudent(new StudentModel("Jack Bob", "Jackbo@gmail.com"));
 
         List<AssignmentModel> assignmentModels = new ArrayList<>();
 

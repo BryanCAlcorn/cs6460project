@@ -75,6 +75,7 @@ public class GradeAssignmentsController {
                 }
         );
 
+        tblStudentGrades.setEditable(true);
         colStudentName.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<StudentAssignmentModel, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<StudentAssignmentModel, String> studentModel) {
@@ -111,9 +112,7 @@ public class GradeAssignmentsController {
                     @Override
                     public void handle(InjectModelEvent injectClassModelEvent) {
                         gradeAssignmentsModel = (GradeAssignmentsModel)injectClassModelEvent.getModelToInject();
-                        //Do anything else needed to load the class model!
-                        //Bind Students to grid? Wait until assignment chosen?
-                        //Bind Assignments to drop down.
+
                         comboAssignments.itemsProperty().bindBidirectional(gradeAssignmentsModel.getAssignmentModelsProperty());
                         comboAssignments.setOnAction(new EventHandler<ActionEvent>() {
                             @Override
@@ -121,6 +120,7 @@ public class GradeAssignmentsController {
                                 setCurrentAssignment(comboAssignments.getSelectionModel().getSelectedItem());
                             }
                         });
+                        comboAssignments.getSelectionModel().select(0);
                     }
                 });
     }

@@ -22,8 +22,8 @@ public class GradeAssignmentsModel {
         assignmentStudentMap = new HashMap<>();
 
         //Map assignments to students:
-        for(AssignmentModel assignmentModel : assignmentModels) {
-            ObservableList<StudentAssignmentModel> students = FXCollections.emptyObservableList();
+        for(AssignmentModel assignmentModel : assignments) {
+            ObservableList<StudentAssignmentModel> students = FXCollections.observableArrayList();
             for (StudentModel studentModel : classModel.studentsProperty()) {
                 students.add(new StudentAssignmentModel(studentModel, 0));
             }

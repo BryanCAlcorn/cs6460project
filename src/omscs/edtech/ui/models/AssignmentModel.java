@@ -81,17 +81,17 @@ public class AssignmentModel {
 
         AssignmentModel that = (AssignmentModel) o;
 
-        if (!name.equals(that.name)) return false;
-        if (!maxPoints.equals(that.maxPoints)) return false;
-        return description != null ? description.equals(that.description) : that.description == null;
+        if (!name.getValue().equals(that.name.getValue())) return false;
+        if (!maxPoints.getValue().equals(that.maxPoints.getValue())) return false;
+        return description != null ? description.getValue().equals(that.description.getValue()) : that.description == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = name.hashCode();
-        result = 31 * result + maxPoints.hashCode();
-        result = 31 * result + (description != null ? description.hashCode() : 0);
+        int result = name.getValue().hashCode();
+        result = 31 * result + maxPoints.getValue().hashCode();
+        result = 31 * result + (description != null ? description.getValue().hashCode() : 0);
         return result;
     }
 }
