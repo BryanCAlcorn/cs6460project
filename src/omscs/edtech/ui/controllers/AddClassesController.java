@@ -67,6 +67,7 @@ public class AddClassesController {
                 setCurrentClass(comboClassesList.getSelectionModel().getSelectedItem());
             }
         });
+        ControllerConstants.selectFirstComboItem(comboClassesList);
 
         tblStudents.setEditable(true);
 

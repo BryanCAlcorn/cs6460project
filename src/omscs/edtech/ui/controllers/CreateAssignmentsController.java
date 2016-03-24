@@ -50,6 +50,7 @@ public class CreateAssignmentsController {
                 setCurrentAssignment(comboAssignments.getSelectionModel().getSelectedItem());
             }
         });
+        ControllerConstants.selectFirstComboItem(comboAssignments);
 
         //Have a currentAssignment set from the beginning.
         newAssignment_Click(null);

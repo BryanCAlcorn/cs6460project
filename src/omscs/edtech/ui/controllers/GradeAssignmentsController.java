@@ -120,7 +120,7 @@ public class GradeAssignmentsController {
                                 setCurrentAssignment(comboAssignments.getSelectionModel().getSelectedItem());
                             }
                         });
-                        comboAssignments.getSelectionModel().select(0);
+                        ControllerConstants.selectFirstComboItem(comboAssignments);
                     }
                 });
     }

@@ -1,5 +1,7 @@
 package omscs.edtech.ui.controllers;
 
+import javafx.scene.control.ComboBox;
+
 public class ControllerConstants {
 
     public static final String VIEW_PATH = "/omscs/edtech/ui/views/";
@@ -11,4 +13,10 @@ public class ControllerConstants {
     public static final String GRADE_ASSIGNMENTS_VIEW = "Grade Assignments.fxml";
     public static final String SETTINGS_VIEW = "Settings.fxml";
     public static final String EMAIL_EDITOR_VIEW = "EMail Editor.fxml";
+
+    public static void selectFirstComboItem(ComboBox comboBox){
+        if(comboBox.getItems() != null && !comboBox.getItems().isEmpty()){
+            comboBox.getSelectionModel().select(0);
+        }
+    }
 }
