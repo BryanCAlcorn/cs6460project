@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.ImageView;
@@ -87,7 +88,37 @@ public class GradeAssignmentsController {
         colAssignmentGrade.setCellFactory(new Callback<TableColumn<StudentAssignmentModel, Number>, TableCell<StudentAssignmentModel, Number>>() {
             @Override
             public TableCell<StudentAssignmentModel, Number> call(TableColumn<StudentAssignmentModel, Number> studentAssignmentModelDoubleTableColumn) {
-                return new TextFieldTableCell<StudentAssignmentModel, Number>();
+                return new TextFieldTableCell<StudentAssignmentModel, Number>(new StringConverter<Number>() {
+                    @Override
+                    public String toString(Number number) {
+                        return number.toString();
+                    }
+
+                    @Override
+                    public Number fromString(final String s) {
+                        return new Number() {
+                            @Override
+                            public int intValue() {
+                                return Integer.getInteger(s);
+                            }
+
+                            @Override
+                            public long longValue() {
+                                return Long.getLong(s);
+                            }
+
+                            @Override
+                            public float floatValue() {
+                                return Float.valueOf(s);
+                            }
+
+                            @Override
+                            public double doubleValue() {
+                                return Double.valueOf(s);
+                            }
+                        };
+                    }
+                });
             }
         });
 
