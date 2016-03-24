@@ -87,7 +87,7 @@ public class GradeAssignmentsController {
         colAssignmentGrade.setEditable(true);
         colAssignmentGrade.setCellFactory(new Callback<TableColumn<StudentAssignmentModel, Number>, TableCell<StudentAssignmentModel, Number>>() {
             @Override
-            public TableCell<StudentAssignmentModel, Number> call(TableColumn<StudentAssignmentModel, Number> studentAssignmentModelDoubleTableColumn) {
+            public TableCell<StudentAssignmentModel, Number> call(final TableColumn<StudentAssignmentModel, Number> studentAssignmentModelDoubleTableColumn) {
                 return new TextFieldTableCell<StudentAssignmentModel, Number>(new StringConverter<Number>() {
                     @Override
                     public String toString(Number number) {
@@ -96,27 +96,31 @@ public class GradeAssignmentsController {
 
                     @Override
                     public Number fromString(final String s) {
-                        return new Number() {
-                            @Override
-                            public int intValue() {
-                                return Integer.getInteger(s);
-                            }
+                        if(s.matches("([0-9])*(\\.)*([0-9])*")) {
+                            return new Number() {
+                                @Override
+                                public int intValue() {
+                                    return Integer.getInteger(s);
+                                }
 
-                            @Override
-                            public long longValue() {
-                                return Long.getLong(s);
-                            }
+                                @Override
+                                public long longValue() {
+                                    return Long.getLong(s);
+                                }
 
-                            @Override
-                            public float floatValue() {
-                                return Float.valueOf(s);
-                            }
+                                @Override
+                                public float floatValue() {
+                                    return Float.valueOf(s);
+                                }
 
-                            @Override
-                            public double doubleValue() {
-                                return Double.valueOf(s);
-                            }
-                        };
+                                @Override
+                                public double doubleValue() {
+                                    return Double.valueOf(s);
+                                }
+                            };
+                        }else {
+                            return 0.0;
+                        }
                     }
                 });
             }
