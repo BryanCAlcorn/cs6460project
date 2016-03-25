@@ -25,7 +25,10 @@ public class GradeAssignmentsModel {
         for(AssignmentModel assignmentModel : assignments) {
             ObservableList<StudentAssignmentModel> students = FXCollections.observableArrayList();
             for (StudentModel studentModel : classModel.studentsProperty()) {
-                students.add(new StudentAssignmentModel(studentModel, 0));
+                StudentAssignmentModel studentAssignmentModel = new StudentAssignmentModel(studentModel, 0);
+                studentAssignmentModel.setAssignmentText("Some assignment text for " + studentModel.getStudentName() + " assignment " + assignmentModel.getName());
+                studentAssignmentModel.setAssignmentFeedback("Some feedback for " + studentModel.getStudentName() + " assignment " + assignmentModel.getName());
+                students.add(studentAssignmentModel);
             }
             assignmentStudentMap.put(assignmentModel, students);
         }

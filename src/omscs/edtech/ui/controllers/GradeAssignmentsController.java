@@ -1,5 +1,7 @@
 package omscs.edtech.ui.controllers;
 
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -143,6 +145,20 @@ public class GradeAssignmentsController {
             }
         });
 
+        tblStudentGrades.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<StudentAssignmentModel>() {
+            @Override
+            public void changed(ObservableValue<? extends StudentAssignmentModel> observableValue, StudentAssignmentModel studentAssignmentModel, StudentAssignmentModel t1) {
+                setCurrentStudent(t1);
+            }
+        });
+
+        comboAssignments.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                setCurrentAssignment(comboAssignments.getSelectionModel().getSelectedItem());
+            }
+        });
+
         parentBox.addEventFilter(InjectModelEvent.INJECT_MODEL,
                 new EventHandler<InjectModelEvent>() {
                     @Override
@@ -150,12 +166,6 @@ public class GradeAssignmentsController {
                         gradeAssignmentsModel = (GradeAssignmentsModel)injectClassModelEvent.getModelToInject();
 
                         comboAssignments.itemsProperty().bindBidirectional(gradeAssignmentsModel.getAssignmentModelsProperty());
-                        comboAssignments.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent actionEvent) {
-                                setCurrentAssignment(comboAssignments.getSelectionModel().getSelectedItem());
-                            }
-                        });
                         ControllerConstants.selectFirstComboItem(comboAssignments);
                     }
                 });
@@ -169,9 +179,29 @@ public class GradeAssignmentsController {
 
         currentAssignment = assignment;
 
-        lblAssignmentDescription.textProperty().bind(currentAssignment.descriptionProperty());
-        ObservableList<StudentAssignmentModel> studentAssignmentModels = gradeAssignmentsModel.getStudentAssignmentList(currentAssignment);
-        tblStudentGrades.setItems(studentAssignmentModels);
+        if(currentAssignment != null) {
+            lblAssignmentDescription.textProperty().bind(currentAssignment.descriptionProperty());
+            ObservableList<StudentAssignmentModel> studentAssignmentModels = gradeAssignmentsModel.getStudentAssignmentList(currentAssignment);
+            tblStudentGrades.setItems(studentAssignmentModels);
+            if(!studentAssignmentModels.isEmpty()) {
+                tblStudentGrades.getSelectionModel().select(0);
+            }
+        }
+    }
+
+    private void setCurrentStudent(StudentAssignmentModel student){
+        if(currentStudent != null){
+            txtFeedback.textProperty().unbindBidirectional(currentStudent.assignmentFeedbackProperty());
+            lblAssignmentText.textProperty().unbind();
+        }
+
+        currentStudent = student;
+
+        if(currentStudent != null) {
+            txtFeedback.textProperty().bindBidirectional(currentStudent.assignmentFeedbackProperty());
+            lblAssignmentText.textProperty().bind(currentStudent.assignmentTextProperty());
+            //Bind image:
+        }
     }
 
     @FXML
@@ -180,8 +210,7 @@ public class GradeAssignmentsController {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Import Assignment(s)");
         fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("TIFF", "*.tiff"),
-                new FileChooser.ExtensionFilter("TIFF", "*.tif")
+                new FileChooser.ExtensionFilter("TIFF", "*.tiff", "*.tif")
         );
         List<File> files = fileChooser.showOpenMultipleDialog(parentBox.getScene().getWindow());
         if(files != null){

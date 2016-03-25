@@ -21,7 +21,6 @@
               <columns>
                 <TableColumn prefWidth="136.0" text="Student Name" fx:id="colStudentName" />
                 <TableColumn prefWidth="75.0" text="Grade" fx:id="colAssignmentGrade" />
-                  <TableColumn text="View" />
               </columns>
             </TableView>
             <ToolBar prefHeight="40.0" prefWidth="200.0">
