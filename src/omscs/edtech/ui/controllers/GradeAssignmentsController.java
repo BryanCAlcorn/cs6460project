@@ -1,24 +1,25 @@
 package omscs.edtech.ui.controllers;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Window;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
-import omscs.edtech.db.model.Assignment;
 import omscs.edtech.ui.events.InjectModelEvent;
 import omscs.edtech.ui.models.*;
+
+import java.io.File;
+import java.util.List;
 
 public class GradeAssignmentsController {
     @FXML
@@ -176,6 +177,15 @@ public class GradeAssignmentsController {
     @FXML
     protected void importAssignments_Click(ActionEvent event){
 
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Import Assignment(s)");
+        List<File> files = fileChooser.showOpenMultipleDialog(parentBox.getScene().getWindow());
+        if(files != null){
+            for(File file : files) {
+                //Send them to the OCR interface
+                //If it accepts a list, don't need to loop.
+            }
+        }
     }
 
     @FXML
