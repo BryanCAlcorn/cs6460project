@@ -179,6 +179,10 @@ public class GradeAssignmentsController {
 
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Import Assignment(s)");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("TIFF", "*.tiff"),
+                new FileChooser.ExtensionFilter("TIFF", "*.tif")
+        );
         List<File> files = fileChooser.showOpenMultipleDialog(parentBox.getScene().getWindow());
         if(files != null){
             for(File file : files) {
