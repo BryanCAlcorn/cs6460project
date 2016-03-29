@@ -30,6 +30,10 @@ public class GradeAssignmentsController {
     private VBox leftBox;
     @FXML
     private VBox rightBox;
+    @FXML
+    private TabPane paneAssignment;
+    @FXML
+    private VBox assignmentDescrBox;
 
     @FXML
     private ComboBox<AssignmentModel> comboAssignments;
@@ -75,6 +79,8 @@ public class GradeAssignmentsController {
                         Double height = newValue.doubleValue();
                         leftBox.setPrefHeight(height);
                         rightBox.setPrefHeight(height);
+                        tblStudentGrades.setPrefHeight(height - 125);
+                        paneAssignment.setPrefHeight(height - 227 - assignmentDescrBox.getPrefHeight());
                     }
                 }
         );
@@ -208,7 +214,6 @@ public class GradeAssignmentsController {
 
     @FXML
     protected void importAssignments_Click(ActionEvent event){
-
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Import Assignment(s)");
         fileChooser.getExtensionFilters().addAll(

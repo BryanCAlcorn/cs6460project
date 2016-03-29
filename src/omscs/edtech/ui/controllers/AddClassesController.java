@@ -24,6 +24,8 @@ public class AddClassesController {
     private VBox leftBox;
     @FXML
     private VBox rightBox;
+    @FXML
+    private VBox emptyBox;
 
     @FXML
     private ComboBox<ClassModel> comboClassesList;
@@ -230,5 +232,7 @@ public class AddClassesController {
     private void setPanelHeight(double totalHeight){
         leftBox.setPrefHeight(totalHeight);
         rightBox.setPrefHeight(totalHeight);
+        tblStudents.setPrefHeight(totalHeight - 132);
+        emptyBox.setPrefHeight(totalHeight - 412);
     }
 }

@@ -9,7 +9,7 @@
 <VBox fx:controller="omscs.edtech.ui.controllers.EmailEditorController" fx:id="parentBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ToolBar fx:id="customWidgetToolBar" prefHeight="40.0"/>
-      <HTMLEditor htmlText="&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body contenteditable=&quot;true&quot;&gt;&lt;/body&gt;&lt;/html&gt;" />
+      <HTMLEditor fx:id="htmlEditorBox" htmlText="&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body contenteditable=&quot;true&quot;&gt;&lt;/body&gt;&lt;/html&gt;" />
       <ToolBar prefHeight="40.0" >
         <items>
           <Button mnemonicParsing="false" text="Save Changes" />

@@ -1,11 +1,13 @@
 package omscs.edtech.ui.controllers;
 
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxListCell;
+import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 import omscs.edtech.ui.controls.IntegerField;
 import omscs.edtech.ui.interfaces.AssignmentDataAdapter;
@@ -14,6 +16,12 @@ import omscs.edtech.ui.models.ClassAssignmentModel;
 
 public class CreateAssignmentsController {
 
+    @FXML
+    private VBox parentBox;
+    @FXML
+    private VBox classesBox;
+    @FXML
+    private VBox descriptionBox;
     @FXML
     private TextField txtAssignmentName;
     @FXML
@@ -30,6 +38,18 @@ public class CreateAssignmentsController {
 
     @FXML
     protected void initialize(){
+
+        parentBox.heightProperty().addListener(
+                new ChangeListener<Number>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
+                        Double height = newValue.doubleValue();
+                        classesBox.setPrefHeight(height - 397);
+                        listClasses.setPrefHeight(height - 417);
+                        descriptionBox.setPrefHeight(height - classesBox.getPrefHeight() - 160);
+                    }
+                }
+        );
 
         listClasses.setCellFactory(CheckBoxListCell.forListView(new Callback<ClassAssignmentModel, ObservableValue<Boolean>>() {
             @Override

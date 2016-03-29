@@ -5,8 +5,8 @@
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 
-<VBox fx:controller="omscs.edtech.ui.controllers.SettingsController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"  xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
-  <TabPane tabClosingPolicy="UNAVAILABLE">
+<VBox fx:controller="omscs.edtech.ui.controllers.SettingsController" fx:id="parentBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"  xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+  <TabPane fx:id="tabPaneSettings" tabClosingPolicy="UNAVAILABLE">
     <tabs>
       <Tab fx:id="tabMissingAssignments" text="Missing Assignments" />
       <Tab fx:id="tabFeedback" text="Feedback" />
