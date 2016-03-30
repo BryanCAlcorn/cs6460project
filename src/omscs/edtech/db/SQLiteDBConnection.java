@@ -11,8 +11,8 @@ public class SQLiteDBConnection {
         Connection c = null;
         Class.forName("org.sqlite.JDBC");
         //c = DriverManager.getConnection("jdbc:sqlite:C:\\sqlite\\data\\TPDatabase.sqlite3");
-        c = DriverManager.getConnection("jdbc:sqlite:\\cs6460project\\src\\omscs\\edtech\\db\\database\\TPDatabase.sqlite3");
-        c.setAutoCommit(false);
+         c = DriverManager.getConnection("jdbc:sqlite:\\GitHub\\cs6460project\\src\\omscs\\edtech\\db\\database\\TPDatabase.sqlite3");
+         c.setAutoCommit(false);
 /*
         if (this.dbms.equals("mysql")) {
             c = DriverManager.getConnection("jdbc:" + this.dbms + "://" +
