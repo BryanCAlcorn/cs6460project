@@ -26,8 +26,9 @@ public class TesseractAPI {
         //https://www.google.com/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=how%20to%20store%20a%20tiff%20image%20into%20sqlite%20in%20java
         //http://stackoverflow.com/questions/11790104/how-to-storebitmap-image-and-retrieve-image-from-sqlite-database-in-android
         int ocrId = 0;
-        String FilePath = "C:\\testdata2.tif";
-        File imageFile = new File("C:\\testdata2.tif");
+        //String FilePath = "C:\\testdata2.tif";
+        //File imageFile = new File("C:\\testdata2.tif");
+        File imageFile = new File(ImgPath);
         //Tesseract instance = Tesseract.
         //Tesseract instance = Tesseract.getInstance(); //
         Tesseract instance = new Tesseract();
@@ -37,7 +38,7 @@ public class TesseractAPI {
             String result = instance.doOCR(imageFile);
             System.out.println(result);
 
-
+/*
             //NEED TO FINISH CODING IN THIS SECTION
             //Check if OCR image can read student name by reading the result. If student name is readable than
             //set readableName = 'Y' else readableName = 'N'
@@ -91,7 +92,7 @@ public class TesseractAPI {
             }
             pstmt.close();
             c.close();
-
+*/
         } catch (TesseractException e) {
             System.err.println(e.getMessage());
         } catch (Exception e) {
