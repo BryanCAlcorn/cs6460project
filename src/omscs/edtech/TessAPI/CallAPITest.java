@@ -13,7 +13,7 @@ public class CallAPITest {
         //before can insert into database
         TesseractAPI CallTesseractAPI = new TesseractAPI();
         int ocrId = 0, classId = 1;
-        String path = "C:\\testdata2.tif";
+        String path = "C:\\testdata3.tif";
         //call method below
         ocrId = CallTesseractAPI.OCRRead(classId,path);
 
