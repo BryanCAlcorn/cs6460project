@@ -1,10 +1,11 @@
-package omscs.edtech.db.interfaces;
+package omscs.edtech.db;
 
 import java.sql.*;
 
 /**
  * Created by jle on 3/22/2016.
  */
+
 public class SQLiteStudentsTest
 {
     public static void main( String args[] )
@@ -12,10 +13,9 @@ public class SQLiteStudentsTest
         Connection c = null;
         Statement stmt = null;
         try {
-            Class.forName("org.sqlite.JDBC");
-            c = DriverManager.getConnection("jdbc:sqlite:C:\\sqlite\\data\\TPDatabase.sqlite3");
-            //c = DriverManager.getConnection("jdbc:sqlite:TPDatabase.db");
-            c.setAutoCommit(false);
+            SQLiteDBConnection Connect = new SQLiteDBConnection();
+            c = Connect.getConnection();
+
             if (c != null) {
                 System.out.println("Connected to the database");
                 DatabaseMetaData dm = (DatabaseMetaData) c.getMetaData();
