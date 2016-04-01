@@ -20,7 +20,7 @@ import omscs.edtech.db.SQLiteDBConnection;
 
 public class TesseractAPI {
 
-//    public static void main(Integer classId, String ImgPath ){
+    //    public static void main(Integer classId, String ImgPath ){
     public int OCRRead(Integer classId, String ImgPath ){
         //File imageFile = new File("<path of your image>");
         //File imageFile = new File(args[1]);
@@ -40,7 +40,7 @@ public class TesseractAPI {
             //Call OCR utility to execute Tesseract & read the image
             //
             String result = instance.doOCR(imageFile);
-            System.out.println(result);
+            //System.out.println(result);
 
             //END
             //Call OCR utility to execute Tesseract & read the image
@@ -67,8 +67,8 @@ public class TesseractAPI {
                 for (int a = 0; a < line.length();a++) {
                     char aChar = line.charAt(a);
                     if (aChar == ':'){
-                        System.out.println("Process First Name");
-                        System.out.println(a);
+//                        System.out.println("Process First Name");
+//                        System.out.println(a);
                         ProcessFirstName = true;
                         a++; //the next character should be a space, so we need to skip
                     }else {
@@ -110,8 +110,8 @@ public class TesseractAPI {
             FirstName = FirstName.trim();
             LastName = LastName.trim();
 
-            System.out.println(FirstName);
-            System.out.println(LastName);
+//            System.out.println(FirstName);
+//            System.out.println(LastName);
 
             //Search database for student name
             int studentId = 0;
@@ -128,7 +128,7 @@ public class TesseractAPI {
             stdresult.close();
             stdsql.close();
 
-            System.out.println( "studnetId = " + studentId);
+//            System.out.println( "studnetId = " + studentId);
             if (studentId > 0){
                 readableName = "Y";
             }else{
@@ -177,7 +177,7 @@ public class TesseractAPI {
                 ResultSet rs = stmt.executeQuery("SELECT seq FROM sqlite_sequence WHERE name='OCRFile';");
                 while (rs.next()) {
                     ocrId = rs.getInt("seq");
-                    System.out.println("ocrId = " + ocrId);
+//                    System.out.println("ocrId = " + ocrId);
                 }
                 rs.close();
                 stmt.close();
