@@ -195,8 +195,8 @@ public class AddClassesController {
     protected void saveClass_Click(ActionEvent event){
         if(!classDataAdapter.containsClass(currentClass)) {
             classDataAdapter.addClass(currentClass);
+            comboClassesList.getSelectionModel().select(currentClass);
         }
-        //Save classes
     }
 
     @FXML

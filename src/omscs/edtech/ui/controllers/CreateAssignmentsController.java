@@ -71,9 +71,6 @@ public class CreateAssignmentsController {
             }
         });
         ControllerConstants.selectFirstComboItem(comboAssignments);
-
-        //Have a currentAssignment set from the beginning.
-        newAssignment_Click(null);
     }
 
     @FXML
@@ -94,6 +91,7 @@ public class CreateAssignmentsController {
 
             if(!assignmentDataAdapter.containsAssignment(currentAssignment)){
                 assignmentDataAdapter.addAssignment(currentAssignment);
+                comboAssignments.getSelectionModel().select(currentAssignment);
             }
         }
 
