@@ -31,7 +31,6 @@
         <property name="hbm2ddl.auto">update</property>
 
         <mapping class="omscs.edtech.db.model.Grade" />
-        <mapping class="omscs.edtech.db.model.GradeSet" />
         <mapping class="omscs.edtech.db.model.Class" />
         <mapping class="omscs.edtech.db.model.Assignment" />
         <mapping class="omscs.edtech.db.model.Rubric" />

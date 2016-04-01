@@ -1,28 +1,26 @@
 package omscs.edtech.db.model;
 
-import javax.persistence.*;
 import java.util.List;
-import java.util.UUID;
 
-@Entity
-@Table(name = "Assignments")
+//@Entity
+//@Table(name = "Assignments")
 public class Assignment {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    //@Id @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
     private String name;
-    @OneToMany
+    //@OneToMany
     private List<Class> assignedClasses;
     private int maxPoints;
     private boolean useRubric;
     private String description;
-    @OneToMany
+    //@OneToMany
     private List<Rubric> rubrics;
 
-    public UUID getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(int id) {
         this.id = id;
     }
 

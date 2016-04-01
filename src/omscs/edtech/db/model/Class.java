@@ -1,23 +1,22 @@
 package omscs.edtech.db.model;
 
-import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
-@Entity
-@Table(name = "Classes")
+//@Entity
+//@Table(name = "Classes")
 public class Class {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    //@Id @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
     private String name;
     private int period;
     private int year;
     private boolean active;
     private Date startDate;
     private Date endDate;
-    @OneToMany
+    //@OneToMany
     private List<Student> students;
+    private List<Assignment> assignments;
 
     public List<Student> getStudents() {
         return students;
@@ -27,11 +26,19 @@ public class Class {
         this.students = students;
     }
 
-    public UUID getId() {
+    public List<Assignment> getAssignments() {
+        return assignments;
+    }
+
+    public void setAssignments(List<Assignment> assignments) {
+        this.assignments = assignments;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(int id) {
         this.id = id;
     }
 

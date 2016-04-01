@@ -3,24 +3,20 @@ package omscs.edtech.db.model;
 import javax.persistence.*;
 import java.util.UUID;
 
-@Entity
-@Table(name = "Grades")
+//@Entity
+//@Table(name = "Grades")
 public class Grade {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    //@Id @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
     private int score;
     private boolean isMissing;
     private String feedback;
-    @OneToOne
-    private Student student;
-    @OneToOne
-    private GradeSet gradeSet;
 
-    public UUID getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -40,27 +36,11 @@ public class Grade {
         isMissing = missing;
     }
 
-    public Student getStudent() {
-        return student;
-    }
-
-    public void setStudent(Student student) {
-        this.student = student;
-    }
-
     public String getFeedback() {
         return feedback;
     }
 
     public void setFeedback(String feedback) {
         this.feedback = feedback;
-    }
-
-    public GradeSet getGradeSet() {
-        return gradeSet;
-    }
-
-    public void setGradeSet(GradeSet gradeSet) {
-        this.gradeSet = gradeSet;
     }
 }

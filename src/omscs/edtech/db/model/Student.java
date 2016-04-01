@@ -1,32 +1,19 @@
 package omscs.edtech.db.model;
 
-import javax.persistence.*;
-import java.util.UUID;
-
-@Entity
-@Table(name = "Students")
+//@Entity
+//@Table(name = "Students")
 public class Student {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    //@Id @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
     private String firstName;
     private String lastName;
     private String eMailAddress;
-    @OneToOne
-    private Class assignedClass;
 
-    public Class getAssignedClass() {
-        return assignedClass;
-    }
-
-    public void setAssignedClass(Class assignedClass) {
-        this.assignedClass = assignedClass;
-    }
-
-    public UUID getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(int id) {
         this.id = id;
     }
 
