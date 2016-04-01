@@ -1,5 +1,7 @@
 package omscs.edtech.db.model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 //@Entity
@@ -15,6 +17,14 @@ public class Assignment {
     private String description;
     //@OneToMany
     private List<Rubric> rubrics;
+
+    public Assignment(ResultSet rs) throws SQLException{
+        id = rs.getInt("assignmentId");
+        name = rs.getString("name");
+        maxPoints = rs.getInt("maxPoints");
+        description = rs.getString("description");
+        useRubric = Boolean.parseBoolean(rs.getString("useRubric"));
+    }
 
     public int getId() {
         return id;

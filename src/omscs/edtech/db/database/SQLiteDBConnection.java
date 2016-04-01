@@ -1,5 +1,6 @@
-package omscs.edtech.db;
+package omscs.edtech.db.database;
 
+import java.io.File;
 import java.sql.*;
 
 /**
@@ -7,12 +8,12 @@ import java.sql.*;
  */
 public class SQLiteDBConnection {
 
-    public Connection getConnection() throws Exception {
+    public static Connection getConnection() throws Exception {
         Connection c = null;
         Class.forName("org.sqlite.JDBC");
-        //c = DriverManager.getConnection("jdbc:sqlite:C:\\sqlite\\data\\TPDatabase.sqlite3");
-         c = DriverManager.getConnection("jdbc:sqlite:\\GitHub\\cs6460project\\src\\omscs\\edtech\\db\\database\\TPDatabase.sqlite3");
-         c.setAutoCommit(false);
+        String pathToSQLite = new File("src/omscs/edtech/db/database/TPDatabase.sqlite3").getAbsolutePath();
+        c = DriverManager.getConnection("jdbc:sqlite:" + pathToSQLite);
+        c.setAutoCommit(false);
 /*
         if (this.dbms.equals("mysql")) {
             c = DriverManager.getConnection("jdbc:" + this.dbms + "://" +

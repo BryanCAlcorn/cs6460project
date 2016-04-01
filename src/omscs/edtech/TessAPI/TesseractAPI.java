@@ -9,7 +9,7 @@ import java.sql.Statement;
 
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
-import omscs.edtech.db.SQLiteDBConnection;
+import omscs.edtech.db.database.SQLiteDBConnection;
 
 /**
  *  @author jle

@@ -1,7 +1,7 @@
 package omscs.edtech.db.model;
 
-import javax.persistence.*;
-import java.util.UUID;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 //@Entity
 //@Table(name = "Grades")
@@ -11,6 +11,13 @@ public class Grade {
     private int score;
     private boolean isMissing;
     private String feedback;
+
+    public Grade(ResultSet rs) throws SQLException{
+        id = rs.getInt("gradetId");
+        score = rs.getInt("score");
+        isMissing = Boolean.parseBoolean(rs.getString("isMissing"));
+        feedback = rs.getString("feedback");
+    }
 
     public int getId() {
         return id;

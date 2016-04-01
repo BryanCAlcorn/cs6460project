@@ -1,5 +1,7 @@
 package omscs.edtech.db.model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
@@ -17,6 +19,14 @@ public class Class {
     //@OneToMany
     private List<Student> students;
     private List<Assignment> assignments;
+
+    public Class(ResultSet rs) throws SQLException{
+        id = rs.getInt("classId");
+        name = rs.getString("name");
+        period = rs.getInt("period");
+        year = rs.getInt("year");
+        active = Boolean.parseBoolean(rs.getString("active"));
+    }
 
     public List<Student> getStudents() {
         return students;

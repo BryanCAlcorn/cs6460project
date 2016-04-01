@@ -1,5 +1,8 @@
 package omscs.edtech.db.model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 //@Entity
 //@Table(name = "Students")
 public class Student {
@@ -8,6 +11,13 @@ public class Student {
     private String firstName;
     private String lastName;
     private String eMailAddress;
+
+    public Student(ResultSet rs) throws SQLException{
+        id = rs.getInt("studentId");
+        firstName = rs.getString("firstName");
+        lastName = rs.getString("lastName");
+        eMailAddress = rs.getString("eMailAddress");
+    }
 
     public int getId() {
         return id;

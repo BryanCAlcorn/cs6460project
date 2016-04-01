@@ -1,6 +1,7 @@
-package omscs.edtech.db;
+package omscs.edtech.db.interfaces;
 
 import java.sql.*;
+import omscs.edtech.db.database.SQLiteDBConnection;
 
 /**
  * Created by jle on 3/22/2016.
@@ -13,8 +14,7 @@ public class SQLiteStudentsTest
         Connection c = null;
         Statement stmt = null;
         try {
-            SQLiteDBConnection Connect = new SQLiteDBConnection();
-            c = Connect.getConnection();
+            c = SQLiteDBConnection.getConnection();
 
             if (c != null) {
                 System.out.println("Connected to the database");
