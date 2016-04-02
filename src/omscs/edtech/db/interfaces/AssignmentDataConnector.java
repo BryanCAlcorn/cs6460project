@@ -12,7 +12,9 @@ public class AssignmentDataConnector {
 
     public static List<Assignment> getAssignmentsByClass(int classId){
         return SQLiteDBConnection.selectList(
-                "SELECT * FROM Assignments LEFT JOIN AssignmentClasses ON AssignmentClasses.classId = " + classId,
+                "SELECT * FROM Assignments LEFT JOIN AssignmentClasses " +
+                        "ON Assignments.studentId = AssignmentClasses.StudentId " +
+                        "WHERE AssignmentClasses.classId = " + classId,
                 new AssignmentObjectFactory());
     }
 

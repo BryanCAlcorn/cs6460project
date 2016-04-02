@@ -13,7 +13,9 @@ public class StudentDataConnector
 
     public static List<Student> getStudentsByClass(int classId){
         return SQLiteDBConnection.selectList(
-                "SELECT * FROM Students LEFT JOIN StudentClasses ON StudentClasses.classId = "+ classId,
+                "SELECT * FROM Students LEFT JOIN StudentClasses " +
+                        "ON Students.studentId = StudentClasses.studentId " +
+                        "WHERE StudentClasses.classId = "+ classId,
                 new StudentObjectFactory());
     }
 
