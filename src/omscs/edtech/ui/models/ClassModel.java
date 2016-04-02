@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 
 public class ClassModel {
 
+    private int id;
     private StringProperty className;
     private IntegerProperty classPeriod;
     private IntegerProperty classYear;
@@ -18,6 +19,14 @@ public class ClassModel {
         classYear = new SimpleIntegerProperty();
         active = new SimpleBooleanProperty();
         students = FXCollections.observableArrayList();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public ObservableList<StudentModel> studentsProperty(){

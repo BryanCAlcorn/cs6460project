@@ -69,6 +69,7 @@ public class ClassDataAdapter {
         ClassModel classModel = new ClassModel();
 
         if(aClass != null) {
+            classModel.setId(aClass.getId());
             classModel.setClassName(aClass.getName());
             classModel.setClassPeriod(aClass.getPeriod());
             classModel.setClassYear(aClass.getYear());
@@ -84,8 +85,12 @@ public class ClassDataAdapter {
     }
 
     private StudentModel fromStudent(Student student){
-        return new StudentModel(
+        StudentModel studentModel = new StudentModel(
                 student.getFirstName() + " " + student.getLastName(),
                 student.geteMailAddress());
+
+        studentModel.setId(student.getId());
+
+        return studentModel;
     }
 }

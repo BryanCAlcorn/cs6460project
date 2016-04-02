@@ -11,6 +11,10 @@ import java.util.List;
 public class StudentDataConnector
 {
 
+    public static int getMaxId(){
+        return SQLiteDBConnection.selectHighestId("Students", "studentId");
+    }
+
     public static List<Student> getStudentsByClass(int classId){
         return SQLiteDBConnection.selectList(
                 "SELECT * FROM Students LEFT JOIN StudentClasses " +

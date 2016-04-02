@@ -13,20 +13,28 @@ import java.util.List;
 
 public class ClassDataConnector {
 
+    public static int getMaxId(){
+        return SQLiteDBConnection.selectHighestId("Classes", "classId");
+    }
+
     public static List<Class> getActiveClasses(){
-        return SQLiteDBConnection.selectList("SELECT * FROM Classes WHERE active LIKE \"true\"",
+        return SQLiteDBConnection.selectList(
+                "SELECT * FROM Classes WHERE active LIKE \"true\"",
                 new ClassObjectFactory());
     }
 
     public static Class getEmptyClass(int classId){
-        Class singleClass = SQLiteDBConnection.selectSingle("SELECT * FROM Classes WHERE classId = " + classId,
+        Class singleClass = SQLiteDBConnection.selectSingle(
+                "SELECT * FROM Classes WHERE classId = " + classId,
                 new ClassObjectFactory());
 
         return singleClass;
     }
 
     public static Class getPopulatedClass(int classId){
-        Class singleClass = SQLiteDBConnection.selectSingle("SELECT * FROM Classes WHERE classId = " + classId,
+        Class singleClass = SQLiteDBConnection.selectSingle(
+                "SELECT * FROM Classes " +
+                "WHERE active LIKE \"true\" AND classId = " + classId,
                 new ClassObjectFactory());
 
         List<Student> students = StudentDataConnector.getStudentsByClass(classId);

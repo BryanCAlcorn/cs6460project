@@ -28,6 +28,17 @@ public class SQLiteDBConnection {
         return c;
     }
 
+    public static int selectHighestId(String table, String idCol){
+        try{
+            Connection connection = SQLiteDBConnection.getConnection();
+            Statement connectionStatement = connection.createStatement();
+            ResultSet resultSet = connectionStatement.executeQuery("SELECT MAX("+idCol+") FROM " + table);
+            return resultSet.getInt(0);
+        }catch (Exception ex){
+            return -1;
+        }
+    }
+
     public static <T> List<T> selectList(String query, DBObjectFactory<T> factory){
         try {
             Connection connection = SQLiteDBConnection.getConnection();

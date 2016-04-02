@@ -10,6 +10,10 @@ import java.util.List;
 
 public class AssignmentDataConnector {
 
+    public static int getMaxId(){
+        return SQLiteDBConnection.selectHighestId("Assignments", "assignmentId");
+    }
+
     public static List<Assignment> getAssignmentsByClass(int classId){
         return SQLiteDBConnection.selectList(
                 "SELECT * FROM Assignments LEFT JOIN AssignmentClasses " +
