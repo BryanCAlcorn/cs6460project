@@ -10,6 +10,7 @@ import java.util.Map;
 public class Student {
     //@Id @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    private int classId;
     private String firstName;
     private String lastName;
     private String eMailAddress;
@@ -25,6 +26,14 @@ public class Student {
 
     public int getId() {
         return id;
+    }
+
+    public int getClassId() {
+        return classId;
+    }
+
+    public void setClassId(int classId) {
+        this.classId = classId;
     }
 
     public String getFirstName() {

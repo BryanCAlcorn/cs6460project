@@ -1,5 +1,7 @@
 package omscs.edtech.db.database;
 
+import org.sqlite.SQLite;
+
 import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
@@ -36,6 +38,17 @@ public class SQLiteDBConnection {
             return resultSet.getInt(0);
         }catch (Exception ex){
             return -1;
+        }
+    }
+
+    public static boolean executeSQL(String query){
+        try
+        {
+            Connection connection = SQLiteDBConnection.getConnection();
+            Statement connectionStatement = connection.createStatement();
+            return connectionStatement.execute(query);
+        }catch (Exception ex){
+            return false;
         }
     }
 

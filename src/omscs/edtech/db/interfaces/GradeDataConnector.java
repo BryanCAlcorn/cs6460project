@@ -10,7 +10,7 @@ import java.util.List;
 
 public class GradeDataConnector {
 
-    public static int getMaxId(){
+    private static int getMaxId(){
         return SQLiteDBConnection.selectHighestId("Grades", "gradetId");
     }
 

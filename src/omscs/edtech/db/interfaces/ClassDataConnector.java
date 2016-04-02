@@ -13,7 +13,7 @@ import java.util.List;
 
 public class ClassDataConnector {
 
-    public static int getMaxId(){
+    private static int getMaxId(){
         return SQLiteDBConnection.selectHighestId("Classes", "classId");
     }
 

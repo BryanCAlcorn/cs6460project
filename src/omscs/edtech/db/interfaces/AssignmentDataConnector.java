@@ -10,7 +10,7 @@ import java.util.List;
 
 public class AssignmentDataConnector {
 
-    public static int getMaxId(){
+    private static int getMaxId(){
         return SQLiteDBConnection.selectHighestId("Assignments", "assignmentId");
     }
 
