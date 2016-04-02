@@ -2,6 +2,7 @@ package omscs.edtech.db.model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,6 +27,8 @@ public class Class {
         period = rs.getInt("period");
         year = rs.getInt("year");
         active = Boolean.parseBoolean(rs.getString("active"));
+        students = new ArrayList<>();
+        assignments = new ArrayList<>();
     }
 
     public List<Student> getStudents() {
@@ -46,10 +49,6 @@ public class Class {
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {

@@ -8,12 +8,14 @@ import java.sql.SQLException;
 public class Grade {
     //@Id @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    private int studentId;
     private int score;
     private boolean isMissing;
     private String feedback;
 
     public Grade(ResultSet rs) throws SQLException{
         id = rs.getInt("gradetId");
+        studentId = rs.getInt("studentId");
         score = rs.getInt("score");
         isMissing = Boolean.parseBoolean(rs.getString("isMissing"));
         feedback = rs.getString("feedback");
@@ -23,8 +25,8 @@ public class Grade {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public int getStudentId() {
+        return studentId;
     }
 
     public int getScore() {

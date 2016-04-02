@@ -2,6 +2,7 @@ package omscs.edtech.db.model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 //@Entity
@@ -10,8 +11,6 @@ public class Assignment {
     //@Id @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String name;
-    //@OneToMany
-    private List<Class> assignedClasses;
     private int maxPoints;
     private boolean useRubric;
     private String description;
@@ -30,24 +29,12 @@ public class Assignment {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public List<Class> getAssignedClasses() {
-        return assignedClasses;
-    }
-
-    public void setAssignedClasses(List<Class> assignedClasses) {
-        this.assignedClasses = assignedClasses;
     }
 
     public int getMaxPoints() {
@@ -81,4 +68,5 @@ public class Assignment {
     public void setRubrics(List<Rubric> rubrics) {
         this.rubrics = rubrics;
     }
+
 }
