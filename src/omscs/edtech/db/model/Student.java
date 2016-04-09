@@ -1,39 +1,40 @@
 package omscs.edtech.db.model;
 
+import com.j256.ormlite.dao.ForeignCollection;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
+import com.j256.ormlite.table.DatabaseTable;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-//@Entity
-//@Table(name = "Students")
+@DatabaseTable(tableName = "Students")
 public class Student {
-    //@Id @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
-    private int classId;
+    @DatabaseField(generatedId = true, columnName = "studentId")
+    private Integer id;
+    @DatabaseField
     private String firstName;
+    @DatabaseField
     private String lastName;
+    @DatabaseField
     private String eMailAddress;
-    private Map<Integer,Grade> grades;
+    @DatabaseField(canBeNull = false, foreign = true)
+    private Class dbClass;
+    @ForeignCollectionField
+    private ForeignCollection<Grade> grades;
 
-    public Student(ResultSet rs) throws SQLException{
-        id = rs.getInt("studentId");
-        firstName = rs.getString("firstName");
-        lastName = rs.getString("lastName");
-        eMailAddress = rs.getString("eMailAddress");
-        grades = new HashMap<>();
+    public Student(Integer studentId){
+        this.id = studentId;
+    }
+
+    public Student(){
+
     }
 
     public int getId() {
         return id;
-    }
-
-    public int getClassId() {
-        return classId;
-    }
-
-    public void setClassId(int classId) {
-        this.classId = classId;
     }
 
     public String getFirstName() {
@@ -60,11 +61,27 @@ public class Student {
         this.eMailAddress = eMailAddress;
     }
 
-    public Grade getGrade(int assignmentId){
-        return grades.get(assignmentId);
+    public ForeignCollection<Grade> getGrades() {
+        return grades;
     }
 
-    public void addGrade(int assignmentId, Grade grade){
-        grades.put(assignmentId, grade);
+    public void setGrades(ForeignCollection<Grade> grades) {
+        this.grades = grades;
     }
+
+    public Class getDbClass() {
+        return dbClass;
+    }
+
+    public void setDbClass(Class dbClass) {
+        this.dbClass = dbClass;
+    }
+
+    //    public Grade getGrade(int assignmentId){
+//        return grades.get(assignmentId);
+//    }
+//
+//    public void addGrade(int assignmentId, Grade grade){
+//        grades.put(assignmentId, grade);
+//    }
 }

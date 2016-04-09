@@ -10,22 +10,22 @@ import java.util.List;
 
 public class AssignmentDataConnector {
 
-    private static int getMaxId(){
-        return SQLiteDBConnection.selectHighestId("Assignments", "assignmentId");
-    }
-
-    public static List<Assignment> getAssignmentsByClass(int classId){
-        return SQLiteDBConnection.selectList(
-                "SELECT * FROM Assignments LEFT JOIN AssignmentClasses " +
-                        "ON Assignments.studentId = AssignmentClasses.StudentId " +
-                        "WHERE AssignmentClasses.classId = " + classId,
-                new AssignmentObjectFactory());
-    }
-
-    private static class AssignmentObjectFactory implements DBObjectFactory<Assignment>{
-        @Override
-        public Assignment fromDb(ResultSet rs) throws SQLException {
-            return new Assignment(rs);
-        }
-    }
+//    private static int getMaxId(){
+//        return SQLiteDBConnection.selectHighestId("Assignments", "assignmentId");
+//    }
+//
+//    public static List<Assignment> getAssignmentsByClass(int classId){
+//        return SQLiteDBConnection.selectList(
+//                "SELECT * FROM Assignments LEFT JOIN AssignmentClasses " +
+//                        "ON Assignments.studentId = AssignmentClasses.StudentId " +
+//                        "WHERE AssignmentClasses.classId = " + classId,
+//                new AssignmentObjectFactory());
+//    }
+//
+//    private static class AssignmentObjectFactory implements DBObjectFactory<Assignment>{
+//        @Override
+//        public Assignment fromDb(ResultSet rs) throws SQLException {
+//            return new Assignment(rs);
+//        }
+//    }
 }

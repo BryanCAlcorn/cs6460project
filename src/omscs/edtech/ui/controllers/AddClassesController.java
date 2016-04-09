@@ -160,12 +160,12 @@ public class AddClassesController {
     protected void addNewClass_Click(ActionEvent event){
         ClassModel newClass = new ClassModel();
         //Temp for testing:
-        newClass.setClassName("Class 1");
+        newClass.setClassName("Test Class");
         newClass.setClassPeriod(6);
         newClass.setClassYear(2016);
 
-        StudentModel stu1 = new StudentModel("Joe","Joe@gmail.com");
-        StudentModel stu2 = new StudentModel("Jill", "Jill.Doe@school.edu");
+        StudentModel stu1 = new StudentModel("Joe Bob","Joe@gmail.com");
+        StudentModel stu2 = new StudentModel("Jill Bob", "Jill.Doe@school.edu");
 
         newClass.studentsProperty().add(stu1);
         newClass.studentsProperty().add(stu2);
@@ -197,6 +197,7 @@ public class AddClassesController {
             classDataAdapter.addClass(currentClass);
             comboClassesList.getSelectionModel().select(currentClass);
         }
+        classDataAdapter.saveClass(currentClass);
     }
 
     @FXML

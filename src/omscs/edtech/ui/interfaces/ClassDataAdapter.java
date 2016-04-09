@@ -11,40 +11,28 @@ import omscs.edtech.db.model.Student;
 import omscs.edtech.ui.models.ClassModel;
 import omscs.edtech.ui.models.StudentModel;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class ClassDataAdapter {
 
+    private ClassDataConnector classDataConnector;
+    private StudentDataConnector studentDataConnector;
     private ObjectProperty<ObservableList<ClassModel>> classesProperty;
     private ObservableList<ClassModel> allClasses;
 
     public ClassDataAdapter(){
         allClasses = FXCollections.observableArrayList();
-
-        List<Class> classes = ClassDataConnector.getActiveClasses();
+        classDataConnector = new ClassDataConnector();
+        studentDataConnector = new StudentDataConnector();
+        List<Class> classes = classDataConnector.getAllClasses();
         if(classes != null){
             for(Class aClass : classes) {
-                List<Student> students = StudentDataConnector.getStudentsByClass(aClass.getId());
+                Collection<Student> students = aClass.getStudents();
                 allClasses.add(fromClass(aClass, students));
             }
         }
-
-        //Temp data, should be obtained from DB:
-//        ClassModel c1 = new ClassModel();
-//        c1.addStudent(new StudentModel("C1 Jim", "C11@yahoo.com"));
-//        c1.addStudent(new StudentModel("C1 Jon", "C12@yahoo.com"));
-//        c1.setClassName("History");
-//        c1.setClassPeriod(1);
-//        c1.setClassYear(2016);
-//        ClassModel c2 = new ClassModel();
-//        c2.addStudent(new StudentModel("C2 Jimmy", "C21@yahoo.com"));
-//        c2.addStudent(new StudentModel("C2 Jonny", "C22@yahoo.com"));
-//        c2.setClassName("History");
-//        c2.setClassPeriod(2);
-//        c2.setClassYear(2016);
-//
-//        allClasses.add(c1);
-//        allClasses.add(c2);
 
         classesProperty = new SimpleObjectProperty<>(allClasses);
     }
@@ -65,7 +53,23 @@ public class ClassDataAdapter {
         return allClasses.contains(classModel);
     }
 
-    private ClassModel fromClass(Class aClass, List<Student> students){
+    public boolean saveClass(ClassModel classModel){
+        Class dbClass = toClass(classModel);
+
+        boolean success = classDataConnector.saveClass(dbClass);
+
+        List<Student> students = new ArrayList<>();
+        for(StudentModel studentModel : classModel.studentsProperty()){
+            Student student = toStudent(studentModel, dbClass);
+            students.add(student);
+        }
+
+        success &= studentDataConnector.saveStudents(students);
+
+        return success;
+    }
+
+    private ClassModel fromClass(Class aClass, Collection<Student> students){
         ClassModel classModel = new ClassModel();
 
         if(aClass != null) {
@@ -84,6 +88,17 @@ public class ClassDataAdapter {
         return classModel;
     }
 
+    private Class toClass(ClassModel classModel){
+        Class dbClass = new Class(classModel.getId());
+
+        dbClass.setName(classModel.getClassName());
+        dbClass.setActive(classModel.getActive());
+        dbClass.setPeriod(classModel.getClassPeriod());
+        dbClass.setYear(classModel.getClassYear());
+
+        return dbClass;
+    }
+
     private StudentModel fromStudent(Student student){
         StudentModel studentModel = new StudentModel(
                 student.getFirstName() + " " + student.getLastName(),
@@ -93,4 +108,17 @@ public class ClassDataAdapter {
 
         return studentModel;
     }
+
+    private Student toStudent(StudentModel studentModel, Class dbClass ){
+        Student student = new Student(studentModel.getId());
+
+        student.setDbClass(dbClass);
+        String[] name = studentModel.getStudentName().split(" ");
+        student.setFirstName(name[0]);
+        student.setLastName(name[1]);
+        student.seteMailAddress(studentModel.getStudentEmail());
+
+        return student;
+    }
+
 }

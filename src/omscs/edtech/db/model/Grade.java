@@ -1,32 +1,39 @@
 package omscs.edtech.db.model;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-//@Entity
-//@Table(name = "Grades")
+@DatabaseTable(tableName = "Grades")
 public class Grade {
-    //@Id @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
-    private int studentId;
+    @DatabaseField(generatedId = true, columnName = "gradeId")
+    private Integer id;
+    @DatabaseField(canBeNull = false, foreign = true)
+    private Student student;
+    @DatabaseField(canBeNull = false, foreign = true)
+    private Assignment assignment;
+    @DatabaseField
     private int score;
+    @DatabaseField
     private boolean isMissing;
+    @DatabaseField
     private String feedback;
 
-    public Grade(ResultSet rs) throws SQLException{
-        id = rs.getInt("gradetId");
-        studentId = rs.getInt("studentId");
-        score = rs.getInt("score");
-        isMissing = Boolean.parseBoolean(rs.getString("isMissing"));
-        feedback = rs.getString("feedback");
+    public Grade(){
     }
 
     public int getId() {
         return id;
     }
 
-    public int getStudentId() {
-        return studentId;
+    public Student getStudent() {
+        return student;
+    }
+
+    public Assignment getAssignment() {
+        return assignment;
     }
 
     public int getScore() {

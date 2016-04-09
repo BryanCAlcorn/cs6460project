@@ -101,7 +101,7 @@ public class TesseractAPI {
             scanner.close();
 
             //Connect to Database
-            SQLiteDBConnection Connect = new SQLiteDBConnection();
+            SQLiteDBConnection Connect = new SQLiteDBConnection(StringTokenizer.class);
             Connection c = null;
             c = Connect.getConnection();
 

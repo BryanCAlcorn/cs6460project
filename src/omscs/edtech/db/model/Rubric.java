@@ -1,17 +1,17 @@
 package omscs.edtech.db.model;
 
-import javax.persistence.*;
+//import javax.persistence.*;
 import java.util.UUID;
 
-@Entity
-@Table(name = "Rubrics")
+//@Entity
+//@Table(name = "Rubrics")
 public class Rubric {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    //@Id @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     private int pointValue;
     private String key;
     private String description;
-    @OneToOne
+    //@OneToOne
     private Assignment assignment;
 
     public UUID getId() {

@@ -1,53 +1,67 @@
 package omscs.edtech.db.model;
 
+import com.j256.ormlite.dao.ForeignCollection;
+import com.j256.ormlite.dao.LazyForeignCollection;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
+import com.j256.ormlite.table.DatabaseTable;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-//@Entity
-//@Table(name = "Classes")
+@DatabaseTable(tableName = "Classes")
 public class Class {
-    //@Id @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @DatabaseField(generatedId = true, columnName = "classId")
+    private Integer id;
+    @DatabaseField
     private String name;
+    @DatabaseField
     private int period;
+    @DatabaseField
     private int year;
+    @DatabaseField(index = true)
     private boolean active;
+    @DatabaseField
     private Date startDate;
+    @DatabaseField
     private Date endDate;
-    //@OneToMany
-    private List<Student> students;
-    private List<Assignment> assignments;
+    @ForeignCollectionField
+    private ForeignCollection<Student> students;
+    @ForeignCollectionField
+    private ForeignCollection<Assignment> assignments;
 
-    public Class(ResultSet rs) throws SQLException{
-        id = rs.getInt("classId");
-        name = rs.getString("name");
-        period = rs.getInt("period");
-        year = rs.getInt("year");
-        active = Boolean.parseBoolean(rs.getString("active"));
-        students = new ArrayList<>();
-        assignments = new ArrayList<>();
+    public Class(Integer classId){
+        this.id = classId;
     }
 
-    public List<Student> getStudents() {
+    public Class(){
+    }
+
+    public ForeignCollection<Student> getStudents() {
         return students;
     }
 
-    public void setStudents(List<Student> students) {
+    public void setStudents(ForeignCollection<Student> students) {
         this.students = students;
     }
 
-    public List<Assignment> getAssignments() {
+    public void addStudent(Student student){
+        this.students.add(student);
+    }
+
+    public ForeignCollection<Assignment> getAssignments() {
         return assignments;
     }
 
-    public void setAssignments(List<Assignment> assignments) {
+    public void setAssignments(ForeignCollection<Assignment> assignments) {
         this.assignments = assignments;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

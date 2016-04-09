@@ -41,7 +41,6 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="Hibernate 4.2.2-4.2.2" level="project" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
@@ -109,33 +108,6 @@
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/lib/ghost4j-1.0.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/hibernate-commons-annotations-4.0.2.Final.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/hibernate-core-4.2.2.Final.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/hibernate-jpa-2.0-api-1.0.1.Final.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -273,6 +245,24 @@
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/lib/xmlgraphics-commons-1.5.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/ormlite-jdbc-4.49.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/ormlite-core-4.49.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

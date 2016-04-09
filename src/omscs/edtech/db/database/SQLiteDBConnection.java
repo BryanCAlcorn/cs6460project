@@ -1,20 +1,24 @@
 package omscs.edtech.db.database;
 
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.jdbc.JdbcConnectionSource;
+import com.j256.ormlite.support.ConnectionSource;
+import com.j256.ormlite.table.TableUtils;
 import org.sqlite.SQLite;
 
 import java.io.File;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by jle on 3/23/2016.
- */
-public class SQLiteDBConnection {
+public class SQLiteDBConnection<T> {
 
     public static Connection getConnection() throws Exception {
         Connection c = null;
-        Class.forName("org.sqlite.JDBC");
+        //Class.forName("org.sqlite.JDBC");
         String pathToSQLite = new File("src/omscs/edtech/db/database/TPDatabase.sqlite3").getAbsolutePath();
         c = DriverManager.getConnection("jdbc:sqlite:" + pathToSQLite);
         c.setAutoCommit(false);
@@ -28,6 +32,43 @@ public class SQLiteDBConnection {
         }
 */
         return c;
+    }
+
+    ConnectionSource source;
+    Class<T> keyType;
+
+    public SQLiteDBConnection(Class<T> keyType){
+        this.keyType = keyType;
+        try{
+            createConnectionSource();
+            TableUtils.createTableIfNotExists(source, keyType);
+            destroyConnection();
+        }catch (SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    public Dao<T, Integer> getDao(){
+        try {
+            createConnectionSource();
+            return DaoManager.createDao(source, keyType);
+        }catch (SQLException ex){
+            System.out.println(ex.getMessage());
+            return null;
+        }
+    }
+
+    private void createConnectionSource() throws SQLException{
+        String pathToSQLite = new File("src/omscs/edtech/db/database/TPDatabase.sqlite3").getAbsolutePath();
+        source = new JdbcConnectionSource("jdbc:sqlite:" + pathToSQLite);
+    }
+
+    public void destroyConnection(){
+        try {
+            source.close();
+        }catch(IOException ex){
+            System.out.println(ex.getMessage());
+        }
     }
 
     public static int selectHighestId(String table, String idCol){

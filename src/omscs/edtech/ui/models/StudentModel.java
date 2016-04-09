@@ -4,7 +4,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class StudentModel {
-    private int id;
+    private Integer id;
     private StringProperty studentName;
     private StringProperty studentEmail;
 
@@ -13,11 +13,11 @@ public class StudentModel {
         studentEmail = new SimpleStringProperty(eMail);
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

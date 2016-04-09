@@ -1,31 +1,38 @@
 package omscs.edtech.db.model;
 
+import com.j256.ormlite.dao.ForeignCollection;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
+import com.j256.ormlite.table.DatabaseTable;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-//@Entity
-//@Table(name = "Assignments")
+@DatabaseTable(tableName = "Assignments")
 public class Assignment {
-    //@Id @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @DatabaseField(generatedId = true, columnName = "assignmentId")
+    private Integer id;
+    @DatabaseField
     private String name;
+    @DatabaseField
     private int maxPoints;
+    @DatabaseField
     private boolean useRubric;
+    @DatabaseField
     private String description;
-    //@OneToMany
+    @DatabaseField(canBeNull = false, foreign = true)
+    private Class dbClass;
+    @ForeignCollectionField
+    private ForeignCollection<Grade> grades;
+
     private List<Rubric> rubrics;
 
-    public Assignment(ResultSet rs) throws SQLException{
-        id = rs.getInt("assignmentId");
-        name = rs.getString("name");
-        maxPoints = rs.getInt("maxPoints");
-        description = rs.getString("description");
-        useRubric = Boolean.parseBoolean(rs.getString("useRubric"));
+    public Assignment(){
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

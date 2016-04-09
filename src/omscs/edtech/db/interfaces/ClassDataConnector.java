@@ -1,11 +1,14 @@
 package omscs.edtech.db.interfaces;
 
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.LazyForeignCollection;
+import com.j256.ormlite.field.FieldType;
 import omscs.edtech.db.database.DBObjectFactory;
 import omscs.edtech.db.database.SQLiteDBConnection;
 import omscs.edtech.db.model.Assignment;
 import omscs.edtech.db.model.Class;
 import omscs.edtech.db.model.Student;
-import org.omg.PortableServer.LIFESPAN_POLICY_ID;
+import omscs.edtech.ui.controls.IntegerField;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,58 +16,61 @@ import java.util.List;
 
 public class ClassDataConnector {
 
-    private static int getMaxId(){
-        return SQLiteDBConnection.selectHighestId("Classes", "classId");
+    private SQLiteDBConnection connection;
+    private Dao<Class, Integer> classDao;
+
+    public ClassDataConnector(){
+        connection = new SQLiteDBConnection(Class.class);
     }
 
-    public static List<Class> getActiveClasses(){
-        return SQLiteDBConnection.selectList(
-                "SELECT * FROM Classes WHERE active LIKE \"true\"",
-                new ClassObjectFactory());
+    public Class getClassById(int id){
+        try {
+            classDao = connection.getDao();
+            Class dbClass = classDao.queryForId(id);
+            connection.destroyConnection();
+            return dbClass;
+        }catch (SQLException ex){
+            System.out.println(ex.getMessage());
+            return null;
+        }
     }
 
-    public static Class getEmptyClass(int classId){
-        Class singleClass = SQLiteDBConnection.selectSingle(
-                "SELECT * FROM Classes WHERE classId = " + classId,
-                new ClassObjectFactory());
-
-        return singleClass;
+    public List<Class> getActiveClasses(){
+        try {
+            classDao = connection.getDao();
+            List<Class> classes = classDao.queryForEq("active", true);
+            connection.destroyConnection();
+            return classes;
+        }catch (SQLException ex){
+            System.out.println(ex.getMessage());
+            return null;
+        }
     }
 
-    public static Class getPopulatedClass(int classId){
-        Class singleClass = SQLiteDBConnection.selectSingle(
-                "SELECT * FROM Classes " +
-                "WHERE active LIKE \"true\" AND classId = " + classId,
-                new ClassObjectFactory());
-
-        List<Student> students = StudentDataConnector.getStudentsByClass(classId);
-        if(students != null) {
-            singleClass.setStudents(students);
+    public List<Class> getAllClasses(){
+        try {
+            classDao = connection.getDao();
+            List<Class> classes = classDao.queryForAll();
+            connection.destroyConnection();
+            return classes;
+        }catch (SQLException ex){
+            System.out.println(ex.getMessage());
+            return null;
         }
-
-        List<Assignment> assignments = AssignmentDataConnector.getAssignmentsByClass(classId);
-        if(assignments != null){
-            singleClass.setAssignments(assignments);
-        }
-
-        if(singleClass.getAssignments() != null && singleClass.getStudents() != null) {
-            for (Assignment assignment : singleClass.getAssignments()) {
-                for (Student student : singleClass.getStudents()) {
-                    //Inefficient... lots of DB calls.
-                    student.addGrade(assignment.getId(),
-                            GradeDataConnector.getGrade(classId, assignment.getId(), student.getId()));
-                }
-            }
-        }
-
-        return singleClass;
     }
 
-    private static class ClassObjectFactory implements DBObjectFactory<Class>{
-        @Override
-        public Class fromDb(ResultSet rs) throws SQLException {
-            return new Class(rs);
+    public boolean saveClass(Class dbClass) {
+        boolean saveSuccessful = true;
+        try {
+            classDao = connection.getDao();
+            Dao.CreateOrUpdateStatus status = classDao.createOrUpdate(dbClass);
+            connection.destroyConnection();
+            saveSuccessful = status.isCreated() || status.isUpdated();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            saveSuccessful = false;
         }
+        return saveSuccessful;
     }
 
 }
