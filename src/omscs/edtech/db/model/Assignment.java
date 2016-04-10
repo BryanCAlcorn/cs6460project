@@ -12,7 +12,10 @@ import java.util.List;
 
 @DatabaseTable(tableName = "Assignments")
 public class Assignment {
-    @DatabaseField(generatedId = true, columnName = "assignmentId")
+
+    public final static String ID_COLUMN = "assignmentId";
+
+    @DatabaseField(generatedId = true, columnName = ID_COLUMN)
     private Integer id;
     @DatabaseField
     private String name;
@@ -22,14 +25,20 @@ public class Assignment {
     private boolean useRubric;
     @DatabaseField
     private String description;
-    @DatabaseField(canBeNull = false, foreign = true)
-    private Class dbClass;
+
+    private List<Class> dbClasses;
     @ForeignCollectionField
     private ForeignCollection<Grade> grades;
 
     private List<Rubric> rubrics;
 
     public Assignment(){
+        dbClasses = new ArrayList<>();
+    }
+
+    public Assignment(Integer assignmentId){
+        id = assignmentId;
+        dbClasses = new ArrayList<>();
     }
 
     public Integer getId() {
@@ -76,4 +85,21 @@ public class Assignment {
         this.rubrics = rubrics;
     }
 
+    public List<Class> getDbClasses() {
+        return dbClasses;
+    }
+
+    public void addDbClass(Class dbClass) {
+        if(dbClass != null) {
+            this.dbClasses.add(dbClass);
+        }
+    }
+
+    public ForeignCollection<Grade> getGrades() {
+        return grades;
+    }
+
+    public void setGrades(ForeignCollection<Grade> grades) {
+        this.grades = grades;
+    }
 }

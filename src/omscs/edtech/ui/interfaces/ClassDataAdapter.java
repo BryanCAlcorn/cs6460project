@@ -77,6 +77,7 @@ public class ClassDataAdapter {
             classModel.setClassName(aClass.getName());
             classModel.setClassPeriod(aClass.getPeriod());
             classModel.setClassYear(aClass.getYear());
+            classModel.setActive(aClass.isActive());
 
             if (students != null) {
                 for (Student student : students) {

@@ -45,6 +45,8 @@ public class SQLiteDBConnection<T> {
             destroyConnection();
         }catch (SQLException ex){
             System.out.println(ex.getMessage());
+        }catch (Exception ex){
+            System.out.println(ex.getMessage());
         }
     }
 

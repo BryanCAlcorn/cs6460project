@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 
 public class AssignmentModel {
 
+    private Integer id;
     private StringProperty name;
     private ObservableList<ClassAssignmentModel> assignedClasses;
     private IntegerProperty maxPoints;
@@ -21,6 +22,14 @@ public class AssignmentModel {
         assignedClasses = FXCollections.observableArrayList();
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public ObservableList<ClassAssignmentModel> getAssignedClasses(){
         return assignedClasses;
     }
@@ -30,7 +39,15 @@ public class AssignmentModel {
     }
 
     public void assignToClass(ClassAssignmentModel classAssignmentModel){
-        assignedClasses.add(classAssignmentModel);
+        if(classAssignmentModel != null) {
+            assignedClasses.add(classAssignmentModel);
+        }
+    }
+
+    public void unassignFromClass(ClassAssignmentModel classAssignmentModel){
+        if(classAssignmentModel != null) {
+            assignedClasses.remove(classAssignmentModel);
+        }
     }
 
     public String getName() {

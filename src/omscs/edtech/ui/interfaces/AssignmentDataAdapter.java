@@ -4,51 +4,48 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import omscs.edtech.db.interfaces.AssignmentDataConnector;
+import omscs.edtech.db.interfaces.ClassDataConnector;
+import omscs.edtech.db.model.Assignment;
+import omscs.edtech.db.model.Class;
 import omscs.edtech.ui.models.AssignmentModel;
 import omscs.edtech.ui.models.ClassAssignmentModel;
 
 public class AssignmentDataAdapter {
 
+    AssignmentDataConnector assignmentDataConnector;
+    ClassDataConnector classDataConnector;
     private ObservableList<ClassAssignmentModel> classAssignmentModels;
     private ObservableList<AssignmentModel> assignmentModels;
     ObjectProperty<ObservableList<AssignmentModel>> assignmentsProperty;
 
     public AssignmentDataAdapter(){
+        assignmentDataConnector = new AssignmentDataConnector();
+        classDataConnector = new ClassDataConnector();
         classAssignmentModels = FXCollections.observableArrayList();
-
-        ClassAssignmentModel c1 = new ClassAssignmentModel("History - 1", false);
-        ClassAssignmentModel c2 = new ClassAssignmentModel("Language Arts - 2", false);
-        ClassAssignmentModel c3 = new ClassAssignmentModel("History - 3", false);
-        ClassAssignmentModel c4 = new ClassAssignmentModel("Language Arts - 4", false);
-        ClassAssignmentModel c5 = new ClassAssignmentModel("History - 5", false);
-        ClassAssignmentModel c6 = new ClassAssignmentModel("Language Arts - 6", false);
-
-        classAssignmentModels.add(c1);
-        classAssignmentModels.add(c2);
-        classAssignmentModels.add(c3);
-        classAssignmentModels.add(c4);
-        classAssignmentModels.add(c5);
-        classAssignmentModels.add(c6);
-
-        AssignmentModel a1 = new AssignmentModel();
-        a1.setName("LA Assignment 1");
-        a1.setMaxPoints(100);
-        a1.setDescription("This assignment is worth 100 points");
-        a1.assignToClass(c2);
-        a1.assignToClass(c4);
-        a1.assignToClass(c6);
-
-        AssignmentModel a2 = new AssignmentModel();
-        a2.setName("History Assignment 2");
-        a2.setMaxPoints(50);
-        a2.setDescription("This assignment is worth 50 points");
-        a2.assignToClass(c1);
-        a2.assignToClass(c3);
-        a2.assignToClass(c5);
-
         assignmentModels = FXCollections.observableArrayList();
-        assignmentModels.add(a1);
-        assignmentModels.add(a2);
+
+        for(Class dbClass : classDataConnector.getActiveClasses()){
+            classAssignmentModels.add(fromClass(dbClass));
+        }
+
+        for (Assignment assignment : assignmentDataConnector.getAssignments()){
+            AssignmentModel model = fromAssignment(assignment);
+
+            //Assign classes to assignments:
+            for(Class dbClass : classDataConnector.lookupClassesForAssignment(assignment)){
+                ClassAssignmentModel assignedClass = null;
+                for(ClassAssignmentModel classAssignmentModel : classAssignmentModels){
+                    if(classAssignmentModel.getClassId() == dbClass.getId()){
+                        assignedClass = classAssignmentModel;
+                        break;
+                    }
+                }
+                model.assignToClass(assignedClass);
+            }
+
+            assignmentModels.add(model);
+        }
 
         assignmentsProperty = new SimpleObjectProperty<>(assignmentModels);
     }
@@ -69,7 +66,47 @@ public class AssignmentDataAdapter {
         return assignmentModels.contains(assignmentModel);
     }
 
+    public void
+    saveAssignment(AssignmentModel assignmentModel){
+        Assignment assignment = toAssignment(assignmentModel);
+        assignmentDataConnector.saveAssignmentWithClasses(assignment);
+    }
+
     public void addAssignment(AssignmentModel assignmentModel){
         assignmentModels.add(assignmentModel);
+    }
+
+    private AssignmentModel fromAssignment(Assignment assignment){
+        AssignmentModel model = new AssignmentModel();
+
+        model.setId(assignment.getId());
+        model.setName(assignment.getName());
+        model.setMaxPoints(assignment.getMaxPoints());
+        model.setDescription(assignment.getDescription());
+
+        return model;
+    }
+
+    private ClassAssignmentModel fromClass(Class dbClass){
+        ClassAssignmentModel model = new ClassAssignmentModel(dbClass.getId(), dbClass.toString());
+        return model;
+    }
+
+    private Assignment toAssignment(AssignmentModel assignmentModel){
+        Assignment assignment = new Assignment(assignmentModel.getId());
+
+        assignment.setName(assignmentModel.getName());
+        assignment.setDescription(assignmentModel.getDescription());
+        assignment.setMaxPoints(assignmentModel.getMaxPoints());
+        for(ClassAssignmentModel classAssignmentModel : assignmentModel.getAssignedClasses()){
+            assignment.addDbClass(toClass(classAssignmentModel));
+        }
+
+        return assignment;
+    }
+
+    private Class toClass(ClassAssignmentModel classAssignmentModel){
+        Class dbClass = new Class(classAssignmentModel.getClassId());
+        return dbClass;
     }
 }

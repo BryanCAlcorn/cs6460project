@@ -6,12 +6,18 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class ClassAssignmentModel {
+    private Integer classId;
     private BooleanProperty isAssigned;
     private StringProperty className;
 
-    public ClassAssignmentModel(String name, boolean assigned){
-        isAssigned = new SimpleBooleanProperty(assigned);
+    public ClassAssignmentModel(Integer classId, String name){
+        isAssigned = new SimpleBooleanProperty(false);
         className = new SimpleStringProperty(name);
+        this.classId = classId;
+    }
+
+    public Integer getClassId() {
+        return classId;
     }
 
     public boolean getIsAssigned() {

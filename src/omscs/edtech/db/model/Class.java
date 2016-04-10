@@ -15,7 +15,10 @@ import java.util.List;
 
 @DatabaseTable(tableName = "Classes")
 public class Class {
-    @DatabaseField(generatedId = true, columnName = "classId")
+
+    public final static String ID_COLUMN = "classId";
+
+    @DatabaseField(generatedId = true, columnName = ID_COLUMN)
     private Integer id;
     @DatabaseField
     private String name;
@@ -31,8 +34,8 @@ public class Class {
     private Date endDate;
     @ForeignCollectionField
     private ForeignCollection<Student> students;
-    @ForeignCollectionField
-    private ForeignCollection<Assignment> assignments;
+
+    private List<Assignment> assignments;
 
     public Class(Integer classId){
         this.id = classId;
@@ -53,11 +56,11 @@ public class Class {
         this.students.add(student);
     }
 
-    public ForeignCollection<Assignment> getAssignments() {
+    public List<Assignment> getAssignments() {
         return assignments;
     }
 
-    public void setAssignments(ForeignCollection<Assignment> assignments) {
+    public void setAssignments(List<Assignment> assignments) {
         this.assignments = assignments;
     }
 
@@ -111,5 +114,10 @@ public class Class {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    @Override
+    public String toString(){
+        return  String.format("%s %d - %d", getName(), getPeriod(), getYear());
     }
 }

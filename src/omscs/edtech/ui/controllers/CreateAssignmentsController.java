@@ -86,6 +86,8 @@ public class CreateAssignmentsController {
             for (ClassAssignmentModel listClass : listClasses.getItems()) {
                 if (listClass.getIsAssigned() && !currentAssignment.hasAssignedClass(listClass)) {
                     currentAssignment.assignToClass(listClass);
+                }else if(!listClass.getIsAssigned() && currentAssignment.hasAssignedClass(listClass)){
+                    currentAssignment.unassignFromClass(listClass);
                 }
             }
 
@@ -93,6 +95,8 @@ public class CreateAssignmentsController {
                 assignmentDataAdapter.addAssignment(currentAssignment);
                 comboAssignments.getSelectionModel().select(currentAssignment);
             }
+
+            assignmentDataAdapter.saveAssignment(currentAssignment);
         }
 
     }
