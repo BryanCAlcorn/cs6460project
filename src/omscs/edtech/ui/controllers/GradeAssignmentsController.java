@@ -181,14 +181,14 @@ public class GradeAssignmentsController {
         int itemToSelect = 0;
         if(currentAssignment != null){
             //Unhook events
-            lblAssignmentDescription.textProperty().unbind();
+            lblAssignmentDescription.textProperty().setValue("-----");
             itemToSelect = tblStudentGrades.getSelectionModel().getSelectedIndex();
         }
 
         currentAssignment = assignment;
 
         if(currentAssignment != null) {
-            lblAssignmentDescription.textProperty().bind(currentAssignment.descriptionProperty());
+            lblAssignmentDescription.textProperty().setValue(currentAssignment.toLongString());
             ObservableList<StudentAssignmentModel> studentAssignmentModels = gradeAssignmentsModel.getStudentAssignmentList(currentAssignment);
             tblStudentGrades.setItems(studentAssignmentModels);
             if(!studentAssignmentModels.isEmpty()) {

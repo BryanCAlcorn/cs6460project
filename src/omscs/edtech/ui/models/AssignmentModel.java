@@ -86,6 +86,10 @@ public class AssignmentModel {
         this.description.setValue(description);
     }
 
+    public String toLongString(){
+        return String.format("%s\nMax Points: %d\n%s", getName(), getMaxPoints(), getDescription());
+    }
+
     @Override
     public String toString() {
         return getName();
