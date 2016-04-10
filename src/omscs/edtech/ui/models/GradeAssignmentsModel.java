@@ -15,23 +15,24 @@ public class GradeAssignmentsModel {
     private ObjectProperty<ObservableList<AssignmentModel>> assignmentModelsProperty;
     private Map<AssignmentModel, ObservableList<StudentAssignmentModel>> assignmentStudentMap;
 
-    public GradeAssignmentsModel(ClassModel cm, List<AssignmentModel> assignments){
+    public GradeAssignmentsModel(ClassModel cm, Map<AssignmentModel, ObservableList<StudentAssignmentModel>> assignmentStudentMap){
         classModel = cm;
-        assignmentModels = FXCollections.observableArrayList(assignments);
+        this.assignmentStudentMap = assignmentStudentMap;
+        assignmentModels = FXCollections.observableArrayList(assignmentStudentMap.keySet());
         assignmentModelsProperty = new SimpleObjectProperty<>(assignmentModels);
-        assignmentStudentMap = new HashMap<>();
+//        assignmentStudentMap = new HashMap<>();
 
         //Map assignments to students:
-        for(AssignmentModel assignmentModel : assignments) {
-            ObservableList<StudentAssignmentModel> students = FXCollections.observableArrayList();
-            for (StudentModel studentModel : classModel.studentsProperty()) {
-                StudentAssignmentModel studentAssignmentModel = new StudentAssignmentModel(studentModel, 0);
-                studentAssignmentModel.setAssignmentText("Some assignment text for " + studentModel.getStudentName() + " assignment " + assignmentModel.getName());
-                studentAssignmentModel.setAssignmentFeedback("Some feedback for " + studentModel.getStudentName() + " assignment " + assignmentModel.getName());
-                students.add(studentAssignmentModel);
-            }
-            assignmentStudentMap.put(assignmentModel, students);
-        }
+//        for(AssignmentModel assignmentModel : assignments) {
+//            ObservableList<StudentAssignmentModel> students = FXCollections.observableArrayList();
+//            for (StudentModel studentModel : classModel.studentsProperty()) {
+//                StudentAssignmentModel studentAssignmentModel = new StudentAssignmentModel(studentModel, 0);
+//                studentAssignmentModel.setAssignmentText("Some assignment text for " + studentModel.getStudentName() + " assignment " + assignmentModel.getName());
+//                studentAssignmentModel.setAssignmentFeedback("Some feedback for " + studentModel.getStudentName() + " assignment " + assignmentModel.getName());
+//                students.add(studentAssignmentModel);
+//            }
+//            assignmentStudentMap.put(assignmentModel, students);
+//        }
     }
 
     public ClassModel getClassModel(){

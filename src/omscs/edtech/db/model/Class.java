@@ -34,6 +34,8 @@ public class Class {
     private Date endDate;
     @ForeignCollectionField
     private ForeignCollection<Student> students;
+    @ForeignCollectionField
+    private ForeignCollection<Grade> grades;
 
     private List<Assignment> assignments;
 

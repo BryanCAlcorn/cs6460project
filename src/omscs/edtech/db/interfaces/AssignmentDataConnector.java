@@ -57,13 +57,19 @@ public class AssignmentDataConnector {
                     classAssignmentDao.queryForEq(ClassAssignment.ASSIGNMENT_COLUMN, assignment.getId());
             Map<ClassAssignment, ClassAssignmentStatus> assignmentMap = new HashMap<>();
             for(Class newlyAssignedClass : assignment.getDbClasses()) {
+                //Default all in the current list to Create. If we don't find it in the previously
+                //assigned list, then it will stay as Create.
                 assignmentMap.put(
                         new ClassAssignment(newlyAssignedClass, assignment), ClassAssignmentStatus.Create);
                 for (ClassAssignment previouslyAssignedClass : classAssignments) {
                     if(previouslyAssignedClass.getDbClass().getId() == newlyAssignedClass.getId()){
+                        //If the ID's match, we can skip it, since the status hasn't changed
                         assignmentMap.put(previouslyAssignedClass, ClassAssignmentStatus.Skip);
                     }else if(!assignmentMap.containsKey(previouslyAssignedClass) ||
                             assignmentMap.get(previouslyAssignedClass) != ClassAssignmentStatus.Skip){
+                        //If we haven't skipped it and it's not in the map yet, then it's possibly
+                        //been removed from the list, set it to delete. If we find a match later
+                        //it will be skipped.
                         assignmentMap.put(previouslyAssignedClass, ClassAssignmentStatus.Delete);
                     }
                 }

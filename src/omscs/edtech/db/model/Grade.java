@@ -8,14 +8,21 @@ import java.sql.SQLException;
 
 @DatabaseTable(tableName = "Grades")
 public class Grade {
+
+    public final static String STUDENT_COL = "studentId";
+    public final static String ASSIGNMENT_COL = "assignmentId";
+    public final static String CLASS_COL = "classId";
+
     @DatabaseField(generatedId = true, columnName = "gradeId")
     private Integer id;
-    @DatabaseField(canBeNull = false, foreign = true)
+    @DatabaseField(canBeNull = false, foreign = true, columnName = STUDENT_COL)
     private Student student;
-    @DatabaseField(canBeNull = false, foreign = true)
+    @DatabaseField(canBeNull = false, foreign = true, columnName = CLASS_COL)
+    private Class dbClass;
+    @DatabaseField(canBeNull = false, foreign = true, columnName = ASSIGNMENT_COL)
     private Assignment assignment;
     @DatabaseField
-    private int score;
+    private double score;
     @DatabaseField
     private boolean isMissing;
     @DatabaseField
@@ -36,11 +43,11 @@ public class Grade {
         return assignment;
     }
 
-    public int getScore() {
+    public double getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(double score) {
         this.score = score;
     }
 
