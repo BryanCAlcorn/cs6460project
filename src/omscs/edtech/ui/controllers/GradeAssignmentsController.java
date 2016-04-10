@@ -1,7 +1,5 @@
 package omscs.edtech.ui.controllers;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -14,10 +12,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
-import javafx.stage.Window;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 import omscs.edtech.ui.events.InjectModelEvent;
+import omscs.edtech.ui.interfaces.GradesDataAdapter;
 import omscs.edtech.ui.models.*;
 
 import java.io.File;
@@ -57,9 +55,11 @@ public class GradeAssignmentsController {
     private GradeAssignmentsModel gradeAssignmentsModel;
     private AssignmentModel currentAssignment;
     private StudentAssignmentModel currentStudent;
+    private GradesDataAdapter gradesDataAdapter;
 
     @FXML
     protected void initialize(){
+        gradesDataAdapter = new GradesDataAdapter();
         //Set width and height properties:
         parentBox.widthProperty().addListener(
                 new ChangeListener<Number>() {
@@ -230,7 +230,7 @@ public class GradeAssignmentsController {
 
     @FXML
     protected void btnSaveGrades_Click(ActionEvent event){
-
+         gradesDataAdapter.saveGrades(tblStudentGrades.getItems());
     }
 
     @FXML

@@ -52,6 +52,8 @@ public class GradeAssignmentsDataAdapter {
         return gradeAssignmentsModels;
     }
 
+
+
     private ClassModel fromClass(Class dbClass){
         ClassModel classModel = new ClassModel();
         classModel.setClassName(dbClass.getName());
@@ -82,6 +84,9 @@ public class GradeAssignmentsDataAdapter {
                 new StudentAssignmentModel(fromStudent(grade.getStudent()), grade.getScore());
 
         studentAssignmentModel.setGradeId(grade.getId());
+        studentAssignmentModel.setAssignmentId(grade.getAssignment().getId());
+        studentAssignmentModel.setAssignmentMissing(grade.isMissing());
+        studentAssignmentModel.setClassId(grade.getDbClass().getId());
 
         return studentAssignmentModel;
     }

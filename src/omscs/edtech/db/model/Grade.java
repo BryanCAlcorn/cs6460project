@@ -17,9 +17,9 @@ public class Grade {
     private Integer id;
     @DatabaseField(canBeNull = false, foreign = true, columnName = STUDENT_COL, foreignAutoRefresh = true)
     private Student student;
-    @DatabaseField(canBeNull = false, foreign = true, columnName = CLASS_COL, foreignAutoRefresh = true)
+    @DatabaseField(canBeNull = false, foreign = true, columnName = CLASS_COL)
     private Class dbClass;
-    @DatabaseField(canBeNull = false, foreign = true, columnName = ASSIGNMENT_COL, foreignAutoRefresh = true)
+    @DatabaseField(canBeNull = false, foreign = true, columnName = ASSIGNMENT_COL)
     private Assignment assignment;
     @DatabaseField
     private double score;
@@ -27,6 +27,10 @@ public class Grade {
     private boolean isMissing;
     @DatabaseField
     private String feedback;
+
+    public Grade(Integer id){
+        this.id = id;
+    }
 
     public Grade(){
     }
