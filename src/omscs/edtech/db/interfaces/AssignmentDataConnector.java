@@ -5,8 +5,7 @@ import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.SelectArg;
 import omscs.edtech.db.database.SQLiteDBConnection;
-import omscs.edtech.db.model.Assignment;
-import omscs.edtech.db.model.ClassAssignment;
+import omscs.edtech.db.model.*;
 import omscs.edtech.db.model.Class;
 
 import java.sql.SQLException;
@@ -16,6 +15,8 @@ public class AssignmentDataConnector {
 
     private SQLiteDBConnection assignmentConnection;
     private SQLiteDBConnection classAssignmentConnection;
+    private GradeDataConnector gradeDataConnector;
+    private StudentDataConnector studentDataConnector;
 
     private Dao<Assignment, Integer> assignmentDao;
     private Dao<ClassAssignment, Integer> classAssignmentDao;
@@ -25,6 +26,8 @@ public class AssignmentDataConnector {
     public AssignmentDataConnector(){
         assignmentConnection = new SQLiteDBConnection(Assignment.class);
         classAssignmentConnection = new SQLiteDBConnection(ClassAssignment.class);
+        gradeDataConnector = new GradeDataConnector();
+        studentDataConnector = new StudentDataConnector();
     }
 
     public List<Assignment> getAssignments(){
@@ -57,6 +60,19 @@ public class AssignmentDataConnector {
                     classAssignmentDao.queryForEq(ClassAssignment.ASSIGNMENT_COLUMN, assignment.getId());
             Map<ClassAssignment, ClassAssignmentStatus> assignmentMap = new HashMap<>();
             for(Class newlyAssignedClass : assignment.getDbClasses()) {
+                if(status.isCreated()){
+                    //Create default grades for the students in the class:
+                    for(Student student : studentDataConnector.getStudentsByClass(newlyAssignedClass)){
+                        Grade grade = new Grade();
+                        grade.setAssignment(assignment);
+                        grade.setStudent(student);
+                        grade.setDbClass(newlyAssignedClass);
+                        grade.setMissing(true);
+                        grade.setScore(0);
+                        gradeDataConnector.saveGrade(grade);
+                    }
+                }
+
                 //Default all in the current list to Create. If we don't find it in the previously
                 //assigned list, then it will stay as Create.
                 assignmentMap.put(

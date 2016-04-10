@@ -34,4 +34,16 @@ public class StudentDataConnector
         }
         return success;
     }
+
+    public List<Student> getStudentsByClass(Class dbClass){
+        try {
+            studentDao = connection.getDao();
+            List<Student> classes = studentDao.queryForEq(Student.CLASS_ID, dbClass.getId());
+            connection.destroyConnection();
+            return classes;
+        }catch (SQLException ex){
+            System.out.println(ex.getMessage());
+            return null;
+        }
+    }
 }

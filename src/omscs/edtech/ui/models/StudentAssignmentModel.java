@@ -7,6 +7,7 @@ import javafx.beans.property.StringProperty;
 
 public class StudentAssignmentModel {
 
+    private Integer gradeId;
     private StudentModel studentModel;
     private DoubleProperty studentGrade;
     private StringProperty assignmentText;
@@ -17,6 +18,14 @@ public class StudentAssignmentModel {
         this.studentModel = studentModel;
         assignmentText = new SimpleStringProperty();
         assignmentFeedback = new SimpleStringProperty();
+    }
+
+    public Integer getGradeId() {
+        return gradeId;
+    }
+
+    public void setGradeId(Integer gradeId) {
+        this.gradeId = gradeId;
     }
 
     public Number getStudentGrade() {

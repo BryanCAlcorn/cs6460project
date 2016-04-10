@@ -12,6 +12,9 @@ import java.util.Map;
 
 @DatabaseTable(tableName = "Students")
 public class Student {
+
+    public final static String CLASS_ID = "dbClass_id";
+
     @DatabaseField(generatedId = true, columnName = "studentId")
     private Integer id;
     @DatabaseField
@@ -20,7 +23,7 @@ public class Student {
     private String lastName;
     @DatabaseField
     private String eMailAddress;
-    @DatabaseField(canBeNull = false, foreign = true)
+    @DatabaseField(canBeNull = false, foreign = true, columnName = CLASS_ID)
     private Class dbClass;
     @ForeignCollectionField
     private ForeignCollection<Grade> grades;

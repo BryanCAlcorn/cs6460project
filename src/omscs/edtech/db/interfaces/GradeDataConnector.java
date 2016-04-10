@@ -41,6 +41,20 @@ public class GradeDataConnector {
         }
     }
 
+    public boolean saveGrade(Grade grade){
+        boolean saveSuccessful = true;
+        try {
+            gradesDao = connection.getDao();
+            Dao.CreateOrUpdateStatus status = gradesDao.createOrUpdate(grade);
+            connection.destroyConnection();
+            saveSuccessful = status.isCreated() || status.isUpdated();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            saveSuccessful = false;
+        }
+        return saveSuccessful;
+    }
+
 //    private static int getMaxId(){
 //        return SQLiteDBConnection.selectHighestId("Grades", "gradetId");
 //    }
