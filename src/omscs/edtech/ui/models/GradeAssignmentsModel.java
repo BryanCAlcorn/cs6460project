@@ -26,6 +26,10 @@ public class GradeAssignmentsModel {
         return classModel;
     }
 
+    public Integer getClassId(){
+        return classModel.getId();
+    }
+
     public ObjectProperty<ObservableList<AssignmentModel>> getAssignmentModelsProperty() {
         return assignmentModelsProperty;
     }

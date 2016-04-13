@@ -41,7 +41,7 @@ public class GradesDataAdapter {
 
     public OCRFileModel getAssignmentImage(StudentAssignmentModel studentAssignmentModel){
         OCRFile ocrFile = ocrFileDataConnector.getOCRFile(
-                studentAssignmentModel.getStudentModel().getId(),
+                studentAssignmentModel.getStudentId(),
                 studentAssignmentModel.getClassId(),
                 studentAssignmentModel.getAssignmentId());
 
@@ -49,8 +49,12 @@ public class GradesDataAdapter {
     }
 
     private OCRFileModel fromOCRFile(OCRFile ocrFile){
-        return new OCRFileModel(ocrFile.getStudent().getId(), ocrFile.getParsedText(),
-                TesseractAPI.getImage(ocrFile.getOriginalImage()));
+        OCRFileModel model = null;
+        if(ocrFile != null) {
+            model = new OCRFileModel(ocrFile.getStudent().getId(), ocrFile.getParsedText(),
+                    ocrFile.getOriginalImage());
+        }
+        return model;
     }
 
     private Grade toGrade(StudentAssignmentModel model){

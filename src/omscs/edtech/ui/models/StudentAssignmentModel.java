@@ -49,6 +49,10 @@ public class StudentAssignmentModel {
         return studentModel;
     }
 
+    public Integer getStudentId(){
+        return studentModel.getId();
+    }
+
     public Number getStudentGrade() {
         return studentGrade.getValue();
     }

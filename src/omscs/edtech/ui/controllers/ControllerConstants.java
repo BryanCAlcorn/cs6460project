@@ -15,7 +15,7 @@ public class ControllerConstants {
     public static final String EMAIL_EDITOR_VIEW = "EMail Editor.fxml";
 
     public static void selectFirstComboItem(ComboBox comboBox){
-        if(comboBox.getItems() != null && !comboBox.getItems().isEmpty()){
+        if(comboBox != null && comboBox.getItems() != null && !comboBox.getItems().isEmpty()){
             comboBox.getSelectionModel().select(0);
         }
     }

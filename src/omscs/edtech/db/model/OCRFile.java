@@ -1,5 +1,6 @@
 package omscs.edtech.db.model;
 
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -18,7 +19,7 @@ public class OCRFile {
     private Class dbClass;
     @DatabaseField(canBeNull = false, foreign = true, columnName = ASSIGNMENT_ID)
     private Assignment assignment;
-    @DatabaseField
+    @DatabaseField(dataType = DataType.BYTE_ARRAY)
     private byte[] originalImage;
     @DatabaseField
     private String parsedText;

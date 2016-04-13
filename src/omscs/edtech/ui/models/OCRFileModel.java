@@ -1,24 +1,36 @@
 package omscs.edtech.ui.models;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.scene.image.Image;
 
-import java.awt.*;
+import java.io.ByteArrayInputStream;
 
 public class OCRFileModel {
 
     private Integer studentId;
     private StringProperty fileText;
-    private Image fileImage;
+    private ObjectProperty<Image> imageProperty;
 
-    public OCRFileModel(Integer studentId, String fileText, Image fileImage) {
+    public OCRFileModel(Integer studentId, String fileText, byte[] imageBytes) {
         this.studentId = studentId;
         this.fileText = new SimpleStringProperty(fileText);
-        this.fileImage = fileImage;
+        Image fxImage = new Image(new ByteArrayInputStream(imageBytes));
+        imageProperty = new SimpleObjectProperty<>(fxImage);
     }
 
     public Integer getStudentId() {
         return studentId;
+    }
+
+    public Image getImageProperty() {
+        return imageProperty.getValue();
+    }
+
+    public ObjectProperty<Image> imagePropertyProperty() {
+        return imageProperty;
     }
 
     public String getFileText() {

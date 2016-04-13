@@ -6,12 +6,16 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 import omscs.edtech.ui.events.InjectModelEvent;
@@ -171,7 +175,6 @@ public class GradeAssignmentsController {
                     @Override
                     public void handle(InjectModelEvent injectClassModelEvent) {
                         gradeAssignmentsModel = (GradeAssignmentsModel)injectClassModelEvent.getModelToInject();
-
                         comboAssignments.itemsProperty().bindBidirectional(gradeAssignmentsModel.getAssignmentModelsProperty());
                         ControllerConstants.selectFirstComboItem(comboAssignments);
                     }
@@ -215,8 +218,17 @@ public class GradeAssignmentsController {
 
     private void setCurrentOCRFile(OCRFileModel ocrFile){
 
+        if(currentOCRFile != null){
+            lblAssignmentText.textProperty().setValue("-----");
+            imgAssignmentImage.imageProperty().setValue(null);
+        }
+
         currentOCRFile = ocrFile;
 
+        if(currentOCRFile != null){
+            lblAssignmentText.textProperty().setValue(currentOCRFile.getFileText());
+            imgAssignmentImage.imageProperty().setValue(currentOCRFile.getImageProperty());
+        }
     }
 
     @FXML
@@ -229,12 +241,28 @@ public class GradeAssignmentsController {
         List<File> files = fileChooser.showOpenMultipleDialog(parentBox.getScene().getWindow());
         if(files != null){
             for(File file : files) {
-                OCRFileModel ocrFileModel = gradesDataAdapter.importAssignmentImage(currentStudent.getClassId(), file);
-                if(ocrFileModel.getStudentId() == currentStudent.getStudentModel().getId()){
+                OCRFileModel ocrFileModel = gradesDataAdapter.importAssignmentImage(gradeAssignmentsModel.getClassId(), file);
+                if (currentStudent != null && ocrFileModel.getStudentId() == currentStudent.getStudentId()) {
+                    //Imported for the currently selected student, bind to UI:
                     setCurrentOCRFile(ocrFileModel);
+                }
+                if(ocrFileModel.getStudentId() == null){
+                    //Student was unknown, ask to find:
+                    showPickStudentDialog();
                 }
             }
         }
+    }
+
+    private void showPickStudentDialog(){
+        final Stage dialog = new Stage();
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.initOwner(parentBox.getScene().getWindow());
+        VBox dialogVbox = new VBox(20);
+        dialogVbox.getChildren().add(new Text("This is a Dialog"));
+        Scene dialogScene = new Scene(dialogVbox, 300, 200);
+        dialog.setScene(dialogScene);
+        dialog.show();
     }
 
     @FXML
@@ -244,7 +272,7 @@ public class GradeAssignmentsController {
 
     @FXML
     protected void btnSendAllFeedback_Click(ActionEvent event){
-
+        showPickStudentDialog();
     }
 
     @FXML
