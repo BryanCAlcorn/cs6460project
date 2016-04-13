@@ -25,11 +25,10 @@ public class Assignment {
     private boolean useRubric;
     @DatabaseField
     private String description;
-
-    private List<Class> dbClasses;
     @ForeignCollectionField
     private ForeignCollection<Grade> grades;
 
+    private List<Class> dbClasses;
     private List<Rubric> rubrics;
 
     public Assignment(){

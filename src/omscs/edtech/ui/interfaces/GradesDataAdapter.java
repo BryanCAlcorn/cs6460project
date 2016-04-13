@@ -1,21 +1,25 @@
 package omscs.edtech.ui.interfaces;
 
 
+import omscs.edtech.TessAPI.TesseractAPI;
 import omscs.edtech.db.interfaces.GradeDataConnector;
-import omscs.edtech.db.model.Assignment;
+import omscs.edtech.db.interfaces.OCRFileDataConnector;
+import omscs.edtech.db.model.*;
 import omscs.edtech.db.model.Class;
-import omscs.edtech.db.model.Grade;
-import omscs.edtech.db.model.Student;
+import omscs.edtech.ui.models.OCRFileModel;
 import omscs.edtech.ui.models.StudentAssignmentModel;
 
+import java.io.File;
 import java.util.List;
 
 public class GradesDataAdapter {
 
-    GradeDataConnector gradeDataConnector;
+    private GradeDataConnector gradeDataConnector;
+    private OCRFileDataConnector ocrFileDataConnector;
 
     public GradesDataAdapter(){
         gradeDataConnector = new GradeDataConnector();
+        ocrFileDataConnector = new OCRFileDataConnector();
     }
 
     public void saveGrades(List<StudentAssignmentModel> gradedAssignments){
@@ -24,6 +28,29 @@ public class GradesDataAdapter {
                 gradeDataConnector.saveGrade(toGrade(assignment));
             }
         }
+    }
+
+    private TesseractAPI tesseractAPI;
+    public OCRFileModel importAssignmentImage(Integer classId, File assignmentFile){
+        if(tesseractAPI == null){
+            tesseractAPI = new TesseractAPI();
+        }
+        OCRFile ocrFile = tesseractAPI.ocrRead(classId, assignmentFile);
+        return fromOCRFile(ocrFile);
+    }
+
+    public OCRFileModel getAssignmentImage(StudentAssignmentModel studentAssignmentModel){
+        OCRFile ocrFile = ocrFileDataConnector.getOCRFile(
+                studentAssignmentModel.getStudentModel().getId(),
+                studentAssignmentModel.getClassId(),
+                studentAssignmentModel.getAssignmentId());
+
+        return fromOCRFile(ocrFile);
+    }
+
+    private OCRFileModel fromOCRFile(OCRFile ocrFile){
+        return new OCRFileModel(ocrFile.getStudent().getId(), ocrFile.getParsedText(),
+                TesseractAPI.getImage(ocrFile.getOriginalImage()));
     }
 
     private Grade toGrade(StudentAssignmentModel model){

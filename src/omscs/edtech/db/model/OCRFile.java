@@ -6,12 +6,18 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "OCRFile")
 public class OCRFile {
 
+    public static final String STUDENT_ID = "studentId";
+    public static final String CLASS_ID = "classId";
+    public static final String ASSIGNMENT_ID = "assignmentId";
+
     @DatabaseField(generatedId = true)
     private Integer id;
-    @DatabaseField(canBeNull = false, foreign = true)
+    @DatabaseField(canBeNull = false, foreign = true, columnName = STUDENT_ID)
     private Student student;
-    @DatabaseField(canBeNull = false, foreign = true)
+    @DatabaseField(canBeNull = false, foreign = true, columnName = CLASS_ID)
     private Class dbClass;
+    @DatabaseField(canBeNull = false, foreign = true, columnName = ASSIGNMENT_ID)
+    private Assignment assignment;
     @DatabaseField
     private byte[] originalImage;
     @DatabaseField
@@ -45,6 +51,14 @@ public class OCRFile {
 
     public void setDbClass(Class dbClass) {
         this.dbClass = dbClass;
+    }
+
+    public Assignment getAssignment() {
+        return assignment;
+    }
+
+    public void setAssignment(Assignment assignment) {
+        this.assignment = assignment;
     }
 
     public byte[] getOriginalImage() {

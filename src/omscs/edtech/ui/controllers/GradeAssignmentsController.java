@@ -55,6 +55,7 @@ public class GradeAssignmentsController {
     private GradeAssignmentsModel gradeAssignmentsModel;
     private AssignmentModel currentAssignment;
     private StudentAssignmentModel currentStudent;
+    private OCRFileModel currentOCRFile;
     private GradesDataAdapter gradesDataAdapter;
 
     @FXML
@@ -208,8 +209,14 @@ public class GradeAssignmentsController {
         if(currentStudent != null) {
             txtFeedback.textProperty().bindBidirectional(currentStudent.assignmentFeedbackProperty());
             lblAssignmentText.textProperty().bind(currentStudent.assignmentTextProperty());
-            //Bind image:
+            setCurrentOCRFile(gradesDataAdapter.getAssignmentImage(currentStudent));
         }
+    }
+
+    private void setCurrentOCRFile(OCRFileModel ocrFile){
+
+        currentOCRFile = ocrFile;
+
     }
 
     @FXML
@@ -222,8 +229,10 @@ public class GradeAssignmentsController {
         List<File> files = fileChooser.showOpenMultipleDialog(parentBox.getScene().getWindow());
         if(files != null){
             for(File file : files) {
-                //Send them to the OCR interface
-                //If it accepts a list, don't need to loop.
+                OCRFileModel ocrFileModel = gradesDataAdapter.importAssignmentImage(currentStudent.getClassId(), file);
+                if(ocrFileModel.getStudentId() == currentStudent.getStudentModel().getId()){
+                    setCurrentOCRFile(ocrFileModel);
+                }
             }
         }
     }

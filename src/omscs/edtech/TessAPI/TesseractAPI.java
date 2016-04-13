@@ -31,58 +31,27 @@ public class TesseractAPI {
         //https://www.google.com/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=how%20to%20store%20a%20tiff%20image%20into%20sqlite%20in%20java
         //http://stackoverflow.com/questions/11790104/how-to-storebitmap-image-and-retrieve-image-from-sqlite-database-in-android
 
-        Tesseract instance = new Tesseract();
-
+        Tesseract tesseract = new Tesseract();
         OCRFile ocrFile = null;
 
         try {
+            String parsedText = tesseract.doOCR(imageFile);
+            byte[] image = convertImage(imageFile);
 
-            //START
-            //Call OCR utility to execute Tesseract & read the image
-            //
-            String parsedText = instance.doOCR(imageFile);
-
-            //END
-            //Call OCR utility to execute Tesseract & read the image
-            //
-
-            //START
-            //Parse the OCR image result & check if student name can be located in database.
-            // If student name is readable than set readableName = 'Y' else readableName = 'N'
-            //
-            boolean readableName = false;
             StudentName studentName = findStudentName(parsedText);
-//            System.out.println(FirstName);
-//            System.out.println(LastName);
-
-            //Search database for student name
-            int studentId = 0;
             Student student = studentDataConnector.getStudentByName(classId, studentName.getFirstName(), studentName.getLastName());
-            readableName = student != null && student.getId() > 0;
-
-            //END
-            //Parse the OCR image result & check if student name can be located in database.
-            // If student name is readable than set readableName = 'Y' else readableName = 'N'
-            //
-
-            //START
-            //create an instance of the class to access convertImage method & convert image to byte
-            //before can insert into database
-            //
-            byte[] image = null;
-            //call method below
-            image = convertImage(imageFile);
-
-            //END
+            boolean matchedWithStudent = student != null && student.getId() > 0;
 
             //Insert record and image to database
             int i = 0;
             ocrFile = new OCRFile();
             ocrFile.setDbClass(new Class(classId));
-            ocrFile.setStudent(student);
+            if(matchedWithStudent) {
+                ocrFile.setStudent(student);
+            }
             ocrFile.setOriginalImage(image);
             ocrFile.setParsedText(parsedText);
-            ocrFile.setReadableName(readableName);
+            ocrFile.setReadableName(matchedWithStudent);
 
             ocrFileDataConnector.saveOCRFile(ocrFile);
 
@@ -188,8 +157,8 @@ public class TesseractAPI {
     }
 
     private class StudentName{
-        private String firstName;
-        private String lastName;
+        private final String firstName;
+        private final String lastName;
 
         public StudentName(String firstName, String lastName) {
             this.firstName = firstName;

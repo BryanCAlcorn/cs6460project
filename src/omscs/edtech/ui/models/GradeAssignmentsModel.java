@@ -20,19 +20,6 @@ public class GradeAssignmentsModel {
         this.assignmentStudentMap = assignmentStudentMap;
         assignmentModels = FXCollections.observableArrayList(assignmentStudentMap.keySet());
         assignmentModelsProperty = new SimpleObjectProperty<>(assignmentModels);
-//        assignmentStudentMap = new HashMap<>();
-
-        //Map assignments to students:
-//        for(AssignmentModel assignmentModel : assignments) {
-//            ObservableList<StudentAssignmentModel> students = FXCollections.observableArrayList();
-//            for (StudentModel studentModel : classModel.studentsProperty()) {
-//                StudentAssignmentModel studentAssignmentModel = new StudentAssignmentModel(studentModel, 0);
-//                studentAssignmentModel.setAssignmentText("Some assignment text for " + studentModel.getStudentName() + " assignment " + assignmentModel.getName());
-//                studentAssignmentModel.setAssignmentFeedback("Some feedback for " + studentModel.getStudentName() + " assignment " + assignmentModel.getName());
-//                students.add(studentAssignmentModel);
-//            }
-//            assignmentStudentMap.put(assignmentModel, students);
-//        }
     }
 
     public ClassModel getClassModel(){
