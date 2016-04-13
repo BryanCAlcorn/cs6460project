@@ -1,5 +1,6 @@
 package omscs.edtech.TessAPI;
 
+import java.awt.*;
 import java.io.*;
 import java.util.*;
 
@@ -12,8 +13,8 @@ import omscs.edtech.db.model.OCRFile;
 import omscs.edtech.db.model.Student;
 
 /**
- *  @author jle
- *  This script will return the ocrId after inserting the OCR image into table OCRFile
+ *  @author jle & bryan alcorn
+ *  This script will return the ocr file after inserting the OCR image into table OCRFile
  *
  */
 public class TesseractAPI {
@@ -40,7 +41,6 @@ public class TesseractAPI {
             //Call OCR utility to execute Tesseract & read the image
             //
             String parsedText = instance.doOCR(imageFile);
-            //System.out.println(result);
 
             //END
             //Call OCR utility to execute Tesseract & read the image
@@ -58,11 +58,7 @@ public class TesseractAPI {
             //Search database for student name
             int studentId = 0;
             Student student = studentDataConnector.getStudentByName(classId, studentName.getFirstName(), studentName.getLastName());
-            if (student != null && student.getId() > 0){
-                readableName = true;
-            }else{
-                readableName = false;
-            }
+            readableName = student != null && student.getId() > 0;
 
             //END
             //Parse the OCR image result & check if student name can be located in database.
@@ -75,10 +71,9 @@ public class TesseractAPI {
             //
             byte[] image = null;
             //call method below
-            image = convertImage(imageFile.getPath());
+            image = convertImage(imageFile);
 
             //END
-
 
             //Insert record and image to database
             int i = 0;
@@ -100,25 +95,37 @@ public class TesseractAPI {
         return ocrFile;
     }
 
-    private byte[] convertImage(String ImagePath) throws Exception {
+    public static Image getImage(byte[] imageBytes){
+
+        Image image = null;
+
+        try{
+            image = Toolkit.getDefaultToolkit().createImage(imageBytes);
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        return image;
+    }
+
+    private byte[] convertImage(File image) throws Exception {
         //Convert image to byte and insert to database
-        byte[] InsertImage = null;
-        File image = new File(ImagePath);
-        FileInputStream FileImage = new FileInputStream(image);
-        ByteArrayOutputStream ByteBuffer = new ByteArrayOutputStream();
+        byte[] insertImage = null;
+        FileInputStream fileImage = new FileInputStream(image);
+        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024];
 
         try {
-            for (int readNum; (readNum = FileImage.read(buffer)) != -1;){
-                ByteBuffer.write(buffer, 0, readNum);
+            for (int readNum; (readNum = fileImage.read(buffer)) != -1;){
+                byteBuffer.write(buffer, 0, readNum);
 //                System.out.println("read " + readNum + " bytes,");
             }
         } catch (IOException ex) {
             System.err.println(ex.getMessage());
         }
 
-        InsertImage = ByteBuffer.toByteArray();
-        return InsertImage;
+        insertImage = byteBuffer.toByteArray();
+        return insertImage;
         //return byte[] image
 
         //Read this link for help with retrieving image
