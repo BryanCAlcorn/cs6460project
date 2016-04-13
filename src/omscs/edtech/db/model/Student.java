@@ -14,12 +14,14 @@ import java.util.Map;
 public class Student {
 
     public final static String CLASS_ID = "dbClass_id";
+    public final static String FIRST_NAME = "firstName";
+    public final static String LAST_NAME = "lastName";
 
     @DatabaseField(generatedId = true, columnName = "studentId")
     private Integer id;
-    @DatabaseField
+    @DatabaseField(columnName = FIRST_NAME)
     private String firstName;
-    @DatabaseField
+    @DatabaseField(columnName = LAST_NAME)
     private String lastName;
     @DatabaseField
     private String eMailAddress;

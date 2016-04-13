@@ -16,24 +16,6 @@ import java.util.List;
 
 public class SQLiteDBConnection<T> {
 
-    public static Connection getConnection() throws Exception {
-        Connection c = null;
-        //Class.forName("org.sqlite.JDBC");
-        String pathToSQLite = new File("src/omscs/edtech/db/database/TPDatabase.sqlite3").getAbsolutePath();
-        c = DriverManager.getConnection("jdbc:sqlite:" + pathToSQLite);
-        c.setAutoCommit(false);
-/*
-        if (this.dbms.equals("mysql")) {
-            c = DriverManager.getConnection("jdbc:" + this.dbms + "://" +
-                this.serverName + ":" + this.portNumber + "/", connectionProps);
-        } else if (this.dbms.equals("derby")) {
-            conn = DriverManager.getConnection("jdbc:" + this.dbms + ":" +
-                    this.dbName + ";create=true", connectionProps);
-        }
-*/
-        return c;
-    }
-
     ConnectionSource source;
     Class<T> keyType;
 
@@ -60,9 +42,18 @@ public class SQLiteDBConnection<T> {
         }
     }
 
-    private void createConnectionSource() throws SQLException{
-        String pathToSQLite = new File("src/omscs/edtech/db/database/TPDatabase.sqlite3").getAbsolutePath();
-        source = new JdbcConnectionSource("jdbc:sqlite:" + pathToSQLite);
+    public boolean basicSave(T itemToSave){
+        boolean saveSuccessful = true;
+        try {
+            Dao<T, Integer> dao = this.getDao();
+            Dao.CreateOrUpdateStatus status = dao.createOrUpdate(itemToSave);
+            this.destroyConnection();
+            saveSuccessful = status.isCreated() || status.isUpdated();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            saveSuccessful = false;
+        }
+        return saveSuccessful;
     }
 
     public void destroyConnection(){
@@ -73,57 +64,8 @@ public class SQLiteDBConnection<T> {
         }
     }
 
-    public static int selectHighestId(String table, String idCol){
-        try{
-            Connection connection = SQLiteDBConnection.getConnection();
-            Statement connectionStatement = connection.createStatement();
-            ResultSet resultSet = connectionStatement.executeQuery("SELECT MAX("+idCol+") FROM " + table);
-            return resultSet.getInt(0);
-        }catch (Exception ex){
-            return -1;
-        }
+    private void createConnectionSource() throws SQLException{
+        String pathToSQLite = new File("src/omscs/edtech/db/database/TPDatabase.sqlite3").getAbsolutePath();
+        source = new JdbcConnectionSource("jdbc:sqlite:" + pathToSQLite);
     }
-
-    public static boolean executeSQL(String query){
-        try
-        {
-            Connection connection = SQLiteDBConnection.getConnection();
-            Statement connectionStatement = connection.createStatement();
-            return connectionStatement.execute(query);
-        }catch (Exception ex){
-            return false;
-        }
-    }
-
-    public static <T> List<T> selectList(String query, DBObjectFactory<T> factory){
-        try {
-            Connection connection = SQLiteDBConnection.getConnection();
-            Statement connectionStatement = connection.createStatement();
-            ResultSet resultSet = connectionStatement.executeQuery(query);
-            List<T> dbObjectList = new ArrayList<>();
-            while (resultSet.next()){
-                T dbObject = factory.fromDb(resultSet);
-                dbObjectList.add(dbObject);
-            }
-            return dbObjectList;
-        }catch (Exception ex){
-            return null;
-        }
-    }
-
-    public static <T> T selectSingle(String query, DBObjectFactory<T> factory){
-        try {
-            Connection connection = SQLiteDBConnection.getConnection();
-            Statement connectionStatement = connection.createStatement();
-            ResultSet resultSet = connectionStatement.executeQuery(query);
-            T dbObject = null;
-            while (resultSet.next()){
-                dbObject = factory.fromDb(resultSet);
-            }
-            return dbObject;
-        }catch (Exception ex){
-            return null;
-        }
-    }
-
 }

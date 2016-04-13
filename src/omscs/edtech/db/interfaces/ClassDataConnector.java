@@ -64,17 +64,7 @@ public class ClassDataConnector {
     }
 
     public boolean saveClass(Class dbClass) {
-        boolean saveSuccessful = true;
-        try {
-            classDao = classConnection.getDao();
-            Dao.CreateOrUpdateStatus status = classDao.createOrUpdate(dbClass);
-            classConnection.destroyConnection();
-            saveSuccessful = status.isCreated() || status.isUpdated();
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-            saveSuccessful = false;
-        }
-        return saveSuccessful;
+        return classConnection.basicSave(dbClass);
     }
 
     public List<Class> lookupClassesForAssignment(Assignment assignment){

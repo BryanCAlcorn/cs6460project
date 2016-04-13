@@ -42,43 +42,6 @@ public class GradeDataConnector {
     }
 
     public boolean saveGrade(Grade grade){
-        boolean saveSuccessful = true;
-        try {
-            gradesDao = connection.getDao();
-            Dao.CreateOrUpdateStatus status = gradesDao.createOrUpdate(grade);
-            connection.destroyConnection();
-            saveSuccessful = status.isCreated() || status.isUpdated();
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-            saveSuccessful = false;
-        }
-        return saveSuccessful;
+        return connection.basicSave(grade);
     }
-
-//    private static int getMaxId(){
-//        return SQLiteDBConnection.selectHighestId("Grades", "gradetId");
-//    }
-//
-//    public static List<Grade> getGrades(int classId, int assignmentId){
-//        return SQLiteDBConnection.selectList(
-//                "SELECT * FROM Grades WHERE assignmentId = " + assignmentId +
-//                        " AND classId = " + classId,
-//                new GradeObjectFactory()
-//        );
-//    }
-//
-//    public static Grade getGrade(int classId, int assignmentId, int studentId){
-//        return SQLiteDBConnection.selectSingle(
-//                "SELECT * FROM Grades WHERE assignmentId = " + assignmentId +
-//                        " AND classId = " + classId + " AND studentId = " + studentId,
-//                new GradeObjectFactory()
-//        );
-//    }
-//
-//    private static class GradeObjectFactory implements DBObjectFactory<Grade>{
-//        @Override
-//        public Grade fromDb(ResultSet rs) throws SQLException {
-//            return new Grade(rs);
-//        }
-//    }
 }
