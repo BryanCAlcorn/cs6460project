@@ -4,7 +4,7 @@ package omscs.edtech.ui.interfaces;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
-import omscs.edtech.TessAPI.TesseractAPI;
+import omscs.edtech.ocr.TesseractAPI;
 import omscs.edtech.db.interfaces.GradeDataConnector;
 import omscs.edtech.db.interfaces.OCRFileDataConnector;
 import omscs.edtech.db.model.*;

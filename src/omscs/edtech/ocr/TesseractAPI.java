@@ -1,4 +1,4 @@
-package omscs.edtech.TessAPI;
+package omscs.edtech.ocr;
 
 import java.awt.*;
 import java.io.*;
@@ -11,8 +11,6 @@ import omscs.edtech.db.interfaces.StudentDataConnector;
 import omscs.edtech.db.model.Class;
 import omscs.edtech.db.model.OCRFile;
 import omscs.edtech.db.model.Student;
-
-import javax.imageio.ImageIO;
 
 /**
  *  @author jle & bryan alcorn
