@@ -4,7 +4,6 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.SelectArg;
-import omscs.edtech.db.database.SQLiteDBConnection;
 import omscs.edtech.db.model.*;
 import omscs.edtech.db.model.Class;
 

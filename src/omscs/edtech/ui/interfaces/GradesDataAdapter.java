@@ -4,11 +4,12 @@ package omscs.edtech.ui.interfaces;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
-import omscs.edtech.ocr.TesseractAPI;
 import omscs.edtech.db.interfaces.GradeDataConnector;
 import omscs.edtech.db.interfaces.OCRFileDataConnector;
 import omscs.edtech.db.model.*;
 import omscs.edtech.db.model.Class;
+import omscs.edtech.ocr.OCRAdapter;
+import omscs.edtech.ocr.OCRAdapterFactory;
 import omscs.edtech.ui.models.OCRFileModel;
 import omscs.edtech.ui.models.StudentAssignmentModel;
 
@@ -38,12 +39,12 @@ public class GradesDataAdapter {
         }
     }
 
-    private TesseractAPI tesseractAPI;
+    private OCRAdapter ocrAdapter;
     public OCRFileModel importAssignmentImage(Integer classId, File assignmentFile){
-        if(tesseractAPI == null){
-            tesseractAPI = new TesseractAPI();
+        if(ocrAdapter == null){
+            ocrAdapter = OCRAdapterFactory.getInstance();
         }
-        OCRFile ocrFile = tesseractAPI.ocrRead(classId, assignmentFile);
+        OCRFile ocrFile = ocrAdapter.ocrRead(classId, assignmentFile);
         return fromOCRFile(ocrFile);
     }
 

@@ -1,7 +1,6 @@
 package omscs.edtech.db.interfaces;
 
 import com.j256.ormlite.dao.Dao;
-import omscs.edtech.db.database.SQLiteDBConnection;
 import omscs.edtech.db.model.Class;
 import omscs.edtech.db.model.Student;
 

@@ -1,4 +1,4 @@
-package omscs.edtech.db.database;
+package omscs.edtech.db.interfaces;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
@@ -14,7 +14,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SQLiteDBConnection<T> {
+class SQLiteDBConnection<T> {
 
     ConnectionSource source;
     Class<T> keyType;

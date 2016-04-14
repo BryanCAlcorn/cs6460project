@@ -1,10 +1,11 @@
 package omscs.edtech.ocr;
 
-import java.awt.*;
 import java.io.*;
 import java.util.*;
 
+import net.sourceforge.tess4j.ITesseract;
 import net.sourceforge.tess4j.Tesseract;
+import net.sourceforge.tess4j.Tesseract1;
 import net.sourceforge.tess4j.TesseractException;
 import omscs.edtech.db.interfaces.OCRFileDataConnector;
 import omscs.edtech.db.interfaces.StudentDataConnector;
@@ -17,7 +18,7 @@ import omscs.edtech.db.model.Student;
  *  This script will return the ocr file after inserting the OCR image into table OCRFile
  *
  */
-public class TesseractAPI {
+class TesseractAPI implements OCRAdapter {
 
     private OCRFileDataConnector ocrFileDataConnector;
     private StudentDataConnector studentDataConnector;
@@ -31,7 +32,7 @@ public class TesseractAPI {
         //https://www.google.com/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=how%20to%20store%20a%20tiff%20image%20into%20sqlite%20in%20java
         //http://stackoverflow.com/questions/11790104/how-to-storebitmap-image-and-retrieve-image-from-sqlite-database-in-android
 
-        Tesseract tesseract = new Tesseract();
+        ITesseract tesseract = new Tesseract();
         OCRFile ocrFile = null;
 
         try {
@@ -64,20 +65,7 @@ public class TesseractAPI {
         return ocrFile;
     }
 
-    public static Image getImage(byte[] imageBytes){
-
-        Image image = null;
-
-        try{
-            image = Toolkit.getDefaultToolkit().createImage(imageBytes);
-        }catch(Exception e) {
-            e.printStackTrace();
-        }
-
-        return image;
-    }
-
-    public static byte[] convertImage(File image) throws Exception {
+    private static byte[] convertImage(File image) throws Exception {
         //Convert image to byte and insert to database
         byte[] insertImage = null;
         FileInputStream fileImage = new FileInputStream(image);
