@@ -104,4 +104,9 @@ public class StudentAssignmentModel {
     public void setAssignmentMissing(boolean assignmentMissing) {
         this.assignmentMissing.setValue(assignmentMissing);
     }
+
+    @Override
+    public String toString() {
+        return studentModel.getStudentName();
+    }
 }

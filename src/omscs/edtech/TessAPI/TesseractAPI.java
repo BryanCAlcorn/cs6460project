@@ -12,6 +12,8 @@ import omscs.edtech.db.model.Class;
 import omscs.edtech.db.model.OCRFile;
 import omscs.edtech.db.model.Student;
 
+import javax.imageio.ImageIO;
+
 /**
  *  @author jle & bryan alcorn
  *  This script will return the ocr file after inserting the OCR image into table OCRFile
@@ -77,7 +79,7 @@ public class TesseractAPI {
         return image;
     }
 
-    private byte[] convertImage(File image) throws Exception {
+    public static byte[] convertImage(File image) throws Exception {
         //Convert image to byte and insert to database
         byte[] insertImage = null;
         FileInputStream fileImage = new FileInputStream(image);

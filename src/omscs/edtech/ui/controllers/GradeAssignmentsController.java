@@ -3,13 +3,19 @@ package omscs.edtech.ui.controllers;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -18,11 +24,16 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+import omscs.edtech.TessAPI.TesseractAPI;
 import omscs.edtech.ui.events.InjectModelEvent;
 import omscs.edtech.ui.interfaces.GradesDataAdapter;
 import omscs.edtech.ui.models.*;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 public class GradeAssignmentsController {
@@ -248,21 +259,80 @@ public class GradeAssignmentsController {
                 }
                 if(ocrFileModel.getStudentId() == null){
                     //Student was unknown, ask to find:
-                    showPickStudentDialog();
+                    StudentAssignmentModel studentAssignmentModel = showPickStudentDialog(ocrFileModel);
+                    if(studentAssignmentModel != null){
+                        ocrFileModel.setStudentId(studentAssignmentModel.getStudentId());
+                        gradesDataAdapter.saveOCRFile(ocrFileModel);
+                    }
                 }
             }
         }
     }
 
-    private void showPickStudentDialog(){
+    private StudentAssignmentModel showPickStudentDialog(OCRFileModel ocrFileModel){
         final Stage dialog = new Stage();
         dialog.initModality(Modality.APPLICATION_MODAL);
         dialog.initOwner(parentBox.getScene().getWindow());
+        dialog.setTitle("Match Student and Assignment");
         VBox dialogVbox = new VBox(20);
-        dialogVbox.getChildren().add(new Text("This is a Dialog"));
-        Scene dialogScene = new Scene(dialogVbox, 300, 200);
+
+        dialogVbox.getChildren().add(new Text("We could not match a student with this assignment\n Please select the student:"));
+
+        final ComboBox<StudentAssignmentModel> studentModelComboBox =
+                new ComboBox<>(gradeAssignmentsModel.getStudentAssignmentList(currentAssignment));
+        dialogVbox.getChildren().add(studentModelComboBox);
+
+        if(ocrFileModel != null) {
+            ImageView assignmentImage = new ImageView(ocrFileModel.getImageProperty());
+            assignmentImage.setFitHeight(600);
+            assignmentImage.setFitWidth(800);
+            dialogVbox.getChildren().add(assignmentImage);
+        }
+
+        HBox buttonBox = new HBox();
+        dialogVbox.getChildren().add(buttonBox);
+
+        Button selectButton = new Button("Select");
+        buttonBox.getChildren().add(selectButton);
+        SelectEventHandler eventHandler = new SelectEventHandler(dialog, studentModelComboBox);
+        selectButton.setOnAction(eventHandler);
+
+        Button cancelButton = new Button("Cancel");
+        buttonBox.getChildren().add(cancelButton);
+        cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                dialog.close();
+            }
+        });
+
+        Scene dialogScene = new Scene(dialogVbox, 1000,800);
         dialog.setScene(dialogScene);
-        dialog.show();
+        dialog.showAndWait();
+
+        return eventHandler.getStudentAssignmentModel();
+    }
+
+    private class SelectEventHandler implements EventHandler<ActionEvent>{
+        StudentAssignmentModel studentAssignmentModel;
+        ComboBox<StudentAssignmentModel> studentAssignmentModelComboBox;
+        Stage dialog;
+
+        public SelectEventHandler(Stage stage, ComboBox<StudentAssignmentModel> comboBox){
+            dialog = stage;
+            studentAssignmentModelComboBox = comboBox;
+            studentAssignmentModel = null;
+        }
+
+        @Override
+        public void handle(ActionEvent actionEvent) {
+            studentAssignmentModel = studentAssignmentModelComboBox.getSelectionModel().getSelectedItem();
+            dialog.close();
+        }
+
+        public StudentAssignmentModel getStudentAssignmentModel() {
+            return studentAssignmentModel;
+        }
     }
 
     @FXML
@@ -271,8 +341,8 @@ public class GradeAssignmentsController {
     }
 
     @FXML
-    protected void btnSendAllFeedback_Click(ActionEvent event){
-        showPickStudentDialog();
+    protected void btnSendAllFeedback_Click(ActionEvent event) throws Exception{
+
     }
 
     @FXML

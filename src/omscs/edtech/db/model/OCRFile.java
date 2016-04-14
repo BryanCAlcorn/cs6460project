@@ -42,6 +42,10 @@ public class OCRFile {
         return student;
     }
 
+    public Integer getStudentId(){
+        return student.getId();
+    }
+
     public void setStudent(Student student) {
         this.student = student;
     }
@@ -50,12 +54,20 @@ public class OCRFile {
         return dbClass;
     }
 
+    public Integer getClassId(){
+        return dbClass.getId();
+    }
+
     public void setDbClass(Class dbClass) {
         this.dbClass = dbClass;
     }
 
     public Assignment getAssignment() {
         return assignment;
+    }
+
+    public Integer getAssignmentId(){
+        return assignment.getId();
     }
 
     public void setAssignment(Assignment assignment) {
