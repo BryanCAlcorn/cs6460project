@@ -17,6 +17,7 @@ import java.util.List;
 public class Class {
 
     public final static String ID_COLUMN = "classId";
+    public final static String ACTIVE_COL = "active";
 
     @DatabaseField(generatedId = true, columnName = ID_COLUMN)
     private Integer id;
@@ -26,7 +27,7 @@ public class Class {
     private int period;
     @DatabaseField
     private int year;
-    @DatabaseField(index = true)
+    @DatabaseField(index = true, columnName = ACTIVE_COL)
     private boolean active;
     @DatabaseField
     private Date startDate;

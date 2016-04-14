@@ -41,7 +41,7 @@ public class ClassDataConnector {
     public List<Class> getActiveClasses(){
         try {
             classDao = classConnection.getDao();
-            List<Class> classes = classDao.queryForEq("active", true);
+            List<Class> classes = classDao.queryForEq(Class.ACTIVE_COL, true);
             classConnection.destroyConnection();
             return classes;
         }catch (SQLException ex){

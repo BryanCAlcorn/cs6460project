@@ -12,7 +12,7 @@
       <HTMLEditor fx:id="htmlEditorBox" htmlText="&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body contenteditable=&quot;true&quot;&gt;&lt;/body&gt;&lt;/html&gt;" />
       <ToolBar prefHeight="40.0" >
         <items>
-          <Button mnemonicParsing="false" text="Save Changes" />
+          <Button mnemonicParsing="false" text="Save Changes" onAction="#saveTemplate_Click" />
         </items>
       </ToolBar>
    </children>

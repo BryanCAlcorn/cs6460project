@@ -16,7 +16,6 @@ import omscs.edtech.db.model.Student;
 /**
  *  @author jle & bryan alcorn
  *  This script will return the ocr file after inserting the OCR image into table OCRFile
- *
  */
 class TesseractAPI implements OCRAdapter {
 

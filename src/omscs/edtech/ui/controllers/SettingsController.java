@@ -3,12 +3,15 @@ package omscs.edtech.ui.controllers;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;
+import omscs.edtech.ui.controls.EmailToolbarFactory;
+import omscs.edtech.ui.events.InjectModelEvent;
 
 import java.io.IOException;
 
@@ -31,7 +34,9 @@ public class SettingsController {
 
         try {
             missingAssignmentEMail = FXMLLoader.load(getClass().getResource(ControllerConstants.VIEW_PATH + ControllerConstants.EMAIL_EDITOR_VIEW));
+            Event.fireEvent(missingAssignmentEMail, new InjectModelEvent<>(EmailToolbarFactory.getMissingAssignmentToolbar(), missingAssignmentEMail));
             feedbackEMail = FXMLLoader.load(getClass().getResource(ControllerConstants.VIEW_PATH + ControllerConstants.EMAIL_EDITOR_VIEW));
+            Event.fireEvent(feedbackEMail, new InjectModelEvent<>(EmailToolbarFactory.getFeedbackToolbar(), feedbackEMail));
 
             tabMissingAssignments.contentProperty().setValue(missingAssignmentEMail);
             tabFeedback.contentProperty().setValue(feedbackEMail);
