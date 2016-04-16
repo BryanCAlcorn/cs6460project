@@ -15,7 +15,7 @@ class MissingAssignmentToolbar implements EmailCustomToolbar {
 
     @Override
     public String getEmailName() {
-        return "MissingAssignment";
+        return EmailControlConstants.EMAIL_MISSING_NAME;
     }
 
     @Override
@@ -28,7 +28,7 @@ class MissingAssignmentToolbar implements EmailCustomToolbar {
         nameButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                insertText(currentEditor, "{StudentName}");
+                insertText(currentEditor, EmailControlConstants.TOKEN_STUDENT_NAME);
             }
         });
 
@@ -37,7 +37,7 @@ class MissingAssignmentToolbar implements EmailCustomToolbar {
         assignmentButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                insertText(currentEditor, "{AssignmentName}");
+                insertText(currentEditor, EmailControlConstants.TOKEN_ASSIGNMENT_NAME);
             }
         });
 
@@ -46,7 +46,7 @@ class MissingAssignmentToolbar implements EmailCustomToolbar {
         classButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                insertText(currentEditor, "{ClassName}");
+                insertText(currentEditor, EmailControlConstants.TOKEN_CLASS_NAME);
             }
         });
 

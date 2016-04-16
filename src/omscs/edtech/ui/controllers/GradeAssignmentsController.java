@@ -347,6 +347,6 @@ public class GradeAssignmentsController {
 
     @FXML
     protected void sendFeedback_Click(ActionEvent event){
-
+        gradesDataAdapter.sendFeedbackEmail(currentStudent);
     }
 }

@@ -4,12 +4,16 @@ package omscs.edtech.ui.interfaces;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
+import omscs.edtech.db.interfaces.EmailTemplateDataConnector;
 import omscs.edtech.db.interfaces.GradeDataConnector;
 import omscs.edtech.db.interfaces.OCRFileDataConnector;
 import omscs.edtech.db.model.*;
 import omscs.edtech.db.model.Class;
+import omscs.edtech.mail.SendMail;
 import omscs.edtech.ocr.OCRAdapter;
 import omscs.edtech.ocr.OCRAdapterFactory;
+import omscs.edtech.ui.controllers.EmailEditorController;
+import omscs.edtech.ui.controls.EmailControlConstants;
 import omscs.edtech.ui.models.OCRFileModel;
 import omscs.edtech.ui.models.StudentAssignmentModel;
 
@@ -25,10 +29,12 @@ public class GradesDataAdapter {
 
     private GradeDataConnector gradeDataConnector;
     private OCRFileDataConnector ocrFileDataConnector;
+    EmailTemplateDataConnector emailTemplateDataConnector;
 
     public GradesDataAdapter(){
         gradeDataConnector = new GradeDataConnector();
         ocrFileDataConnector = new OCRFileDataConnector();
+        emailTemplateDataConnector = new EmailTemplateDataConnector();
     }
 
     public void saveGrades(List<StudentAssignmentModel> gradedAssignments){
@@ -59,6 +65,28 @@ public class GradesDataAdapter {
 
     public void saveOCRFile(OCRFileModel ocrFileModel){
         ocrFileDataConnector.saveOCRFile(toOCRFile(ocrFileModel));
+    }
+
+    public void sendFeedbackEmail(StudentAssignmentModel studentAssignmentModel){
+        EmailTemplate template = emailTemplateDataConnector.getTemplateByName(EmailControlConstants.EMAIL_FEEDBACK_NAME);
+        String emailBody = template.getTemplate();
+        emailBody = emailBody.replace(
+                EmailControlConstants.TOKEN_STUDENT_NAME,
+                studentAssignmentModel.getStudentModel().getStudentName());
+        emailBody = emailBody.replace(
+                EmailControlConstants.TOKEN_FEEDBACK,
+                studentAssignmentModel.getAssignmentFeedback());
+        emailBody = emailBody.replace(
+                EmailControlConstants.TOKEN_GRADE,
+                studentAssignmentModel.getStudentGrade().toString());
+        emailBody = emailBody.replace(
+                EmailControlConstants.TOKEN_ASSIGNMENT_NAME,
+                studentAssignmentModel.getAssignmentId().toString());
+        emailBody = emailBody.replace(
+                EmailControlConstants.TOKEN_CLASS_NAME,
+                studentAssignmentModel.getClassId().toString());
+
+        SendMail.sendFeedback(studentAssignmentModel.getStudentModel().getStudentEmail(), emailBody);
     }
 
     private OCRFileModel fromOCRFile(OCRFile ocrFile){

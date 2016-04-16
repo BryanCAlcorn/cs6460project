@@ -1,6 +1,7 @@
 package omscs.edtech.ui.controls;
 
 import com.sun.javafx.webkit.Accessor;
+import com.sun.org.apache.xerces.internal.util.EncodingMap;
 import com.sun.webkit.WebPage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -14,7 +15,7 @@ class FeedbackToolbar implements EmailCustomToolbar{
 
     @Override
     public String getEmailName() {
-        return "Feedback";
+        return EmailControlConstants.EMAIL_FEEDBACK_NAME;
     }
 
     @Override
@@ -27,7 +28,7 @@ class FeedbackToolbar implements EmailCustomToolbar{
         nameButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                insertText(currentEditor, "{StudentName}");
+                insertText(currentEditor, EmailControlConstants.TOKEN_STUDENT_NAME);
             }
         });
 
@@ -36,7 +37,7 @@ class FeedbackToolbar implements EmailCustomToolbar{
         assignmentButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                insertText(currentEditor, "{AssignmentName}");
+                insertText(currentEditor, EmailControlConstants.TOKEN_ASSIGNMENT_NAME);
             }
         });
 
@@ -45,7 +46,7 @@ class FeedbackToolbar implements EmailCustomToolbar{
         classButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                insertText(currentEditor, "{ClassName}");
+                insertText(currentEditor, EmailControlConstants.TOKEN_CLASS_NAME);
             }
         });
 
@@ -54,7 +55,7 @@ class FeedbackToolbar implements EmailCustomToolbar{
         gradeButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                insertText(currentEditor, "{StudentGrade}");
+                insertText(currentEditor, EmailControlConstants.TOKEN_GRADE);
             }
         });
 
@@ -63,7 +64,7 @@ class FeedbackToolbar implements EmailCustomToolbar{
         feedbackButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                insertText(currentEditor, "{Feedback}");
+                insertText(currentEditor, EmailControlConstants.TOKEN_FEEDBACK);
             }
         });
 
