@@ -302,7 +302,6 @@ public class GradeAssignmentsController {
                     //Imported for the currently selected student, bind to UI:
                     setCurrentOCRFile(ocrFileModel);
                 }
-
             }
         }
     }

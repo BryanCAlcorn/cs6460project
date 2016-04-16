@@ -2,6 +2,7 @@ package omscs.edtech.db.interfaces;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
+import com.j256.ormlite.stmt.QueryBuilder;
 import omscs.edtech.db.model.Class;
 import omscs.edtech.db.model.Student;
 
@@ -65,12 +66,16 @@ public class StudentDataConnector
         try {
             studentDao = connection.getDao();
 
-            Map<String, Object> keyMap = new HashMap<>();
-            keyMap.put(Student.CLASS_ID, classId);
-            keyMap.put(Student.FIRST_NAME, firstName);
-            keyMap.put(Student.LAST_NAME, lastName);
+            QueryBuilder<Student, Integer> queryBuilder = studentDao.queryBuilder();
 
-            List<Student> students = studentDao.queryForFieldValues(keyMap);
+            queryBuilder.where()
+                    .eq(Student.CLASS_ID, classId)
+                    .and()
+                    .like(Student.FIRST_NAME, firstName)
+                    .and()
+                    .like(Student.LAST_NAME, lastName);
+
+            List<Student> students = queryBuilder.query();
             connection.destroyConnection();
             if(students != null && !students.isEmpty()) {
                 return students.get(0);
