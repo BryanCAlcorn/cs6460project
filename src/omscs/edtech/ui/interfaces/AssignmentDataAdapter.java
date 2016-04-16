@@ -66,10 +66,15 @@ public class AssignmentDataAdapter {
         return assignmentModels.contains(assignmentModel);
     }
 
-    public void
-    saveAssignment(AssignmentModel assignmentModel){
+    public Integer saveAssignment(AssignmentModel assignmentModel){
         Assignment assignment = toAssignment(assignmentModel);
         assignmentDataConnector.saveAssignmentWithClasses(assignment);
+        return assignment.getId();
+    }
+
+    public boolean deleteAssignment(AssignmentModel assignmentModel){
+        Assignment assignment = toAssignment(assignmentModel);
+        return assignmentDataConnector.deleteAssignmentWithClasses(assignment);
     }
 
     public void addAssignment(AssignmentModel assignmentModel){

@@ -1,6 +1,7 @@
 package omscs.edtech.db.interfaces;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.DeleteBuilder;
 import omscs.edtech.db.model.Assignment;
 import omscs.edtech.db.model.Class;
 import omscs.edtech.db.model.Grade;
@@ -40,5 +41,23 @@ public class GradeDataConnector {
 
     public boolean saveGrade(Grade grade){
         return connection.basicSave(grade);
+    }
+
+    public boolean deleteGradesForAssignment(Assignment assignment){
+        boolean deleteSuccessful = true;
+        try {
+            gradesDao = connection.getDao();
+
+            DeleteBuilder<Grade, Integer> deleteBuilder = gradesDao.deleteBuilder();
+            deleteBuilder.where().eq(Grade.ASSIGNMENT_COL, assignment.getId());
+            deleteSuccessful = deleteBuilder.delete() >= 1;
+            connection.destroyConnection();
+
+        }catch (SQLException ex){
+            System.out.println(ex.getMessage());
+            deleteSuccessful = false;
+        }
+
+        return deleteSuccessful;
     }
 }

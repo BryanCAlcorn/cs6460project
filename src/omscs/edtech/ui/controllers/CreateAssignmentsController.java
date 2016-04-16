@@ -14,6 +14,8 @@ import omscs.edtech.ui.interfaces.AssignmentDataAdapter;
 import omscs.edtech.ui.models.AssignmentModel;
 import omscs.edtech.ui.models.ClassAssignmentModel;
 
+import java.util.Optional;
+
 public class CreateAssignmentsController {
 
     @FXML
@@ -96,30 +98,55 @@ public class CreateAssignmentsController {
                 comboAssignments.getSelectionModel().select(currentAssignment);
             }
 
-            assignmentDataAdapter.saveAssignment(currentAssignment);
+            currentAssignment.setId(assignmentDataAdapter.saveAssignment(currentAssignment));
         }
 
+    }
+
+    @FXML
+    protected void deleteAssignment_Click(ActionEvent event) {
+        if(currentAssignment != null){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.getButtonTypes().add(ButtonType.CANCEL);
+            alert.setTitle("Delete Assignment");
+            alert.setHeaderText("Delete Assignment");
+            alert.setContentText("Are you sure you want to delete " + currentAssignment.toString() + "?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if(result.get() == ButtonType.OK){
+                if(assignmentDataAdapter.deleteAssignment(currentAssignment)) {
+                    comboAssignments.getItems().remove(currentAssignment);
+                    setCurrentAssignment(comboAssignments.getSelectionModel().getSelectedItem());
+                }
+            }
+        }
     }
 
     private void setCurrentAssignment(AssignmentModel assignment){
         if(currentAssignment != null){
             txtAssignmentName.textProperty().unbindBidirectional(currentAssignment.nameProperty());
+            txtAssignmentName.setText("");
             txtMaxPoints.integerProperty().unbindBidirectional(currentAssignment.maxPointsProperty());
+            txtMaxPoints.setIntegerProperty(0);
             txtDescription.textProperty().unbindBidirectional(currentAssignment.descriptionProperty());
+            txtDescription.setText("");
         }
 
         currentAssignment = assignment;
 
-        txtAssignmentName.textProperty().bindBidirectional(currentAssignment.nameProperty());
-        txtMaxPoints.integerProperty().bindBidirectional(currentAssignment.maxPointsProperty());
-        txtDescription.textProperty().bindBidirectional(currentAssignment.descriptionProperty());
+        if(currentAssignment != null) {
+            txtAssignmentName.textProperty().bindBidirectional(currentAssignment.nameProperty());
+            txtMaxPoints.integerProperty().bindBidirectional(currentAssignment.maxPointsProperty());
+            txtDescription.textProperty().bindBidirectional(currentAssignment.descriptionProperty());
+        }
 
         for(ClassAssignmentModel listClass : listClasses.getItems()){
             listClass.setIsAssigned(false);
-            for (ClassAssignmentModel assignedClass : currentAssignment.getAssignedClasses()) {
-                if (listClass.getClassName().equals(assignedClass.getClassName())) {
-                    listClass.setIsAssigned(true);
-                    break;
+            if(currentAssignment != null) {
+                for (ClassAssignmentModel assignedClass : currentAssignment.getAssignedClasses()) {
+                    if (listClass.getClassName().equals(assignedClass.getClassName())) {
+                        listClass.setIsAssigned(true);
+                        break;
+                    }
                 }
             }
         }

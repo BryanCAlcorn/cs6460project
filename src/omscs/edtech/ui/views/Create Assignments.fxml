@@ -60,8 +60,7 @@
       <ToolBar prefHeight="40.0" prefWidth="200.0">
         <items>
           <Button mnemonicParsing="false" text="Save Assignment" onAction="#saveAssignment_Click" />
-            <Button mnemonicParsing="false" text="Clear" />
-            <Button mnemonicParsing="false" text="Delete Assignment" />
+            <Button mnemonicParsing="false" text="Delete Assignment" onAction="#deleteAssignment_Click" />
         </items>
       </ToolBar>
    </children>

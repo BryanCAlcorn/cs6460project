@@ -53,10 +53,10 @@ public class ClassDataAdapter {
         return allClasses.contains(classModel);
     }
 
-    public boolean saveClass(ClassModel classModel){
+    public Integer saveClass(ClassModel classModel){
         Class dbClass = toClass(classModel);
 
-        boolean success = classDataConnector.saveClass(dbClass);
+        classDataConnector.saveClass(dbClass);
 
         List<Student> students = new ArrayList<>();
         for(StudentModel studentModel : classModel.studentsProperty()){
@@ -64,9 +64,9 @@ public class ClassDataAdapter {
             students.add(student);
         }
 
-        success &= studentDataConnector.saveStudents(students);
+        studentDataConnector.saveStudents(students);
 
-        return success;
+        return dbClass.getId();
     }
 
     public boolean deleteClass(ClassModel classModel){

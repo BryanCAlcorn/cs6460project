@@ -195,7 +195,7 @@ public class AddClassesController {
             classDataAdapter.addClass(currentClass);
             comboClassesList.getSelectionModel().select(currentClass);
         }
-        classDataAdapter.saveClass(currentClass);
+        currentClass.setId(classDataAdapter.saveClass(currentClass));
     }
 
     @FXML
@@ -209,7 +209,8 @@ public class AddClassesController {
             Optional<ButtonType> result = alert.showAndWait();
             if(result.get() == ButtonType.OK){
                 if(classDataAdapter.deleteClass(currentClass)) {
-                    setCurrentClass(null);
+                    comboClassesList.getItems().remove(currentClass);
+                    setCurrentClass(comboClassesList.getSelectionModel().getSelectedItem());
                 }
             }
         }

@@ -1,6 +1,7 @@
 package omscs.edtech.db.interfaces;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.SelectArg;
@@ -107,6 +108,27 @@ public class AssignmentDataConnector {
             saveSuccessful = false;
         }
         return saveSuccessful;
+    }
+
+    public boolean deleteAssignmentWithClasses(Assignment assignment){
+        boolean deleteSuccessful = true;
+        try {
+            assignmentDao = assignmentConnection.getDao();
+            classAssignmentDao = classAssignmentConnection.getDao();
+
+            deleteSuccessful = assignmentDao.delete(assignment) == 1;
+
+            DeleteBuilder<ClassAssignment, Integer> deleteBuilder = classAssignmentDao.deleteBuilder();
+            deleteBuilder.where().eq(ClassAssignment.ASSIGNMENT_COLUMN, assignment.getId());
+            deleteSuccessful &= deleteBuilder.delete() >= 1;
+
+            deleteSuccessful &= gradeDataConnector.deleteGradesForAssignment(assignment);
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            deleteSuccessful = false;
+        }
+        return deleteSuccessful;
     }
 
     public List<Assignment> lookupAssignmentsForClasses(Class dbClass){
