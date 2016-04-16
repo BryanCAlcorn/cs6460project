@@ -57,8 +57,7 @@
             <ToolBar prefHeight="40.0" prefWidth="200.0">
               <items>
                 <Button mnemonicParsing="false" text="Save Class" onAction="#saveClass_Click" />
-                  <Button mnemonicParsing="false" text="Cancel" />
-                  <Button mnemonicParsing="false" text="Delete Class" />
+                <Button mnemonicParsing="false" text="Delete Class" onAction="#deleteClass_Click" />
               </items>
             </ToolBar>
          </children>

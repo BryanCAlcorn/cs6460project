@@ -17,6 +17,8 @@ import omscs.edtech.ui.interfaces.ClassDataAdapter;
 import omscs.edtech.ui.models.ClassModel;
 import omscs.edtech.ui.models.StudentModel;
 
+import java.util.Optional;
+
 public class AddClassesController {
     //Top Level Elements:
     @FXML
@@ -166,9 +168,13 @@ public class AddClassesController {
     private void setCurrentClass(ClassModel classModel){
         if(currentClass != null){
             txtClassName.textProperty().unbindBidirectional(currentClass.classNameProperty());
+            txtClassName.textProperty().setValue("");
             txtClassPeriod.integerProperty().unbindBidirectional(currentClass.classPeriodProperty());
+            txtClassPeriod.integerProperty().setValue(null);
             txtClassYear.integerProperty().unbindBidirectional(currentClass.classYearProperty());
+            txtClassYear.integerProperty().setValue(null);
             cbClassActive.selectedProperty().unbindBidirectional(currentClass.activeProperty());
+            cbClassActive.selectedProperty().setValue(false);
             tblStudents.setItems(FXCollections.<StudentModel>emptyObservableList());
         }
 
@@ -190,6 +196,23 @@ public class AddClassesController {
             comboClassesList.getSelectionModel().select(currentClass);
         }
         classDataAdapter.saveClass(currentClass);
+    }
+
+    @FXML
+    protected void deleteClass_Click(ActionEvent event){
+        if(currentClass != null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.getButtonTypes().add(ButtonType.CANCEL);
+            alert.setTitle("Delete Class");
+            alert.setHeaderText("Delete Class");
+            alert.setContentText("Are you sure you want to delete " + currentClass.toString() + "?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if(result.get() == ButtonType.OK){
+                if(classDataAdapter.deleteClass(currentClass)) {
+                    setCurrentClass(null);
+                }
+            }
+        }
     }
 
     @FXML

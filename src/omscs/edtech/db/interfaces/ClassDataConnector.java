@@ -45,7 +45,7 @@ public class ClassDataConnector {
             QueryBuilder<Class, Integer> query = classDao.queryBuilder();
 
             query.where().eq(Class.ACTIVE_COL, true);
-            query.orderBy(Class.YEAR_COL, true).orderBy(Class.PERIOD_COL, true);
+            query.orderBy(Class.YEAR_COL, false).orderBy(Class.PERIOD_COL, true);
             List<Class> classes = query.query();
 
             classConnection.destroyConnection();
@@ -70,6 +70,20 @@ public class ClassDataConnector {
 
     public boolean saveClass(Class dbClass) {
         return classConnection.basicSave(dbClass);
+    }
+
+    public boolean deleteClass(Class dbClass){
+        boolean deleteSuccessful = true;
+        try {
+            Dao<Class, Integer> dao = classConnection.getDao();
+            int status = dao.delete(dbClass);
+            classConnection.destroyConnection();
+            deleteSuccessful = status == 1;
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            deleteSuccessful = false;
+        }
+        return deleteSuccessful;
     }
 
     public List<Class> lookupClassesForAssignment(Assignment assignment){

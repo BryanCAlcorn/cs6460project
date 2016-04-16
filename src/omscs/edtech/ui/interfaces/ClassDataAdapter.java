@@ -69,6 +69,15 @@ public class ClassDataAdapter {
         return success;
     }
 
+    public boolean deleteClass(ClassModel classModel){
+        Class dbClass = toClass(classModel);
+
+        boolean success = classDataConnector.deleteClass(dbClass);
+        success &= studentDataConnector.deleteStudentsByClass(dbClass);
+
+        return success;
+    }
+
     private ClassModel fromClass(Class aClass, Collection<Student> students){
         ClassModel classModel = new ClassModel();
 

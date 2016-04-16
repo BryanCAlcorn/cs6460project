@@ -1,6 +1,7 @@
 package omscs.edtech.db.interfaces;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.DeleteBuilder;
 import omscs.edtech.db.model.Class;
 import omscs.edtech.db.model.Student;
 
@@ -42,6 +43,21 @@ public class StudentDataConnector
         }catch (SQLException ex){
             System.out.println(ex.getMessage());
             return null;
+        }
+    }
+
+    public boolean deleteStudentsByClass(Class dbClass){
+        try {
+            studentDao = connection.getDao();
+
+            DeleteBuilder<Student, Integer> deleteBuilder = studentDao.deleteBuilder();
+            deleteBuilder.where().eq(Student.CLASS_ID, dbClass.getId());
+            int result = deleteBuilder.delete();
+            connection.destroyConnection();
+            return result >= 1;
+        }catch (SQLException ex){
+            System.out.println(ex.getMessage());
+            return false;
         }
     }
 
