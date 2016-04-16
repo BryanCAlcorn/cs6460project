@@ -22,12 +22,14 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+import omscs.edtech.ui.controls.ButtonCell;
 import omscs.edtech.ui.events.InjectModelEvent;
 import omscs.edtech.ui.interfaces.GradesDataAdapter;
 import omscs.edtech.ui.models.*;
 
 import java.io.File;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class GradeAssignmentsController {
     @FXML
@@ -50,6 +52,8 @@ public class GradeAssignmentsController {
     private TableColumn<StudentAssignmentModel, String> colStudentName;
     @FXML
     private TableColumn<StudentAssignmentModel, Number> colAssignmentGrade;
+    @FXML
+    private TableColumn<StudentAssignmentModel, Boolean> colMissingAssignments;
 
     @FXML
     private Label lblAssignmentDescription;
@@ -162,6 +166,20 @@ public class GradeAssignmentsController {
             }
         });
 
+        colMissingAssignments.setEditable(false);
+        colMissingAssignments.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<StudentAssignmentModel, Boolean>, ObservableValue<Boolean>>() {
+            @Override
+            public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<StudentAssignmentModel, Boolean> param) {
+                return param.getValue().assignmentMissingProperty();
+            }
+        });
+        colMissingAssignments.setCellFactory(new Callback<TableColumn<StudentAssignmentModel, Boolean>, TableCell<StudentAssignmentModel, Boolean>>() {
+            @Override
+            public TableCell<StudentAssignmentModel, Boolean> call(TableColumn<StudentAssignmentModel, Boolean> param) {
+                return new ButtonCell<>("Assignment Missing", null);
+            }
+        });
+
         tblStudentGrades.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<StudentAssignmentModel>() {
             @Override
             public void changed(ObservableValue<? extends StudentAssignmentModel> observableValue, StudentAssignmentModel studentAssignmentModel, StudentAssignmentModel t1) {
@@ -248,16 +266,26 @@ public class GradeAssignmentsController {
         List<File> files = fileChooser.showOpenMultipleDialog(parentBox.getScene().getWindow());
         if(files != null){
             for(File file : files) {
-                OCRFileModel ocrFileModel =
+                final OCRFileModel ocrFileModel =
                         gradesDataAdapter.importAssignmentImage(
                                 gradeAssignmentsModel.getClassId(), currentAssignment.getId(), file);
                 if(ocrFileModel.getStudentId() == null){
-                    //Student was unknown, ask to find:
+                    //Student was unknown, ask to pick:
                     StudentAssignmentModel studentAssignmentModel = showPickStudentDialog(ocrFileModel);
                     if(studentAssignmentModel != null){
                         ocrFileModel.setStudentId(studentAssignmentModel.getStudentId());
                         gradesDataAdapter.saveOCRFile(ocrFileModel);
                     }
+                }
+
+                List<StudentAssignmentModel> student = tblStudentGrades.getItems().filtered(new Predicate<StudentAssignmentModel>() {
+                    @Override
+                    public boolean test(StudentAssignmentModel model) {
+                        return model.getStudentId() == ocrFileModel.getStudentId();
+                    }
+                });
+                if(student != null && !student.isEmpty()){
+                    student.get(0).setAssignmentMissing(false);
                 }
 
                 if (currentStudent != null && ocrFileModel.getStudentId() == currentStudent.getStudentId()) {
@@ -342,11 +370,17 @@ public class GradeAssignmentsController {
 
     @FXML
     protected void btnSendAllFeedback_Click(ActionEvent event) throws Exception{
-
+        for (StudentAssignmentModel assignmentModel : tblStudentGrades.getItems()) {
+            if(!assignmentModel.getAssignmentFeedback().isEmpty()){
+                gradesDataAdapter.sendFeedbackEmail(assignmentModel);
+            }
+        }
     }
 
     @FXML
     protected void sendFeedback_Click(ActionEvent event){
-        gradesDataAdapter.sendFeedbackEmail(currentStudent);
+        if(!currentStudent.getAssignmentFeedback().isEmpty()) {
+            gradesDataAdapter.sendFeedbackEmail(currentStudent);
+        }
     }
 }

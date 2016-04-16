@@ -19,8 +19,10 @@ public class ButtonCell<T> extends TableCell<T, Boolean> {
     @Override
     protected void updateItem(Boolean t, boolean empty) {
         super.updateItem(t, empty);
-        if (!empty) {
+        if (!empty && t) {
             setGraphic(cellButton);
+        }else {
+            setGraphic(null);
         }
     }
 }
