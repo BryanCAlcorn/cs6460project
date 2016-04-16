@@ -23,6 +23,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 import omscs.edtech.ui.controls.ButtonCell;
+import omscs.edtech.ui.controls.IndexedButton;
 import omscs.edtech.ui.events.InjectModelEvent;
 import omscs.edtech.ui.interfaces.GradesDataAdapter;
 import omscs.edtech.ui.models.*;
@@ -175,8 +176,15 @@ public class GradeAssignmentsController {
         });
         colMissingAssignments.setCellFactory(new Callback<TableColumn<StudentAssignmentModel, Boolean>, TableCell<StudentAssignmentModel, Boolean>>() {
             @Override
-            public TableCell<StudentAssignmentModel, Boolean> call(TableColumn<StudentAssignmentModel, Boolean> param) {
-                return new ButtonCell<>("Assignment Missing", null);
+            public TableCell<StudentAssignmentModel, Boolean> call(final TableColumn<StudentAssignmentModel, Boolean> param) {
+                return new ButtonCell<>("Assignment Missing", new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        IndexedButton button = (IndexedButton) event.getSource();
+                        StudentAssignmentModel studentAssignmentModel = tblStudentGrades.getItems().get(button.getRowIndex());
+                        gradesDataAdapter.sendMissingAssignmentEmail(studentAssignmentModel);
+                    }
+                });
             }
         });
 

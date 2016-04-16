@@ -8,10 +8,10 @@ import javafx.scene.control.TableView;
 
 public class ButtonCell<T> extends TableCell<T, Boolean> {
 
-    private Button cellButton;
+    private IndexedButton cellButton;
 
     public ButtonCell(String buttonText, EventHandler<ActionEvent> buttonHandler) {
-        cellButton = new Button(buttonText);
+        cellButton = new IndexedButton(buttonText);
         cellButton.setOnAction(buttonHandler);
     }
 
@@ -20,6 +20,7 @@ public class ButtonCell<T> extends TableCell<T, Boolean> {
     protected void updateItem(Boolean t, boolean empty) {
         super.updateItem(t, empty);
         if (!empty && t) {
+            cellButton.setRowIndex(this.getIndex());
             setGraphic(cellButton);
         }else {
             setGraphic(null);

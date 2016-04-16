@@ -89,6 +89,22 @@ public class GradesDataAdapter {
         SendMail.sendFeedback(studentAssignmentModel.getStudentModel().getStudentEmail(), emailBody);
     }
 
+    public void sendMissingAssignmentEmail(StudentAssignmentModel studentAssignmentModel){
+        EmailTemplate template = emailTemplateDataConnector.getTemplateByName(EmailControlConstants.EMAIL_MISSING_NAME);
+        String emailBody = template.getTemplate();
+        emailBody = emailBody.replace(
+                EmailControlConstants.TOKEN_STUDENT_NAME,
+                studentAssignmentModel.getStudentModel().getStudentName());
+        emailBody = emailBody.replace(
+                EmailControlConstants.TOKEN_ASSIGNMENT_NAME,
+                studentAssignmentModel.getAssignmentId().toString());
+        emailBody = emailBody.replace(
+                EmailControlConstants.TOKEN_CLASS_NAME,
+                studentAssignmentModel.getClassId().toString());
+
+        SendMail.sendFeedback(studentAssignmentModel.getStudentModel().getStudentEmail(), emailBody);
+    }
+
     private OCRFileModel fromOCRFile(OCRFile ocrFile){
         OCRFileModel model = null;
         if(ocrFile != null) {
