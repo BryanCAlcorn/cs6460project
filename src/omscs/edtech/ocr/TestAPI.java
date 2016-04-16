@@ -1,5 +1,7 @@
 package omscs.edtech.ocr;
 
+import omscs.edtech.db.model.OCRFile;
+
 import java.io.File;
 
 public class TestAPI {
@@ -8,7 +10,9 @@ public class TestAPI {
 
         OCRAdapter tess = new TesseractAPI();
 
-        tess.ocrRead(1,2, new File("C:\\Users\\10119365\\IdeaProjects\\CS6460Project\\testfiles\\testdata3.tif"));
+        OCRFile file = tess.ocrRead(0,0, new File("C:\\Users\\10119365\\IdeaProjects\\CS6460Project\\testfiles\\testdata3.tif"));
+
+        System.out.println(file.getParsedText());
 
     }
 }

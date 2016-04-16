@@ -1,6 +1,8 @@
 package omscs.edtech.ocr;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 
 import net.sourceforge.tess4j.ITesseract;
@@ -33,11 +35,12 @@ class TesseractAPI implements OCRAdapter {
         //http://stackoverflow.com/questions/11790104/how-to-storebitmap-image-and-retrieve-image-from-sqlite-database-in-android
 
         ITesseract tesseract = new Tesseract();
+        tesseract.setLanguage("amh"); //Trained on handwriting
         OCRFile ocrFile = null;
 
         try {
             String parsedText = tesseract.doOCR(imageFile);
-            byte[] image = convertImage(imageFile);
+            byte[] image = Files.readAllBytes(Paths.get(imageFile.getPath()));
 
             StudentName studentName = findStudentName(parsedText);
             Student student = studentDataConnector.getStudentByName(classId, studentName.getFirstName(), studentName.getLastName());
@@ -64,30 +67,6 @@ class TesseractAPI implements OCRAdapter {
         }
 
         return ocrFile;
-    }
-
-    private static byte[] convertImage(File image) throws Exception {
-        //Convert image to byte and insert to database
-        byte[] insertImage = null;
-        FileInputStream fileImage = new FileInputStream(image);
-        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024];
-
-        try {
-            for (int readNum; (readNum = fileImage.read(buffer)) != -1;){
-                byteBuffer.write(buffer, 0, readNum);
-//                System.out.println("read " + readNum + " bytes,");
-            }
-        } catch (IOException ex) {
-            System.err.println(ex.getMessage());
-        }
-
-        insertImage = byteBuffer.toByteArray();
-        return insertImage;
-        //return byte[] image
-
-        //Read this link for help with retrieving image
-        //http://kaninotes.blogspot.com/2011/12/inserting-and-retrieving-images-to.html
     }
 
     private StudentName findStudentName(String parsedText){
