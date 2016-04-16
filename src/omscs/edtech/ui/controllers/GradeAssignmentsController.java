@@ -22,8 +22,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
-import omscs.edtech.ui.controls.ButtonCell;
+import omscs.edtech.ui.controls.IndexedButtonCell;
 import omscs.edtech.ui.controls.IndexedButton;
+import omscs.edtech.ui.controls.PickStudentDialog;
 import omscs.edtech.ui.events.InjectModelEvent;
 import omscs.edtech.ui.interfaces.GradesDataAdapter;
 import omscs.edtech.ui.models.*;
@@ -95,7 +96,7 @@ public class GradeAssignmentsController {
                         leftBox.setPrefHeight(height);
                         rightBox.setPrefHeight(height);
                         tblStudentGrades.setPrefHeight(height - 175);
-                        paneAssignment.setPrefHeight(height - 277 - assignmentDescrBox.getPrefHeight());
+                        paneAssignment.setPrefHeight(height - 275 - assignmentDescrBox.getPrefHeight());
                         imgAssignmentImage.setFitHeight(paneAssignment.getPrefHeight());
                     }
                 }
@@ -177,10 +178,10 @@ public class GradeAssignmentsController {
         colMissingAssignments.setCellFactory(new Callback<TableColumn<StudentAssignmentModel, Boolean>, TableCell<StudentAssignmentModel, Boolean>>() {
             @Override
             public TableCell<StudentAssignmentModel, Boolean> call(final TableColumn<StudentAssignmentModel, Boolean> param) {
-                return new ButtonCell<>("Assignment Missing", new EventHandler<ActionEvent>() {
+                return new IndexedButtonCell<>("Assignment Missing", new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
-                        IndexedButton button = (IndexedButton) event.getSource();
+                        IndexedButton button = (IndexedButton)event.getSource();
                         StudentAssignmentModel studentAssignmentModel = tblStudentGrades.getItems().get(button.getRowIndex());
                         gradesDataAdapter.sendMissingAssignmentEmail(studentAssignmentModel);
                     }
@@ -272,6 +273,7 @@ public class GradeAssignmentsController {
                 new FileChooser.ExtensionFilter("TIFF", "*.tiff", "*.tif")
         );
         List<File> files = fileChooser.showOpenMultipleDialog(parentBox.getScene().getWindow());
+        PickStudentDialog pickStudentDialog = new PickStudentDialog(parentBox, gradeAssignmentsModel, currentAssignment);
         if(files != null){
             for(File file : files) {
                 final OCRFileModel ocrFileModel =
@@ -279,7 +281,7 @@ public class GradeAssignmentsController {
                                 gradeAssignmentsModel.getClassId(), currentAssignment.getId(), file);
                 if(ocrFileModel.getStudentId() == null){
                     //Student was unknown, ask to pick:
-                    StudentAssignmentModel studentAssignmentModel = showPickStudentDialog(ocrFileModel);
+                    StudentAssignmentModel studentAssignmentModel = pickStudentDialog.showDialog(ocrFileModel);
                     if(studentAssignmentModel != null){
                         ocrFileModel.setStudentId(studentAssignmentModel.getStudentId());
                         gradesDataAdapter.saveOCRFile(ocrFileModel);
@@ -302,72 +304,6 @@ public class GradeAssignmentsController {
                 }
 
             }
-        }
-    }
-
-    private StudentAssignmentModel showPickStudentDialog(OCRFileModel ocrFileModel){
-        final Stage dialog = new Stage();
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        dialog.initOwner(parentBox.getScene().getWindow());
-        dialog.setTitle("Match Student and Assignment");
-        VBox dialogVbox = new VBox(20);
-
-        dialogVbox.getChildren().add(new Text("We could not match a student with this assignment\n Please select the student:"));
-
-        final ComboBox<StudentAssignmentModel> studentModelComboBox =
-                new ComboBox<>(gradeAssignmentsModel.getStudentAssignmentList(currentAssignment));
-        dialogVbox.getChildren().add(studentModelComboBox);
-
-        if(ocrFileModel != null) {
-            ImageView assignmentImage = new ImageView(ocrFileModel.getImageProperty());
-            assignmentImage.setFitHeight(600);
-            assignmentImage.setFitWidth(800);
-            dialogVbox.getChildren().add(assignmentImage);
-        }
-
-        HBox buttonBox = new HBox();
-        dialogVbox.getChildren().add(buttonBox);
-
-        Button selectButton = new Button("Select");
-        buttonBox.getChildren().add(selectButton);
-        SelectEventHandler eventHandler = new SelectEventHandler(dialog, studentModelComboBox);
-        selectButton.setOnAction(eventHandler);
-
-        Button cancelButton = new Button("Cancel");
-        buttonBox.getChildren().add(cancelButton);
-        cancelButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                dialog.close();
-            }
-        });
-
-        Scene dialogScene = new Scene(dialogVbox, 1000,800);
-        dialog.setScene(dialogScene);
-        dialog.showAndWait();
-
-        return eventHandler.getStudentAssignmentModel();
-    }
-
-    private class SelectEventHandler implements EventHandler<ActionEvent>{
-        StudentAssignmentModel studentAssignmentModel;
-        ComboBox<StudentAssignmentModel> studentAssignmentModelComboBox;
-        Stage dialog;
-
-        public SelectEventHandler(Stage stage, ComboBox<StudentAssignmentModel> comboBox){
-            dialog = stage;
-            studentAssignmentModelComboBox = comboBox;
-            studentAssignmentModel = null;
-        }
-
-        @Override
-        public void handle(ActionEvent actionEvent) {
-            studentAssignmentModel = studentAssignmentModelComboBox.getSelectionModel().getSelectedItem();
-            dialog.close();
-        }
-
-        public StudentAssignmentModel getStudentAssignmentModel() {
-            return studentAssignmentModel;
         }
     }
 

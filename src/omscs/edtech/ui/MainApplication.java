@@ -17,10 +17,13 @@ public class MainApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource(ControllerConstants.VIEW_PATH + ControllerConstants.MAIN_SCREEN_VIEW));
 
-        appContainer = (Pane) root.lookup("#appContainer");
         primaryStage.setTitle(ControllerConstants.APP_TITLE);
+        primaryStage.setMaximized(true);
+
+        Parent root = FXMLLoader.load(getClass().getResource(ControllerConstants.VIEW_PATH + ControllerConstants.MAIN_SCREEN_VIEW));
+        appContainer = (Pane) root.lookup("#appContainer");
+
         primaryStage.setScene(new Scene(root));
 
         //Set width and height properties:

@@ -25,7 +25,7 @@ public class MainController {
 
     @FXML
     protected void initialize(){
-        showGradeAssignmentsView(null);
+        //showGradeAssignmentsView(null);
     }
 
     @FXML
@@ -41,9 +41,6 @@ public class MainController {
             //Load the grade assignments view for first tab:
             final Pane workspace = getWorkspace(ControllerConstants.GRADE_ASSIGNMENTS_VIEW);
             Event.fireEvent(workspace, new InjectModelEvent<>(gradeAssignmentsModel, workspace));
-
-            workspace.setPrefWidth(mainViewPane.getPrefWidth());
-            workspace.setPrefHeight(mainViewPane.getPrefHeight());
 
             //Set width and height properties:
             pane.widthProperty().addListener(

@@ -6,11 +6,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableView;
 
-public class ButtonCell<T> extends TableCell<T, Boolean> {
+public class IndexedButtonCell<T> extends TableCell<T, Boolean> {
 
     private IndexedButton cellButton;
 
-    public ButtonCell(String buttonText, EventHandler<ActionEvent> buttonHandler) {
+    public IndexedButtonCell(String buttonText, EventHandler<ActionEvent> buttonHandler) {
         cellButton = new IndexedButton(buttonText);
         cellButton.setOnAction(buttonHandler);
     }
@@ -19,8 +19,8 @@ public class ButtonCell<T> extends TableCell<T, Boolean> {
     @Override
     protected void updateItem(Boolean t, boolean empty) {
         super.updateItem(t, empty);
+        cellButton.setRowIndex(this.getIndex());
         if (!empty && t) {
-            cellButton.setRowIndex(this.getIndex());
             setGraphic(cellButton);
         }else {
             setGraphic(null);
