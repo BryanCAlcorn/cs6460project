@@ -41,7 +41,13 @@ public class ClassDataConnector {
     public List<Class> getActiveClasses(){
         try {
             classDao = classConnection.getDao();
-            List<Class> classes = classDao.queryForEq(Class.ACTIVE_COL, true);
+
+            QueryBuilder<Class, Integer> query = classDao.queryBuilder();
+
+            query.where().eq(Class.ACTIVE_COL, true);
+            query.orderBy(Class.YEAR_COL, true).orderBy(Class.PERIOD_COL, true);
+            List<Class> classes = query.query();
+
             classConnection.destroyConnection();
             return classes;
         }catch (SQLException ex){

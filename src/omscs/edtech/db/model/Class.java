@@ -18,14 +18,16 @@ public class Class {
 
     public final static String ID_COLUMN = "classId";
     public final static String ACTIVE_COL = "active";
+    public final static String PERIOD_COL = "period";
+    public final static String YEAR_COL = "year";
 
     @DatabaseField(generatedId = true, columnName = ID_COLUMN)
     private Integer id;
     @DatabaseField
     private String name;
-    @DatabaseField
+    @DatabaseField(columnName = PERIOD_COL)
     private int period;
-    @DatabaseField
+    @DatabaseField(columnName = YEAR_COL)
     private int year;
     @DatabaseField(index = true, columnName = ACTIVE_COL)
     private boolean active;
