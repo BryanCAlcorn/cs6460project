@@ -35,10 +35,14 @@ public class SettingsController {
         try {
             missingAssignmentEMail = FXMLLoader.load(getClass().getResource(ControllerConstants.VIEW_PATH + ControllerConstants.EMAIL_EDITOR_VIEW));
             Event.fireEvent(missingAssignmentEMail, new InjectModelEvent<>(EmailToolbarFactory.getMissingAssignmentToolbar(), missingAssignmentEMail));
+            Event.fireEvent(missingAssignmentEMail, new InjectModelEvent<>(tabPaneSettings, missingAssignmentEMail));
+
             feedbackEMail = FXMLLoader.load(getClass().getResource(ControllerConstants.VIEW_PATH + ControllerConstants.EMAIL_EDITOR_VIEW));
             Event.fireEvent(feedbackEMail, new InjectModelEvent<>(EmailToolbarFactory.getFeedbackToolbar(), feedbackEMail));
+            Event.fireEvent(feedbackEMail, new InjectModelEvent<>(tabPaneSettings, feedbackEMail));
 
             tabMissingAssignments.contentProperty().setValue(missingAssignmentEMail);
+
             tabFeedback.contentProperty().setValue(feedbackEMail);
 
             parentBox.heightProperty().addListener(
@@ -47,6 +51,16 @@ public class SettingsController {
                         public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
                             Double height = newValue.doubleValue();
                             tabPaneSettings.setPrefHeight(height);
+                        }
+                    }
+            );
+
+            parentBox.widthProperty().addListener(
+                    new ChangeListener<Number>() {
+                        @Override
+                        public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                            Double width = newValue.doubleValue();
+                            tabPaneSettings.setPrefWidth(width);
                         }
                     }
             );
