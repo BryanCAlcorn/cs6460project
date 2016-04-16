@@ -88,6 +88,7 @@ public class GradeAssignmentsDataAdapter {
         studentAssignmentModel.setAssignmentId(grade.getAssignment().getId());
         studentAssignmentModel.setAssignmentMissing(grade.isMissing());
         studentAssignmentModel.setClassId(grade.getDbClass().getId());
+        studentAssignmentModel.setAssignmentFeedback(grade.getFeedback());
 
         return studentAssignmentModel;
     }

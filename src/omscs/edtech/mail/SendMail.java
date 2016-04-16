@@ -56,7 +56,7 @@ public class SendMail {
             message.setSubject(subject);
 
             // Now set the actual message
-            message.setText(body);
+            message.setContent(body, "text/html; charset=utf-8");
 
             // Send message
             Transport transport = session.getTransport("smtps");

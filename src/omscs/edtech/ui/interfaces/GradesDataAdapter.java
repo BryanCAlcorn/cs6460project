@@ -158,7 +158,7 @@ public class GradesDataAdapter {
         grade.setMissing(model.getAssignmentMissing());
         grade.setFeedback(model.getAssignmentFeedback());
 
-        grade.setStudent(new Student(model.getStudentModel().getId()));
+        grade.setStudent(new Student(model.getStudentId()));
         grade.setDbClass(new Class(model.getClassId()));
         grade.setAssignment(new Assignment(model.getAssignmentId()));
 
