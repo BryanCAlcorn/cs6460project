@@ -40,19 +40,19 @@ public class GradesDataAdapter {
     }
 
     private OCRAdapter ocrAdapter;
-    public OCRFileModel importAssignmentImage(Integer classId, File assignmentFile){
+    public OCRFileModel importAssignmentImage(Integer classId, Integer assignmentId, File assignmentFile){
         if(ocrAdapter == null){
             ocrAdapter = OCRAdapterFactory.getInstance();
         }
-        OCRFile ocrFile = ocrAdapter.ocrRead(classId, assignmentFile);
+        OCRFile ocrFile = ocrAdapter.ocrRead(classId, assignmentId, assignmentFile);
         return fromOCRFile(ocrFile);
     }
 
     public OCRFileModel getAssignmentImage(StudentAssignmentModel studentAssignmentModel){
         OCRFile ocrFile = ocrFileDataConnector.getOCRFile(
                 studentAssignmentModel.getStudentId(),
-                studentAssignmentModel.getClassId(),
-                studentAssignmentModel.getAssignmentId());
+                studentAssignmentModel.getAssignmentId(),
+                studentAssignmentModel.getClassId());
 
         return fromOCRFile(ocrFile);
     }
@@ -64,8 +64,10 @@ public class GradesDataAdapter {
     private OCRFileModel fromOCRFile(OCRFile ocrFile){
         OCRFileModel model = null;
         if(ocrFile != null) {
-            model = new OCRFileModel(ocrFile.getStudentId(), ocrFile.getParsedText(),
-                        getImageFromBytes(ocrFile.getOriginalImage()));
+            model = new OCRFileModel(ocrFile.getParsedText(), getImageFromBytes(ocrFile.getOriginalImage()));
+            if(ocrFile.getStudent() != null) {
+                model.setStudentId(ocrFile.getStudentId());
+            }
             model.setFileId(ocrFile.getId());
             model.setClassId(ocrFile.getClassId());
             model.setAssignmentId(ocrFile.getAssignmentId());

@@ -1,8 +1,9 @@
 package omscs.edtech.ui.controllers;
 
+import javafx.event.ActionEvent;
 import javafx.scene.control.ComboBox;
 
-public class ControllerConstants {
+class ControllerConstants {
 
     public static final String VIEW_PATH = "/omscs/edtech/ui/views/";
     public static final String APP_TITLE = "CS6460 Project";
@@ -17,6 +18,7 @@ public class ControllerConstants {
     public static void selectFirstComboItem(ComboBox comboBox){
         if(comboBox != null && comboBox.getItems() != null && !comboBox.getItems().isEmpty()){
             comboBox.getSelectionModel().select(0);
+            comboBox.fireEvent(new ActionEvent());
         }
     }
 }

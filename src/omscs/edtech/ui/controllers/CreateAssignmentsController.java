@@ -44,9 +44,9 @@ public class CreateAssignmentsController {
                     @Override
                     public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
                         Double height = newValue.doubleValue();
-                        classesBox.setPrefHeight(height - 397);
-                        listClasses.setPrefHeight(height - 417);
-                        descriptionBox.setPrefHeight(height - classesBox.getPrefHeight() - 160);
+                        classesBox.setPrefHeight(height - 357);
+                        listClasses.setPrefHeight(height - 477);
+                        descriptionBox.setPrefHeight(height - classesBox.getPrefHeight() - 220);
                     }
                 }
         );

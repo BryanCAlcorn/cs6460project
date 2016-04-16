@@ -56,6 +56,7 @@ public class GradeAssignmentsDataAdapter {
 
     private ClassModel fromClass(Class dbClass){
         ClassModel classModel = new ClassModel();
+        classModel.setId(dbClass.getId());
         classModel.setClassName(dbClass.getName());
         classModel.setClassPeriod(dbClass.getPeriod());
         classModel.setClassYear(dbClass.getYear());

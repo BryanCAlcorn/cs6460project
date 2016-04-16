@@ -2,6 +2,7 @@ package omscs.edtech.ui.controllers;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -76,6 +77,7 @@ public class GradeAssignmentsController {
                         Double halfWidth = newValue.doubleValue() / 2.0;
                         leftBox.setPrefWidth(halfWidth);
                         rightBox.setPrefWidth(halfWidth);
+                        imgAssignmentImage.setFitWidth(halfWidth);
                     }
                 }
         );
@@ -87,8 +89,9 @@ public class GradeAssignmentsController {
                         Double height = newValue.doubleValue();
                         leftBox.setPrefHeight(height);
                         rightBox.setPrefHeight(height);
-                        tblStudentGrades.setPrefHeight(height - 125);
-                        paneAssignment.setPrefHeight(height - 227 - assignmentDescrBox.getPrefHeight());
+                        tblStudentGrades.setPrefHeight(height - 175);
+                        paneAssignment.setPrefHeight(height - 277 - assignmentDescrBox.getPrefHeight());
+                        imgAssignmentImage.setFitHeight(paneAssignment.getPrefHeight());
                     }
                 }
         );
@@ -190,6 +193,7 @@ public class GradeAssignmentsController {
             //Unhook events
             lblAssignmentDescription.textProperty().setValue("-----");
             itemToSelect = tblStudentGrades.getSelectionModel().getSelectedIndex();
+            tblStudentGrades.setItems(FXCollections.<StudentAssignmentModel>emptyObservableList());
         }
 
         currentAssignment = assignment;
@@ -222,14 +226,14 @@ public class GradeAssignmentsController {
     private void setCurrentOCRFile(OCRFileModel ocrFile){
 
         if(currentOCRFile != null){
-            lblAssignmentText.textProperty().setValue("-----");
+            lblAssignmentText.textProperty().unbind();
             imgAssignmentImage.imageProperty().setValue(null);
         }
 
         currentOCRFile = ocrFile;
 
         if(currentOCRFile != null){
-            lblAssignmentText.textProperty().setValue(currentOCRFile.getFileText());
+            lblAssignmentText.textProperty().bind(currentOCRFile.fileTextProperty());
             imgAssignmentImage.imageProperty().setValue(currentOCRFile.getImageProperty());
         }
     }
@@ -244,11 +248,9 @@ public class GradeAssignmentsController {
         List<File> files = fileChooser.showOpenMultipleDialog(parentBox.getScene().getWindow());
         if(files != null){
             for(File file : files) {
-                OCRFileModel ocrFileModel = gradesDataAdapter.importAssignmentImage(gradeAssignmentsModel.getClassId(), file);
-                if (currentStudent != null && ocrFileModel.getStudentId() == currentStudent.getStudentId()) {
-                    //Imported for the currently selected student, bind to UI:
-                    setCurrentOCRFile(ocrFileModel);
-                }
+                OCRFileModel ocrFileModel =
+                        gradesDataAdapter.importAssignmentImage(
+                                gradeAssignmentsModel.getClassId(), currentAssignment.getId(), file);
                 if(ocrFileModel.getStudentId() == null){
                     //Student was unknown, ask to find:
                     StudentAssignmentModel studentAssignmentModel = showPickStudentDialog(ocrFileModel);
@@ -257,6 +259,12 @@ public class GradeAssignmentsController {
                         gradesDataAdapter.saveOCRFile(ocrFileModel);
                     }
                 }
+
+                if (currentStudent != null && ocrFileModel.getStudentId() == currentStudent.getStudentId()) {
+                    //Imported for the currently selected student, bind to UI:
+                    setCurrentOCRFile(ocrFileModel);
+                }
+
             }
         }
     }

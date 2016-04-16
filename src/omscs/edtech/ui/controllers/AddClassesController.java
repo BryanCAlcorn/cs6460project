@@ -2,6 +2,7 @@ package omscs.edtech.ui.controllers;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -62,22 +63,13 @@ public class AddClassesController {
         setPanelWidth(parentBox.getWidth());
         setPanelHeight(parentBox.getHeight());
 
-        comboClassesList.itemsProperty().bindBidirectional(classDataAdapter.getClassesProperty());
-        comboClassesList.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                setCurrentClass(comboClassesList.getSelectionModel().getSelectedItem());
-            }
-        });
-        ControllerConstants.selectFirstComboItem(comboClassesList);
-
         tblStudents.setEditable(true);
 
         //Bind table columns to StudentModel properties
         colStudentName.setCellFactory(new Callback<TableColumn<StudentModel, String>, TableCell<StudentModel, String>>() {
             @Override
             public TableCell<StudentModel, String> call(TableColumn<StudentModel, String> studentModelStringTableColumn) {
-                return new TextFieldTableCell<StudentModel, String>(new StringConverter<String>() {
+                return new TextFieldTableCell<>(new StringConverter<String>() {
                     @Override
                     public String toString(String s) {
                         return s;
@@ -108,7 +100,7 @@ public class AddClassesController {
         colEmail.setCellFactory(new Callback<TableColumn<StudentModel, String>, TableCell<StudentModel, String>>() {
             @Override
             public TableCell<StudentModel, String> call(TableColumn<StudentModel, String> studentModelStringTableColumn) {
-                return new TextFieldTableCell<StudentModel, String>(new StringConverter<String>() {
+                return new TextFieldTableCell<>(new StringConverter<String>() {
                     @Override
                     public String toString(String s) {
                         return s;
@@ -154,23 +146,20 @@ public class AddClassesController {
                     }
                 }
         );
+
+        comboClassesList.itemsProperty().bindBidirectional(classDataAdapter.getClassesProperty());
+        comboClassesList.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                setCurrentClass(comboClassesList.getSelectionModel().getSelectedItem());
+            }
+        });
+        ControllerConstants.selectFirstComboItem(comboClassesList);
     }
 
     @FXML
     protected void addNewClass_Click(ActionEvent event){
         ClassModel newClass = new ClassModel();
-        //Temp for testing:
-        newClass.setClassName("Test Class");
-        newClass.setClassPeriod(6);
-        newClass.setClassYear(2016);
-
-        StudentModel stu1 = new StudentModel("Joe Bob","Joe@gmail.com");
-        StudentModel stu2 = new StudentModel("Jill Bob", "Jill.Doe@school.edu");
-
-        newClass.studentsProperty().add(stu1);
-        newClass.studentsProperty().add(stu2);
-        newClass.setActive(true);
-
         setCurrentClass(newClass);
     }
 
@@ -180,15 +169,18 @@ public class AddClassesController {
             txtClassPeriod.integerProperty().unbindBidirectional(currentClass.classPeriodProperty());
             txtClassYear.integerProperty().unbindBidirectional(currentClass.classYearProperty());
             cbClassActive.selectedProperty().unbindBidirectional(currentClass.activeProperty());
+            tblStudents.setItems(FXCollections.<StudentModel>emptyObservableList());
         }
 
         currentClass = classModel;
 
-        txtClassName.textProperty().bindBidirectional(currentClass.classNameProperty());
-        txtClassPeriod.integerProperty().bindBidirectional(currentClass.classPeriodProperty());
-        txtClassYear.integerProperty().bindBidirectional(currentClass.classYearProperty());
-        cbClassActive.selectedProperty().bindBidirectional(currentClass.activeProperty());
-        tblStudents.setItems(currentClass.studentsProperty());
+        if(currentClass != null) {
+            txtClassName.textProperty().bindBidirectional(currentClass.classNameProperty());
+            txtClassPeriod.integerProperty().bindBidirectional(currentClass.classPeriodProperty());
+            txtClassYear.integerProperty().bindBidirectional(currentClass.classYearProperty());
+            cbClassActive.selectedProperty().bindBidirectional(currentClass.activeProperty());
+            tblStudents.setItems(currentClass.studentsProperty());
+        }
     }
 
     @FXML
@@ -233,7 +225,7 @@ public class AddClassesController {
     private void setPanelHeight(double totalHeight){
         leftBox.setPrefHeight(totalHeight);
         rightBox.setPrefHeight(totalHeight);
-        tblStudents.setPrefHeight(totalHeight - 132);
-        emptyBox.setPrefHeight(totalHeight - 412);
+        tblStudents.setPrefHeight(totalHeight - 182);
+        emptyBox.setPrefHeight(totalHeight - 462);
     }
 }

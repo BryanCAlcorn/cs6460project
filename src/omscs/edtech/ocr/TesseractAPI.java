@@ -9,6 +9,7 @@ import net.sourceforge.tess4j.Tesseract1;
 import net.sourceforge.tess4j.TesseractException;
 import omscs.edtech.db.interfaces.OCRFileDataConnector;
 import omscs.edtech.db.interfaces.StudentDataConnector;
+import omscs.edtech.db.model.Assignment;
 import omscs.edtech.db.model.Class;
 import omscs.edtech.db.model.OCRFile;
 import omscs.edtech.db.model.Student;
@@ -27,7 +28,7 @@ class TesseractAPI implements OCRAdapter {
         studentDataConnector = new StudentDataConnector();
     }
 
-    public OCRFile ocrRead(Integer classId, File imageFile){
+    public OCRFile ocrRead(Integer classId, Integer assignmentId, File imageFile){
         //https://www.google.com/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=how%20to%20store%20a%20tiff%20image%20into%20sqlite%20in%20java
         //http://stackoverflow.com/questions/11790104/how-to-storebitmap-image-and-retrieve-image-from-sqlite-database-in-android
 
@@ -46,6 +47,7 @@ class TesseractAPI implements OCRAdapter {
             int i = 0;
             ocrFile = new OCRFile();
             ocrFile.setDbClass(new Class(classId));
+            ocrFile.setAssignment(new Assignment(assignmentId));
             if(matchedWithStudent) {
                 ocrFile.setStudent(student);
             }

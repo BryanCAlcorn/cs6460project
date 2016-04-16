@@ -22,8 +22,7 @@ public class OCRFileModel {
     private StringProperty fileText;
     private ObjectProperty<Image> imageProperty;
 
-    public OCRFileModel(Integer studentId, String fileText, Image image) {
-        this.studentId = studentId;
+    public OCRFileModel(String fileText, Image image) {
         this.fileText = new SimpleStringProperty(fileText);
 
         imageProperty = new SimpleObjectProperty<>(image);
