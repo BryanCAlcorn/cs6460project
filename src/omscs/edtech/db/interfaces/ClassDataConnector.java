@@ -1,12 +1,14 @@
 package omscs.edtech.db.interfaces;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.SelectArg;
 import omscs.edtech.db.model.Assignment;
 import omscs.edtech.db.model.Class;
 import omscs.edtech.db.model.ClassAssignment;
+import omscs.edtech.ui.models.ClassAssignmentModel;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -21,9 +23,12 @@ public class ClassDataConnector {
 
     private PreparedQuery<Class> classForAssignmentQuery;
 
+    private AssignmentDataConnector assignmentDataConnector;
+
     public ClassDataConnector(){
         classConnection = new SQLiteDBConnection(Class.class);
         classAssignmentConnection = new SQLiteDBConnection(ClassAssignment.class);
+        assignmentDataConnector = new AssignmentDataConnector();
     }
 
     public Class getClassById(Integer id){
@@ -75,10 +80,20 @@ public class ClassDataConnector {
     public boolean deleteClass(Class dbClass){
         boolean deleteSuccessful = true;
         try {
-            Dao<Class, Integer> dao = classConnection.getDao();
-            int status = dao.delete(dbClass);
+            classDao = classConnection.getDao();
+            deleteSuccessful &= classDao.delete(dbClass) == 1;
             classConnection.destroyConnection();
-            deleteSuccessful = status == 1;
+
+            for(Assignment assignment : assignmentDataConnector.lookupAssignmentsForClass(dbClass)){
+                deleteSuccessful &= assignmentDataConnector.deleteAssignmentWithClasses(assignment);
+            }
+
+            classAssignmentDao = classAssignmentConnection.getDao();
+            DeleteBuilder<ClassAssignment, Integer> deleteBuilder = classAssignmentDao.deleteBuilder();
+            deleteBuilder.where().eq(ClassAssignment.CLASS_COLUMN, dbClass.getId());
+            deleteSuccessful &= deleteBuilder.delete() >= 0;
+            classAssignmentConnection.destroyConnection();
+
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             deleteSuccessful = false;

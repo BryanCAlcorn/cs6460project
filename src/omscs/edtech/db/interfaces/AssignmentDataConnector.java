@@ -17,6 +17,7 @@ public class AssignmentDataConnector {
     private SQLiteDBConnection classAssignmentConnection;
     private GradeDataConnector gradeDataConnector;
     private StudentDataConnector studentDataConnector;
+    private OCRFileDataConnector ocrFileDataConnector;
 
     private Dao<Assignment, Integer> assignmentDao;
     private Dao<ClassAssignment, Integer> classAssignmentDao;
@@ -28,6 +29,7 @@ public class AssignmentDataConnector {
         classAssignmentConnection = new SQLiteDBConnection(ClassAssignment.class);
         gradeDataConnector = new GradeDataConnector();
         studentDataConnector = new StudentDataConnector();
+        ocrFileDataConnector = new OCRFileDataConnector();
     }
 
     public List<Assignment> getAssignments(){
@@ -135,6 +137,7 @@ public class AssignmentDataConnector {
             deleteSuccessful &= deleteBuilder.delete() >= 1;
 
             deleteSuccessful &= gradeDataConnector.deleteGradesForAssignment(assignment);
+            deleteSuccessful &= ocrFileDataConnector.deleteOCRFileByAssignment(assignment);
 
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -143,7 +146,7 @@ public class AssignmentDataConnector {
         return deleteSuccessful;
     }
 
-    public List<Assignment> lookupAssignmentsForClasses(Class dbClass){
+    public List<Assignment> lookupAssignmentsForClass(Class dbClass){
         try {
             classAssignmentDao = classAssignmentConnection.getDao();
             assignmentDao = assignmentConnection.getDao();

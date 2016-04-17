@@ -1,6 +1,9 @@
 package omscs.edtech.db.interfaces;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.DeleteBuilder;
+import omscs.edtech.db.model.Assignment;
+import omscs.edtech.db.model.Class;
 import omscs.edtech.db.model.OCRFile;
 
 import java.sql.SQLException;
@@ -42,5 +45,46 @@ public class OCRFileDataConnector {
 
     public boolean saveOCRFile(OCRFile file){
         return connection.basicSave(file);
+    }
+
+    public boolean deleteOCRFileByAssignment(Assignment assignment){
+
+        boolean deleteSuccessful = true;
+        try{
+            ocrDao = connection.getDao();
+
+            DeleteBuilder<OCRFile, Integer> deleteBuilder = ocrDao.deleteBuilder();
+            deleteBuilder.where().eq(OCRFile.ASSIGNMENT_ID, assignment.getId());
+
+            deleteSuccessful = deleteBuilder.delete() >= 1;
+
+            connection.destroyConnection();
+
+        }catch (SQLException ex){
+            System.out.println(ex.getMessage());
+            deleteSuccessful = false;
+        }
+
+        return deleteSuccessful;
+    }
+
+    public boolean deleteOCRFileByClass(Class dbClass){
+        boolean deleteSuccessful = true;
+        try{
+            ocrDao = connection.getDao();
+
+            DeleteBuilder<OCRFile, Integer> deleteBuilder = ocrDao.deleteBuilder();
+            deleteBuilder.where().eq(OCRFile.CLASS_ID, dbClass.getId());
+
+            deleteSuccessful = deleteBuilder.delete() >= 1;
+
+            connection.destroyConnection();
+
+        }catch (SQLException ex){
+            System.out.println(ex.getMessage());
+            deleteSuccessful = false;
+        }
+
+        return deleteSuccessful;
     }
 }

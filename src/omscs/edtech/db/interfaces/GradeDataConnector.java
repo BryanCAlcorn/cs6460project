@@ -85,4 +85,22 @@ public class GradeDataConnector {
 
         return deleteSuccessful;
     }
+
+    public boolean deleteGradesForClass(Class dbClass){
+        boolean deleteSuccessful = true;
+        try {
+            gradesDao = connection.getDao();
+
+            DeleteBuilder<Grade, Integer> deleteBuilder = gradesDao.deleteBuilder();
+            deleteBuilder.where().eq(Grade.CLASS_COL, dbClass.getId());
+            deleteSuccessful = deleteBuilder.delete() >= 1;
+            connection.destroyConnection();
+
+        }catch (SQLException ex){
+            System.out.println(ex.getMessage());
+            deleteSuccessful = false;
+        }
+
+        return deleteSuccessful;
+    }
 }

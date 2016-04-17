@@ -34,7 +34,7 @@ public class GradeAssignmentsDataAdapter {
         for (Class dbClass : activeClasses){
             ClassModel classModel = fromClass(dbClass);
             Map<AssignmentModel, ObservableList<StudentAssignmentModel>> assignmentMap = new HashMap<>();
-            List<Assignment> assignments = assignmentDataConnector.lookupAssignmentsForClasses(dbClass);
+            List<Assignment> assignments = assignmentDataConnector.lookupAssignmentsForClass(dbClass);
             for(Assignment assignment : assignments){
                 AssignmentModel assignmentModel = fromAssignment(assignment);
                 List<Grade> assignmentGrades = gradeDataConnector.getGrades(dbClass, assignment);
