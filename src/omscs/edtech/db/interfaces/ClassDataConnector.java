@@ -26,7 +26,7 @@ public class ClassDataConnector {
         classAssignmentConnection = new SQLiteDBConnection(ClassAssignment.class);
     }
 
-    public Class getClassById(int id){
+    public Class getClassById(Integer id){
         try {
             classDao = classConnection.getDao();
             Class dbClass = classDao.queryForId(id);

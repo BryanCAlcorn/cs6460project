@@ -42,6 +42,18 @@ public class AssignmentDataConnector {
         }
     }
 
+    public Assignment getAssignmentById(Integer id){
+        try {
+            assignmentDao = assignmentConnection.getDao();
+            Assignment assignment = assignmentDao.queryForId(id);
+            assignmentConnection.destroyConnection();
+            return assignment;
+        }catch (SQLException ex){
+            System.out.println(ex.getMessage());
+            return null;
+        }
+    }
+
     private enum ClassAssignmentStatus{
         Skip,
         Create,

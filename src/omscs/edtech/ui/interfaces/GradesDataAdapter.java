@@ -4,9 +4,7 @@ package omscs.edtech.ui.interfaces;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
-import omscs.edtech.db.interfaces.EmailTemplateDataConnector;
-import omscs.edtech.db.interfaces.GradeDataConnector;
-import omscs.edtech.db.interfaces.OCRFileDataConnector;
+import omscs.edtech.db.interfaces.*;
 import omscs.edtech.db.model.*;
 import omscs.edtech.db.model.Class;
 import omscs.edtech.mail.SendMail;
@@ -29,12 +27,16 @@ public class GradesDataAdapter {
 
     private GradeDataConnector gradeDataConnector;
     private OCRFileDataConnector ocrFileDataConnector;
-    EmailTemplateDataConnector emailTemplateDataConnector;
+    private EmailTemplateDataConnector emailTemplateDataConnector;
+    private AssignmentDataConnector assignmentDataConnector;
+    private ClassDataConnector classDataConnector;
 
     public GradesDataAdapter(){
         gradeDataConnector = new GradeDataConnector();
         ocrFileDataConnector = new OCRFileDataConnector();
         emailTemplateDataConnector = new EmailTemplateDataConnector();
+        assignmentDataConnector = new AssignmentDataConnector();
+        classDataConnector = new ClassDataConnector();
     }
 
     public void saveGrades(List<StudentAssignmentModel> gradedAssignments){
@@ -79,28 +81,33 @@ public class GradesDataAdapter {
         emailBody = emailBody.replace(
                 EmailControlConstants.TOKEN_GRADE,
                 studentAssignmentModel.getStudentGrade().toString());
+        Assignment assignment = assignmentDataConnector.getAssignmentById(studentAssignmentModel.getAssignmentId());
         emailBody = emailBody.replace(
                 EmailControlConstants.TOKEN_ASSIGNMENT_NAME,
-                studentAssignmentModel.getAssignmentId().toString());
+                assignment.getName());
+        Class dbClass = classDataConnector.getClassById(studentAssignmentModel.getClassId());
         emailBody = emailBody.replace(
                 EmailControlConstants.TOKEN_CLASS_NAME,
-                studentAssignmentModel.getClassId().toString());
+                dbClass.getName());
 
         SendMail.sendFeedback(studentAssignmentModel.getStudentModel().getStudentEmail(), emailBody);
     }
 
     public void sendMissingAssignmentEmail(StudentAssignmentModel studentAssignmentModel){
         EmailTemplate template = emailTemplateDataConnector.getTemplateByName(EmailControlConstants.EMAIL_MISSING_NAME);
+
         String emailBody = template.getTemplate();
         emailBody = emailBody.replace(
                 EmailControlConstants.TOKEN_STUDENT_NAME,
                 studentAssignmentModel.getStudentModel().getStudentName());
+        Assignment assignment = assignmentDataConnector.getAssignmentById(studentAssignmentModel.getAssignmentId());
         emailBody = emailBody.replace(
                 EmailControlConstants.TOKEN_ASSIGNMENT_NAME,
-                studentAssignmentModel.getAssignmentId().toString());
+                assignment.getName());
+        Class dbClass = classDataConnector.getClassById(studentAssignmentModel.getClassId());
         emailBody = emailBody.replace(
                 EmailControlConstants.TOKEN_CLASS_NAME,
-                studentAssignmentModel.getClassId().toString());
+                dbClass.getName());
 
         SendMail.sendFeedback(studentAssignmentModel.getStudentModel().getStudentEmail(), emailBody);
     }
