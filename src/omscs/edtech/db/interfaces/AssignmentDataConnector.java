@@ -74,19 +74,6 @@ public class AssignmentDataConnector {
                     classAssignmentDao.queryForEq(ClassAssignment.ASSIGNMENT_COLUMN, assignment.getId());
             Map<ClassAssignment, ClassAssignmentStatus> assignmentMap = new HashMap<>();
             for(Class newlyAssignedClass : assignment.getDbClasses()) {
-                if(status.isCreated()){
-                    //Create default grades for the students in the class:
-                    for(Student student : studentDataConnector.getStudentsByClass(newlyAssignedClass)){
-                        Grade grade = new Grade();
-                        grade.setAssignment(assignment);
-                        grade.setStudent(student);
-                        grade.setDbClass(newlyAssignedClass);
-                        grade.setMissing(true);
-                        grade.setScore(0);
-                        gradeDataConnector.saveGrade(grade);
-                    }
-                }
-
                 //Default all in the current list to Create. If we don't find it in the previously
                 //assigned list, then it will stay as Create.
                 assignmentMap.put(
@@ -109,8 +96,10 @@ public class AssignmentDataConnector {
                 ClassAssignmentStatus classAssignmentStatus = assignmentMap.get(key);
                 if(classAssignmentStatus == ClassAssignmentStatus.Create){
                     classAssignmentDao.create(key);
+                    gradeDataConnector.createNewGradesForClass(key.getDbClass(), assignment);
                 }else if(classAssignmentStatus == ClassAssignmentStatus.Delete){
                     classAssignmentDao.delete(key);
+                    gradeDataConnector.deleteGradesForClass(key.getDbClass());
                 }
             }
 

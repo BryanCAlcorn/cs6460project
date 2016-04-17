@@ -15,12 +15,15 @@ import java.util.Map;
 
 public class GradeDataConnector {
 
-
-    SQLiteDBConnection connection;
-    Dao<Grade, Integer> gradesDao;
+    private SQLiteDBConnection connection;
+    private Dao<Grade, Integer> gradesDao;
+    private StudentDataConnector studentDataConnector;
+    private OCRFileDataConnector ocrFileDataConnector;
 
     public GradeDataConnector(){
         connection = new SQLiteDBConnection(Grade.class);
+        studentDataConnector = new StudentDataConnector();
+        ocrFileDataConnector = new OCRFileDataConnector();
     }
 
     public Grade getGrade(Integer classId, Integer assignmentId, Integer studentId){
@@ -86,6 +89,30 @@ public class GradeDataConnector {
         return deleteSuccessful;
     }
 
+    public boolean createNewGradesForClass(Class dbClass, Assignment assignment){
+        boolean createSuccessful = false;
+        try {
+            gradesDao = connection.getDao();
+            //Create default grades for the students in the class:
+            for (Student student : studentDataConnector.getStudentsByClass(dbClass)) {
+                Grade grade = new Grade();
+                grade.setAssignment(assignment);
+                grade.setStudent(student);
+                grade.setDbClass(dbClass);
+                grade.setMissing(true);
+                grade.setScore(0);
+
+                Dao.CreateOrUpdateStatus status = gradesDao.createOrUpdate(grade);
+                createSuccessful &= status.isCreated() || status.isUpdated();
+            }
+            connection.destroyConnection();
+        }catch (SQLException ex){
+            System.out.println(ex.getMessage());
+            createSuccessful = false;
+        }
+        return createSuccessful;
+    }
+
     public boolean deleteGradesForClass(Class dbClass){
         boolean deleteSuccessful = true;
         try {
@@ -95,6 +122,8 @@ public class GradeDataConnector {
             deleteBuilder.where().eq(Grade.CLASS_COL, dbClass.getId());
             deleteSuccessful = deleteBuilder.delete() >= 1;
             connection.destroyConnection();
+
+            deleteSuccessful &= ocrFileDataConnector.deleteOCRFileByClass(dbClass);
 
         }catch (SQLException ex){
             System.out.println(ex.getMessage());
