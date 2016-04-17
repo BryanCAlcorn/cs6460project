@@ -1,5 +1,6 @@
 package omscs.edtech.ui.controllers;
 
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -25,6 +26,7 @@ import javafx.util.StringConverter;
 import omscs.edtech.ui.controls.IndexedButtonCell;
 import omscs.edtech.ui.controls.IndexedButton;
 import omscs.edtech.ui.controls.PickStudentDialog;
+import omscs.edtech.ui.controls.SetGradeEventHandler;
 import omscs.edtech.ui.events.InjectModelEvent;
 import omscs.edtech.ui.interfaces.GradesDataAdapter;
 import omscs.edtech.ui.models.*;
@@ -103,6 +105,7 @@ public class GradeAssignmentsController {
         );
 
         tblStudentGrades.setEditable(true);
+        colStudentName.setEditable(false);
         colStudentName.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<StudentAssignmentModel, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<StudentAssignmentModel, String> studentModel) {
@@ -114,7 +117,7 @@ public class GradeAssignmentsController {
         colAssignmentGrade.setCellFactory(new Callback<TableColumn<StudentAssignmentModel, Number>, TableCell<StudentAssignmentModel, Number>>() {
             @Override
             public TableCell<StudentAssignmentModel, Number> call(final TableColumn<StudentAssignmentModel, Number> studentAssignmentModelDoubleTableColumn) {
-                return new TextFieldTableCell<StudentAssignmentModel, Number>(new StringConverter<Number>() {
+                return new TextFieldTableCell<>(new StringConverter<Number>() {
                     @Override
                     public String toString(Number number) {
                         return number.toString();
@@ -126,12 +129,12 @@ public class GradeAssignmentsController {
                             return new Number() {
                                 @Override
                                 public int intValue() {
-                                    return Integer.getInteger(s);
+                                    return (int)doubleValue();
                                 }
 
                                 @Override
                                 public long longValue() {
-                                    return Long.getLong(s);
+                                    return Long.valueOf(s);
                                 }
 
                                 @Override
@@ -159,14 +162,7 @@ public class GradeAssignmentsController {
             }
         });
 
-        colAssignmentGrade.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<StudentAssignmentModel, Number>>() {
-            @Override
-            public void handle(TableColumn.CellEditEvent<StudentAssignmentModel, Number> studentAssignmentModel) {
-                studentAssignmentModel.getTableView().getItems().get(
-                        studentAssignmentModel.getTablePosition().getRow())
-                        .setStudentGrade(studentAssignmentModel.getNewValue());
-            }
-        });
+        colAssignmentGrade.setOnEditCommit(new SetGradeEventHandler(currentAssignment));
 
         colMissingAssignments.setEditable(false);
         colMissingAssignments.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<StudentAssignmentModel, Boolean>, ObservableValue<Boolean>>() {
