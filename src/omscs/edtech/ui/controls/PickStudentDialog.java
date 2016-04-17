@@ -1,7 +1,9 @@
 package omscs.edtech.ui.controls;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -17,6 +19,8 @@ import omscs.edtech.ui.models.AssignmentModel;
 import omscs.edtech.ui.models.GradeAssignmentsModel;
 import omscs.edtech.ui.models.OCRFileModel;
 import omscs.edtech.ui.models.StudentAssignmentModel;
+
+import java.util.function.Predicate;
 
 public class PickStudentDialog {
 
@@ -39,9 +43,42 @@ public class PickStudentDialog {
 
         dialogVbox.getChildren().add(new Text("We could not match a student with this assignment\n Please select the student:"));
 
+        ObservableList<StudentAssignmentModel> studentsWithoutAssignments =
+                gradeAssignmentsModel.getStudentAssignmentList(currentAssignment).
+                        filtered(new Predicate<StudentAssignmentModel>() {
+                            @Override
+                            public boolean test(StudentAssignmentModel studentAssignmentModel) {
+                                //Only want students without assignments already
+                                return studentAssignmentModel.getAssignmentMissing();
+                            }
+                        });
+
         final ComboBox<StudentAssignmentModel> studentModelComboBox =
-                new ComboBox<>(gradeAssignmentsModel.getStudentAssignmentList(currentAssignment));
+                new ComboBox<>(studentsWithoutAssignments);
         dialogVbox.getChildren().add(studentModelComboBox);
+
+        HBox buttonBox = new HBox();
+        buttonBox.setPadding(new Insets(5,5,5,5));
+
+        dialogVbox.getChildren().add(buttonBox);
+
+        Button selectButton = new Button("Select Student");
+        buttonBox.getChildren().add(selectButton);
+        buttonBox.setMargin(selectButton, new Insets(5,5,5,5));
+
+        SelectEventHandler eventHandler = new SelectEventHandler(dialog, studentModelComboBox);
+        selectButton.setOnAction(eventHandler);
+
+        Button skipButton = new Button("Skip File");
+        buttonBox.getChildren().add(skipButton);
+        buttonBox.setMargin(skipButton, new Insets(5,5,5,5));
+
+        skipButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                dialog.close();
+            }
+        });
 
         if(ocrFileModel != null) {
             ImageView assignmentImage = new ImageView(ocrFileModel.getImageProperty());
@@ -49,23 +86,6 @@ public class PickStudentDialog {
             assignmentImage.setFitWidth(800);
             dialogVbox.getChildren().add(assignmentImage);
         }
-
-        HBox buttonBox = new HBox();
-        dialogVbox.getChildren().add(buttonBox);
-
-        Button selectButton = new Button("Select");
-        buttonBox.getChildren().add(selectButton);
-        SelectEventHandler eventHandler = new SelectEventHandler(dialog, studentModelComboBox);
-        selectButton.setOnAction(eventHandler);
-
-        Button cancelButton = new Button("Cancel");
-        buttonBox.getChildren().add(cancelButton);
-        cancelButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                dialog.close();
-            }
-        });
 
         Scene dialogScene = new Scene(dialogVbox, 1000,800);
         dialog.setScene(dialogScene);

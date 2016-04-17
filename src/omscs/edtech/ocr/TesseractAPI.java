@@ -9,12 +9,11 @@ import net.sourceforge.tess4j.ITesseract;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.Tesseract1;
 import net.sourceforge.tess4j.TesseractException;
+import omscs.edtech.db.interfaces.GradeDataConnector;
 import omscs.edtech.db.interfaces.OCRFileDataConnector;
 import omscs.edtech.db.interfaces.StudentDataConnector;
-import omscs.edtech.db.model.Assignment;
+import omscs.edtech.db.model.*;
 import omscs.edtech.db.model.Class;
-import omscs.edtech.db.model.OCRFile;
-import omscs.edtech.db.model.Student;
 
 /**
  *  @author jle & bryan alcorn
@@ -24,10 +23,12 @@ class TesseractAPI implements OCRAdapter {
 
     private OCRFileDataConnector ocrFileDataConnector;
     private StudentDataConnector studentDataConnector;
+    private GradeDataConnector gradeDataConnector;
 
     public TesseractAPI(){
         ocrFileDataConnector = new OCRFileDataConnector();
         studentDataConnector = new StudentDataConnector();
+        gradeDataConnector = new GradeDataConnector();
     }
 
     public OCRFile ocrRead(Integer classId, Integer assignmentId, File imageFile){
@@ -45,13 +46,18 @@ class TesseractAPI implements OCRAdapter {
             StudentName studentName = findStudentName(parsedText);
             Student student = studentDataConnector.getStudentByName(classId, studentName.getFirstName(), studentName.getLastName());
             boolean matchedWithStudent = student != null && student.getId() > 0;
+            boolean hasPreviousFile = false;
+            if(matchedWithStudent){
+                Grade grade = gradeDataConnector.getGrade(classId, assignmentId, student.getId());
+                hasPreviousFile = !grade.isMissing();
+            }
 
             //Insert record and image to database
             int i = 0;
             ocrFile = new OCRFile();
             ocrFile.setDbClass(new Class(classId));
             ocrFile.setAssignment(new Assignment(assignmentId));
-            if(matchedWithStudent) {
+            if(matchedWithStudent && !hasPreviousFile) {
                 ocrFile.setStudent(student);
             }
             ocrFile.setOriginalImage(image);
