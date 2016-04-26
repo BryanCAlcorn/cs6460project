@@ -28,6 +28,7 @@
               <items>
                 <Button mnemonicParsing="false" text="Save Grades" onAction="#btnSaveGrades_Click" />
                   <Button mnemonicParsing="false" text="Send all Feedback" onAction="#btnSendAllFeedback_Click" />
+                  <Button mnemonicParsing="false" text="Export Grades" onAction="#btnExportGrades_Click" />
               </items>
             </ToolBar>
          </children>

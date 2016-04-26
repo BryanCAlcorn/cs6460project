@@ -32,6 +32,8 @@ import omscs.edtech.ui.interfaces.GradesDataAdapter;
 import omscs.edtech.ui.models.*;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -298,6 +300,35 @@ public class GradeAssignmentsController {
                     //Imported for the currently selected student, bind to UI:
                     setCurrentOCRFile(ocrFileModel);
                 }
+            }
+        }
+    }
+
+    @FXML
+    protected void btnExportGrades_Click(ActionEvent event){
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Export Grades");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("CSV", "*.csv")
+        );
+
+        fileChooser.setInitialFileName(
+                gradeAssignmentsModel.toString() + " - " + currentAssignment.getName() + ".csv");
+        File savedFile = fileChooser.showSaveDialog(parentBox.getScene().getWindow());
+        if(savedFile != null) {
+            try {
+                FileWriter writer = new FileWriter(savedFile);
+
+                List<StudentAssignmentModel> studentAssignmentModels =
+                        gradeAssignmentsModel.getStudentAssignmentList(currentAssignment);
+                for (StudentAssignmentModel model : studentAssignmentModels) {
+                    writer.write(model.toCsvExport());
+                    writer.write("\n");
+                }
+
+                writer.close();
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
             }
         }
     }

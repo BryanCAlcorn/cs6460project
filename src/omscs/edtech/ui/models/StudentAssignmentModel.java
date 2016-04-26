@@ -109,4 +109,8 @@ public class StudentAssignmentModel {
     public String toString() {
         return studentModel.getStudentName();
     }
+
+    public String toCsvExport(){
+        return String.format("%s, %s", studentModel.getStudentName(), assignmentMissing.getValue() ? "M" : studentGrade.getValue());
+    }
 }
