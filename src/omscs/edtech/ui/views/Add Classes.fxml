@@ -67,7 +67,7 @@
             <ToolBar prefHeight="45.0" prefWidth="200.0">
               <items>
                   <Label text="Class Roster: " />
-                <Button mnemonicParsing="false" text="Import Class Roster" />
+                <Button mnemonicParsing="false" text="Import Class Roster" onAction="#importRoster_Click" />
               </items>
             </ToolBar>
             <TableView prefHeight="280.0" prefWidth="503.0" fx:id="tblStudents">

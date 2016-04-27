@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 import omscs.edtech.ui.controls.IntegerField;
@@ -17,6 +18,7 @@ import omscs.edtech.ui.interfaces.ClassDataAdapter;
 import omscs.edtech.ui.models.ClassModel;
 import omscs.edtech.ui.models.StudentModel;
 
+import java.io.File;
 import java.util.Optional;
 
 public class AddClassesController {
@@ -224,6 +226,21 @@ public class AddClassesController {
                 currentClass.studentsProperty().add(student);
             }
             clear_Click(event);
+        }
+    }
+
+    @FXML
+    protected void importRoster_Click(ActionEvent event){
+        if(currentClass != null){
+
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Choose a class roster");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XLSX", "*.xlsx"));
+            File roster =  fileChooser.showOpenDialog(parentBox.getScene().getWindow());
+            if(roster != null && roster.canRead()) {
+                currentClass.studentsProperty().addAll(
+                        classDataAdapter.getStudentsFromRosterFile(roster));
+            }
         }
     }
 

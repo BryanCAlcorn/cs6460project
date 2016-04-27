@@ -8,9 +8,12 @@ import omscs.edtech.db.interfaces.ClassDataConnector;
 import omscs.edtech.db.interfaces.StudentDataConnector;
 import omscs.edtech.db.model.Class;
 import omscs.edtech.db.model.Student;
+import omscs.edtech.roster.RosterReader;
+import omscs.edtech.roster.RosterReaderFactory;
 import omscs.edtech.ui.models.ClassModel;
 import omscs.edtech.ui.models.StudentModel;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -78,6 +81,16 @@ public class ClassDataAdapter {
         return success;
     }
 
+    public List<StudentModel> getStudentsFromRosterFile(File roster){
+        RosterReader reader = RosterReaderFactory.getQReader();
+        Student[] students = reader.readRoster(roster);
+        List<StudentModel> studentModels = new ArrayList<>();
+        for (Student student : students){
+            studentModels.add(fromStudent(student));
+        }
+        return studentModels;
+    }
+
     private ClassModel fromClass(Class aClass, Collection<Student> students){
         ClassModel classModel = new ClassModel();
 
@@ -114,7 +127,9 @@ public class ClassDataAdapter {
                 student.getFirstName() + " " + student.getLastName(),
                 student.geteMailAddress());
 
-        studentModel.setId(student.getId());
+        if(student.getId() != null) {
+            studentModel.setId(student.getId());
+        }
 
         return studentModel;
     }
