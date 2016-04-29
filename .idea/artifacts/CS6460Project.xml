@@ -1,0 +1,24 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="CS6460Project">
+    <output-path>$PROJECT_DIR$/out/artifacts/CS6460Project</output-path>
+    <properties id="javafx-properties">
+      <options>
+        <option name="appClass" value="omscs.edtech.ui.MainApplication" />
+        <option name="description" value="" />
+        <option name="htmlParamFile" value="" />
+        <option name="nativeBundle" value="all" />
+        <option name="paramFile" value="" />
+        <option name="title" value="Teacher Productivity Tool" />
+        <option name="vendor" value="" />
+      </options>
+    </properties>
+    <root id="root">
+      <element id="archive" name="CS6460Project.jar">
+        <element id="module-output" name="CS6460Project" />
+        <element id="directory" name="META-INF">
+          <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/CS6460Project/bundles/CS6460Project/META-INF/MANIFEST.MF" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
