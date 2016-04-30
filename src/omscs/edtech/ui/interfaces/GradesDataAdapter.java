@@ -109,7 +109,7 @@ public class GradesDataAdapter {
                 EmailControlConstants.TOKEN_CLASS_NAME,
                 dbClass.getName());
 
-        SendMail.sendFeedback(studentAssignmentModel.getStudentModel().getStudentEmail(), emailBody);
+        SendMail.sendMissingAssignment(studentAssignmentModel.getStudentModel().getStudentEmail(), emailBody);
     }
 
     private OCRFileModel fromOCRFile(OCRFile ocrFile){

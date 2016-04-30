@@ -27,7 +27,7 @@ class QRosterReader implements RosterReader {
             final int headerRows = 5;
             int numStudents = excelAdapter.getNumStudents(0, headerRows);
 
-            for(int i = headerRows; i < numStudents + headerRows - 1; i++){
+            for(int i = headerRows; i < numStudents + headerRows; i++){
                 DataRowLocation dataRow = new DataRowLocation(0, i, 6);
                 String[] dataValues = excelAdapter.getCellValuesAsStrings(dataRow);
 
